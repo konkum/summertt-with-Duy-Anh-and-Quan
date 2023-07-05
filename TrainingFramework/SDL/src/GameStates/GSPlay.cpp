@@ -4,6 +4,7 @@
 #include "GameObject/MouseButton.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Camera.h"
+#include <algorithm>
 
 
 GSPlay::GSPlay()
@@ -39,7 +40,7 @@ void GSPlay::Init()
 
    // Animation 
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	obj = std::make_shared<SpriteAnimation>( texture, 2, 9, 6, 0.2f);
+	obj = std::make_shared<SpriteAnimation>( texture, 6, 9, 6, 0.2f);
 	obj->SetFlip(SDL_FLIP_HORIZONTAL);
 	obj->SetSize(40, 50);
 	obj->Set2DPosition(240, 400);
@@ -75,25 +76,38 @@ void GSPlay::HandleKeyEvents(SDL_Event& e)
 	//If a key was pressed
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //For e.key.repeat it's because key repeat is enabled by default and if you press and hold a key it will report multiple key presses. That means we have to check if the key press is the first one because we only care when the key was first pressed.
 	{
-		//Adjust the velocity
-		switch (e.key.keysym.sym)
-		{
-		case SDLK_UP:
+		if (e.key.keysym.sym == SDLK_UP) {
 			m_KeyPress |= 1 << 3;
-			break;
-		case SDLK_DOWN:
+		}
+		else if (e.key.keysym.sym==SDLK_DOWN) {
 			m_KeyPress |= 1 << 1;
-			break;
-		case SDLK_LEFT:
-			m_KeyPress |= 1;
-			break;
-		case SDLK_RIGHT:
-			m_KeyPress |= 1 << 2;
-			break;
-		default:
-			break;
 		}
 
+		if (e.key.keysym.sym == SDLK_RIGHT) {
+			m_KeyPress |= 1 << 2;
+		}
+		else if (e.key.keysym.sym == SDLK_LEFT) {
+			m_KeyPress |= 1;
+		}
+		//Adjust the velocity
+		//switch (e.key.keysym.sym)
+		//{
+		//case SDLK_UP:
+		//	m_KeyPress |= 1 << 3;
+		//	//break;
+		//case SDLK_DOWN:
+		//	m_KeyPress |= 1 << 1;
+		//	break;
+		//case SDLK_LEFT:
+		//	m_KeyPress |= 1;
+		//	break;
+		//case SDLK_RIGHT:
+		//	m_KeyPress |= 1 << 2;
+		//	//break;
+		//default:
+		//	m_KeyPress = 0;
+		//	break;
+		//}
 	}
 	////Key Up
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
@@ -137,11 +151,28 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
-	switch (m_KeyPress)//Handle Key event
-	{
-	default:
-		break;
+	if (m_KeyPress & 1) {
+		x_input = -1;
 	}
+	else if (m_KeyPress & 4) {
+		x_input = 1;
+	}
+	else {
+		x_input = 0;
+	}
+	if (m_KeyPress & 2) {
+		y_input = 1;
+	}
+	else if (m_KeyPress & 8) {
+		y_input = -1;
+	}
+	else {
+		y_input = 0;
+	}
+
+	Vector2 currentPosition = obj->Get2DPosition();
+	Vector2 addPosition = Vector2(x_input * time * m_Velocity, y_input * time * m_Velocity);
+	obj->Set2DPosition(std::clamp(currentPosition.x + addPosition.x, 0.0f, (float) SCREEN_WIDTH-40), std::clamp(currentPosition.y + addPosition.y, 0.0f, (float) SCREEN_HEIDHT-60));     
 	
 	for (auto it : m_listButton)
 	{

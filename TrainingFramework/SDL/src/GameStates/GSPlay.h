@@ -26,13 +26,16 @@ public:
 	int m_KeyPress;
 
 private:
+	SDL_Event e;
 	std::shared_ptr<Sprite2D>	m_background;
 	//std::shared_ptr<Text>		m_score;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
-	float time = 0.0f;
-	float m_Velocity = 10.0f;
+	float time = 0.01f;
+	float m_Velocity = 200.0f;
+	float x_input = 0.0f;
+	float y_input = 0.0f;
 };
 
