@@ -4,17 +4,17 @@
 class TextureManager;
 class SpriteAnimation : public BaseObject{
 protected:
-	Vector2			m_Vec2DPos;
+	Vector2		m_Vec2DPos;
 	int			m_iHeight;
 	int			m_iWidth;
-	float			m_numFrames;
+	float		m_numFrames;
 	int			m_currentFrame;
 	float		m_frameTime;
 	float		m_currentTime;
 	int			m_spriteRow; //start 0,1,2
-	int		m_frameCount; // start from 1,2,3...
-	float  m_currentTicks;
-	Uint32 m_lastUpdate;
+	int			m_frameCount; // start from 1,2,3...
+	float		m_currentTicks;
+	Uint32		m_lastUpdate;
 	int			m_animSpeed;
 	int m_numAction; //start from 1,2,3...
 	//SDL_RendererFlip m_flip;
