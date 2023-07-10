@@ -26,6 +26,7 @@ public:
 	int m_KeyPress;
 
 private:
+	int scrolling_offset = 0;
 	SDL_Event e;
 	std::shared_ptr<Sprite2D>	m_background;
 	//std::shared_ptr<Text>		m_score;

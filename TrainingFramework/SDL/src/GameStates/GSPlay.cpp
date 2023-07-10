@@ -5,7 +5,9 @@
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Camera.h"
 #include <algorithm>
+#include "GameObjectToShow/Player.h"
 
+std::unique_ptr<Player> player;
 
 GSPlay::GSPlay()
 {
@@ -20,7 +22,8 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play1.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("BGplay1.png");
+
 
 	// background
 	
@@ -38,15 +41,9 @@ void GSPlay::Init()
 		});
 	m_listButton.push_back(button);
 
-   // Animation 
-	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	obj = std::make_shared<SpriteAnimation>( texture, 6, 9, 6, 0.2f);
-	obj->SetFlip(SDL_FLIP_HORIZONTAL);
-	obj->SetSize(40, 50);
-	obj->Set2DPosition(240, 400);
-	
-	//Camera::GetInstance()->SetTarget(obj);
-	m_listAnimation.push_back(obj);
+   //Player
+	player = std::make_unique<Player>();
+	player->Init();
 
 	m_KeyPress = 0;
 }
@@ -73,6 +70,7 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(SDL_Event& e)
 {
+	player->HandleKeyEvent(e);
 	//If a key was pressed
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //For e.key.repeat it's because key repeat is enabled by default and if you press and hold a key it will report multiple key presses. That means we have to check if the key press is the first one because we only care when the key was first pressed.
 	{
@@ -89,25 +87,6 @@ void GSPlay::HandleKeyEvents(SDL_Event& e)
 		else if (e.key.keysym.sym == SDLK_LEFT) {
 			m_KeyPress |= 1;
 		}
-		//Adjust the velocity
-		//switch (e.key.keysym.sym)
-		//{
-		//case SDLK_UP:
-		//	m_KeyPress |= 1 << 3;
-		//	//break;
-		//case SDLK_DOWN:
-		//	m_KeyPress |= 1 << 1;
-		//	break;
-		//case SDLK_LEFT:
-		//	m_KeyPress |= 1;
-		//	break;
-		//case SDLK_RIGHT:
-		//	m_KeyPress |= 1 << 2;
-		//	//break;
-		//default:
-		//	m_KeyPress = 0;
-		//	break;
-		//}
 	}
 	////Key Up
 	else if (e.type == SDL_KEYUP && e.key.repeat == 0)
@@ -151,42 +130,20 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
-	if (m_KeyPress & 1) {
-		x_input = -1;
-	}
-	else if (m_KeyPress & 4) {
-		x_input = 1;
-	}
-	else {
-		x_input = 0;
-	}
-	if (m_KeyPress & 2) {
-		y_input = 1;
-	}
-	else if (m_KeyPress & 8) {
-		y_input = -1;
-	}
-	else {
-		y_input = 0;
-	}
 
-	Vector2 currentPosition = obj->Get2DPosition();
-	Vector2 addPosition = Vector2(x_input * time * m_Velocity, y_input * time * m_Velocity);
-	obj->Set2DPosition(std::clamp(currentPosition.x + addPosition.x, 0.0f, (float) SCREEN_WIDTH-40), std::clamp(currentPosition.y + addPosition.y, 0.0f, (float) SCREEN_HEIDHT-60));     
+	player->m_KeyPress = m_KeyPress;
+	player->Update(deltaTime);
 	
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
 	}
-	for (auto it : m_listAnimation)
-	{
-		if (m_KeyPress == 1)
-		{
-			
-			//it->MoveLeft(deltaTime);
-		}
-		it->Update(deltaTime);
+
+	scrolling_offset++;
+	if (scrolling_offset > m_background->GetHeight()) {
+		scrolling_offset = 0;
 	}
+
 
 	//Update position of camera
 	//Camera::GetInstance()->Update(deltaTime);
@@ -195,15 +152,15 @@ void GSPlay::Update(float deltaTime)
 
 void GSPlay::Draw(SDL_Renderer* renderer)
 {
+	m_background->Set2DPosition(0, scrolling_offset);
 	m_background->Draw(renderer);
+	m_background->Set2DPosition(0, scrolling_offset - m_background->GetHeight());
+	m_background->Draw(renderer);
+
 	//m_score->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Draw(renderer);
 	}
-//	obj->Draw(renderer);
-	for (auto it : m_listAnimation)
-	{
-		it->Draw(renderer);
-	}
+	player->Draw(renderer);
 }
