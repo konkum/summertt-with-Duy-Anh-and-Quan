@@ -1,17 +1,16 @@
-#include "SpriteAnimation.h"
+#include "Object.h"
 
-class Bullet:public BaseObject
+class Bullet:public Object
 {
 private:
-	SpriteAnimation* currentAnimation;
-	float velocity = 100.0f;
 public:
 	bool IsActive = false;
 	Bullet();
 	~Bullet();
 	void Init() override;
 	void Draw(SDL_Renderer* renderer) override;
-	virtual void Update(float deltatime) override;
+	void Update(float deltatime) override;
+	void Move(float deltaTime) override;
 	void SetSpawnPoint(Vector2 spawnPoint);
 };
 

@@ -23,7 +23,6 @@ public:
 	void	HandleMouseMoveEvents(int x, int y) override;
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
-	int m_KeyPress;
 
 private:
 	int scrolling_offset = 0;

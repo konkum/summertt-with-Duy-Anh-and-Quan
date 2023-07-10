@@ -1,27 +1,24 @@
-#include "SpriteAnimation.h"
+#include "Object.h"
 #include "ObjectPool.h"
+#include "HealthComponent.h"
 #include "Bullet.h"
 #include <list>
 
-class Enemy : public BaseObject
+class Enemy : public Object, virtual public Health
 {
 private:
-	float m_Velocity = 100.0f;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 1.0f;
 	float currentShootTimer = 0.0f;
 public:
-	std::shared_ptr<SpriteAnimation> currentAnimation;
-	int m_KeyPress;
-	float x_input = 0.0f;
-	float y_input = 0.0f;
-	Enemy();
-	~Enemy();
+	bool IsActive = false;
+	void TakeDamage(float damage) override;
+	void Die() override;
+	Enemy(const char* texture, int sizeW,int sizeH);
 	void Init() override;
 	void Draw(SDL_Renderer* renderer) override;
 	virtual void Update(float deltatime) override;
-	void Move(float deltaTime);
-	void Shoot();
+	void Move(float deltaTime) override;
 };
 
 

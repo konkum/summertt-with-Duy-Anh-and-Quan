@@ -41,8 +41,8 @@ public:
 
     Pool(const Pool& other) = delete;
     Pool(Pool&& other) = delete;
-    //Pool& operator = (const Pool& other) = delete;
-    //Pool& operator = (Pool&& other) = delete;
+    Pool& operator = (const Pool& other) = delete;
+    Pool& operator = (Pool&& other) = delete;
 
     auto acquire() noexcept
     {
