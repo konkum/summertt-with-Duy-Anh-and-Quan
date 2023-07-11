@@ -1,12 +1,15 @@
 #include "Enemy.h"
 #include "ResourceManagers.h"
 
-Enemy::Enemy(const char* texture, int sizeW, int sizeH) {
+Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
 	auto tex = ResourceManagers::GetInstance()->GetTexture(texture);
 
-	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, 4, 1, 0.2f);
+	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, animFrame, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(sizeW, sizeH);
+	CurrentAnimation->Set2DPosition(240, 300);
+
+	m_position = CurrentAnimation->GetPosition();
 
 }
 

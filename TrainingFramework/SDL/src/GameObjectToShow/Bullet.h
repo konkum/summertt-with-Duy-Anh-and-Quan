@@ -1,11 +1,13 @@
+#pragma once
+
 #include "Object.h"
 
-class Bullet:public Object
+class Bullet: public Object
 {
-private:
 public:
 	bool IsActive = false;
-	Bullet();
+	int MoveDirection = 1;
+	Bullet(const char* textureName, Vector2 size, int frameCount);
 	~Bullet();
 	void Init() override;
 	void Draw(SDL_Renderer* renderer) override;

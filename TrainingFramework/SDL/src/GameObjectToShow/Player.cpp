@@ -21,7 +21,7 @@ Player::Player() {
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
 	for (int i = 0;i < 10;i++) {
-		Bullet* bullet = new Bullet();
+		Bullet* bullet = new Bullet("Torpedo.png", Vector2(22, 44), 3);
 		bullet->SetSpawnPoint(spawnPosition);
 		bulletInitialze.push_back(bullet);
 	}

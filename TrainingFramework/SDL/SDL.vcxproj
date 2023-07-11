@@ -164,6 +164,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObjectToShow\EnemyPool.cpp" />
+    <ClCompile Include="src\GameObjectToShow\CollisionDetection.cpp" />
+    <ClCompile Include="src\GameObjectToShow\Enemy.cpp" />
+    <ClCompile Include="src\GameObjectToShow\Bullet.cpp" />
+    <ClCompile Include="src\GameObjectToShow\Player.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameManager\ResourceManagers.cpp" />
     <ClCompile Include="src\GameObject\Camera.cpp" />
@@ -185,6 +190,14 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameObjectToShow\EnemyPool.h" />
+    <ClInclude Include="src\GameObjectToShow\CollisionDetection.h" />
+    <ClInclude Include="src\GameObjectToShow\Enemy.h" />
+    <ClInclude Include="src\GameObjectToShow\Bullet.h" />
+    <ClInclude Include="src\GameObjectToShow\HealthComponent.h" />
+    <ClInclude Include="src\GameObjectToShow\Object.h" />
+    <ClInclude Include="src\GameObjectToShow\ObjectPool.h" />
+    <ClInclude Include="src\GameObjectToShow\Player.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GameManager\ResourceManagers.h" />
     <ClInclude Include="src\GameManager\Singleton.h" />

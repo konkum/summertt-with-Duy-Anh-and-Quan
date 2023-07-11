@@ -6,8 +6,10 @@
 #include "GameObject/Camera.h"
 #include <algorithm>
 #include "GameObjectToShow/Player.h"
+#include "GameObjectToShow/EnemyPool.h"
 
 std::unique_ptr<Player> player;
+EnemyPool* enemyPool = new EnemyPool();
 
 GSPlay::GSPlay()
 {
@@ -44,7 +46,11 @@ void GSPlay::Init()
    //Player
 	player = std::make_unique<Player>();
 	player->Init();
+
+	enemyPool->Init();
+	enemyPool->SetSpawn(Vector2(200, 300), 2, Vector2(1, 0.5f), 3.0f);
 }
+
 
 void GSPlay::Exit()
 {
@@ -90,6 +96,7 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
+	enemyPool->Update(deltaTime);
 	
 	for (auto it : m_listButton)
 	{
@@ -119,5 +126,7 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
+
 	player->Draw(renderer);
+	enemyPool->Draw(renderer);
 }
