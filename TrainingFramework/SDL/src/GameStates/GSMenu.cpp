@@ -68,7 +68,7 @@ void GSMenu::Init()
 	// game title
 	///Set Font
 	m_textColor = { 255, 255, 0 };
-	m_textGameName = std::make_shared<Text>("Data/lazy.ttf", m_textColor);
+	m_textGameName = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
 	m_textGameName->SetSize(300, 50);
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
 	m_textGameName->LoadFromRenderText("Your Game");

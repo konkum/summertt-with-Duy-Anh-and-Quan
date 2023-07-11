@@ -2,6 +2,8 @@
 #include "GameStateBase.h"
 #include "GameObject/MouseButton.h"
 #include "GameObject/TextureManager.h"
+#include "GameObject/SpriteAnimation.h"
+#include "GameObject/Text.h"
 
 class GSCredit: public GameStateBase
 {
@@ -25,5 +27,13 @@ public:
 
 private:
 	std::shared_ptr<Sprite2D> m_background;
-
+	std::shared_ptr<Text>					m_textLine1;
+	std::shared_ptr<Text>					m_textLine2;
+	std::shared_ptr<Text>					m_textLine3;
+	SDL_Color	m_textColor;
+	std::list<std::shared_ptr<MouseButton>>	m_listButton;
+	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
+	std::shared_ptr<SpriteAnimation> obj;
+	std::shared_ptr<MouseButton> button;
+	float time = 0.0f;
 };
