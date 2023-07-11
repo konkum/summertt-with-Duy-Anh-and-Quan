@@ -38,16 +38,16 @@ void GSOption::Init()
 	std::shared_ptr<MouseButton> btnMute = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	btnMute->SetSize(100, 100);
 	btnMute->Set2DPosition(SCREEN_WIDTH / 2, SCREEN_HEIDHT / 2);
-	btnMute->SetOnClick([=]()  {
+	btnMute->SetOnClick([=]() mutable {
 		if (Mix_PausedMusic() == 0) {
 			m_Sound->PlaySound();
-			auto texture1 = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
-			btnMute->SetTexture(texture1);
+			 texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+			btnMute->SetTexture(texture);
 		}
 		else {
 			m_Sound->PlaySound();
-			auto texture1 = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
-			btnMute->SetTexture(texture1);
+			texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+			btnMute->SetTexture(texture);
 		}
 		});
 	m_listButton.push_back(btnMute);
