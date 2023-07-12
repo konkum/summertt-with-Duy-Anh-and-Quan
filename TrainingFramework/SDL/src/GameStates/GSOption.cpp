@@ -20,7 +20,7 @@ void GSOption::Init()
 	m_background->SetSize(SCREEN_WIDTH, SCREEN_HEIDHT);
 	m_background->Set2DPosition(0, 0);
 
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 	}

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameStateBase.h"
 #include "GameObject/MouseButton.h"
+#include "GameObject/Sound.h"
+
 class Sprite2D;
 class SpriteAnimation;
 
@@ -28,6 +30,7 @@ public:
 private:
 	std::shared_ptr<Sprite2D>	m_background;
 	//std::shared_ptr<Text>		m_score;
+	std::shared_ptr<Sound>					m_Sound;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;

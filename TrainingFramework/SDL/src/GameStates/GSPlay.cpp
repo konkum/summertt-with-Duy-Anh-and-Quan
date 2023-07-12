@@ -38,8 +38,8 @@ void GSPlay::Init()
 	m_listButton.push_back(button);
 
    // Animation 
-	texture = ResourceManagers::GetInstance()->GetTexture("Enemies_AG.png");
-	obj = std::make_shared<SpriteAnimation>( texture, 1, 6, 1, 0.2f);
+	texture = ResourceManagers::GetInstance()->GetTexture("Player2_Idle.png");
+	obj = std::make_shared<SpriteAnimation>( texture, 1, 2, 1, 0.2f);
 	obj->SetFlip(SDL_FLIP_HORIZONTAL);
 	obj->SetSize(40, 50);
 	obj->Set2DPosition(240, 400);
@@ -48,6 +48,15 @@ void GSPlay::Init()
 	m_listAnimation.push_back(obj);
 
 	m_KeyPress = 0;
+
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound->Volume(20);
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 }
 
 void GSPlay::Exit()
