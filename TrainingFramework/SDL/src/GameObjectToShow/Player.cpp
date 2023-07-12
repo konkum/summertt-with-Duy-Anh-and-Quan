@@ -4,29 +4,52 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include "CollisionDetection.h"
 
-std::vector<Bullet*> bulletInitialze;
-Pool<Bullet*, 10> bullets;
+//std::vector<std::shared_ptr<SpriteAnimation>> Player::list_animation;
+std::vector<Bullet*> bullets;
 Vector2 spawnPosition;
 
 Player::Player() {
-	auto texture = ResourceManagers::GetInstance()->GetTexture("Actor1_3.tga");
-	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 4, 1, 0.2f);
+	Object::Init();
+	auto texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(40, 50);
+	CurrentAnimation->SetSize(32, 44);
 	CurrentAnimation->Set2DPosition(240, 400);
 
+	list_animation.push_back(CurrentAnimation);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player_Left.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	CurrentAnimation->SetSize(32, 44);
+	CurrentAnimation->Set2DPosition(240, 400);
+
+	list_animation.push_back(CurrentAnimation);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player_Right.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	CurrentAnimation->SetSize(32, 44);
+	CurrentAnimation->Set2DPosition(240, 400);
+
+	list_animation.push_back(CurrentAnimation);
+
+	CurrentAnimation = list_animation[0];
 	m_position = CurrentAnimation->GetPosition();
 
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
-	for (int i = 0;i < 10;i++) {
-		Bullet* bullet = new Bullet("Torpedo.png", Vector2(22, 44), 3);
+	for (int i = 0;i < 20;i++) {
+		Bullet* bullet = new Bullet("Projectile_Player.png", Vector2(16, 30), 4);
 		bullet->SetSpawnPoint(spawnPosition);
-		bulletInitialze.push_back(bullet);
+		bullet->Tag = "PlayerBullet";
+		bullet->SetVelocity(500.0f);
+		bullets.push_back(bullet);
 	}
 
-	new(&bullets) Pool<Bullet*, 10>(bulletInitialze.begin(), bulletInitialze.end());
+	Tag = "Player";
 }
 
 Player::~Player() {
@@ -79,13 +102,16 @@ void Player::HandleKeyEvent(SDL_Event& e) {
 	}
 
 	if (m_KeyPress & 1) {
+		CurrentAnimation = list_animation[2];
 		MoveDirection.x = -1;
 	}
 	else if (m_KeyPress & 4) {
+		CurrentAnimation = list_animation[1];
 		MoveDirection.x = 1;
 	}
 	else {
 		MoveDirection.x = 0;
+		CurrentAnimation = list_animation[0];
 	}
 	if (m_KeyPress & 2) {
 		MoveDirection.y = 1;
@@ -104,6 +130,9 @@ void Player::Init() {
 
 void Player::Update(float deltatime) {
 	Object::Update(deltatime);
+	if (isDead) {
+		return;
+	}
 
 	Move(deltatime);
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
@@ -123,7 +152,17 @@ void Player::Update(float deltatime) {
 		}
 	}
 	
-	CurrentAnimation->Update(deltatime);
+	for (auto anim : list_animation) {
+		anim->Update(deltatime);
+	}
+
+	for (auto obj : object) {
+		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
+			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+				TakeDamage(1);
+			}
+		}
+	}
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
@@ -132,14 +171,20 @@ void Player::Draw(SDL_Renderer* renderer) {
 			bullet->Draw(renderer);
 		}
 	}
-	
+
+	if (isDead) {
+		return;
+	}
+
 	CurrentAnimation->Draw(renderer);
 }
 
 void Player::Move(float deltaTime) {
-	m_position = CurrentAnimation->GetPosition();
-	Vector2 addPosition = Vector2(MoveDirection.x * deltaTime * m_Velocity, MoveDirection.y * deltaTime * m_Velocity);
-	CurrentAnimation->Set2DPosition(std::clamp(m_position.x + addPosition.x, 0.0f, (float)SCREEN_WIDTH - 40), std::clamp(m_position.y + addPosition.y, 0.0f, (float)SCREEN_HEIDHT - 60));
+	for (auto anim : list_animation) {
+		m_position = anim->GetPosition();
+		Vector2 addPosition = Vector2(MoveDirection.x * deltaTime * m_Velocity, MoveDirection.y * deltaTime * m_Velocity);
+		anim->Set2DPosition(std::clamp(m_position.x + addPosition.x, 0.0f, (float)SCREEN_WIDTH - 40), std::clamp(m_position.y + addPosition.y, 0.0f, (float)SCREEN_HEIDHT - 60));
+	}
 }
 
 void Player::Shoot() {
@@ -162,4 +207,5 @@ void Player::TakeDamage(float damage) {
 }
 
 void Player::Die() {
+	isDead = true;
 }

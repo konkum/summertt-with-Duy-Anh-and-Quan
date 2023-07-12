@@ -2,8 +2,9 @@
 #include "ResourceManagers.h"
 
 Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
+	Object::Init();
 	auto texture = ResourceManagers::GetInstance()->GetTexture(textureName);
-	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 3, 1, 0.2f);
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 4, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(size.x, size.y);
 }

@@ -33,9 +33,5 @@ private:
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
-	float time = 0.01f;
-	float m_Velocity = 200.0f;
-	float x_input = 0.0f;
-	float y_input = 0.0f;
 };
 

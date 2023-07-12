@@ -5,7 +5,6 @@
 class Bullet: public Object
 {
 public:
-	bool IsActive = false;
 	int MoveDirection = 1;
 	Bullet(const char* textureName, Vector2 size, int frameCount);
 	~Bullet();

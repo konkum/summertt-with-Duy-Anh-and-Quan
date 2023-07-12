@@ -3,16 +3,18 @@
 #include "ObjectPool.h"
 #include "HealthComponent.h"
 #include "Bullet.h"
-#include <list>
+#include <vector>
 
 class Player : public Object, virtual public Health
 {
 private:
+	bool isDead = false;
 	Vector2 bulletSpawnPoint;
-	float shootTime = 1.0f;
+	float shootTime = 0.3f;
 	float currentShootTimer = 0.0f;
 public:
 	int m_KeyPress = 0;
+	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;
 	Player();
 	~Player();
 	void HandleEvent(SDL_Event& e);

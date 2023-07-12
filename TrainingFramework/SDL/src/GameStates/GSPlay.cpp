@@ -24,7 +24,7 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("BGplay1.png");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_play.png");
 
 
 	// background
@@ -48,7 +48,7 @@ void GSPlay::Init()
 	player->Init();
 
 	enemyPool->Init();
-	enemyPool->SetSpawn(Vector2(200, 300), 2, Vector2(1, 0.5f), 3.0f);
+	enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
 }
 
 
@@ -93,9 +93,20 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
 
+float currentTime = 0.0f;
+
+void PlayScenario(float deltaTime) {
+	currentTime += deltaTime;
+	if (currentTime > 1.0f) {
+		enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
+		currentTime = 0.0f;
+	}
+}
+
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
+	PlayScenario(deltaTime);
 	enemyPool->Update(deltaTime);
 	
 	for (auto it : m_listButton)
