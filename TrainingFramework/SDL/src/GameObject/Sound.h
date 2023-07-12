@@ -13,6 +13,7 @@ public:
 	void StopSound();
 	void LoadSound(std::string pathMusic);
 	void Free();
+	static inline bool isPlaying = true;
 private:
 	std::string m_PathMusic;
 	Mix_Music* m_Music = NULL;

@@ -21,7 +21,12 @@ void GSOption::Init()
 	m_background->Set2DPosition(0, 0);
 
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
-	m_Sound->PlaySound();
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
@@ -34,18 +39,25 @@ void GSOption::Init()
 	m_listButton.push_back(button);
 
 	// button mute
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+	if (m_Sound->isPlaying) {
+		texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+	}
+	else {
+		texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+	}
 	std::shared_ptr<MouseButton> btnMute = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	btnMute->SetSize(100, 100);
-	btnMute->Set2DPosition(SCREEN_WIDTH / 2, SCREEN_HEIDHT / 2);
+	btnMute->Set2DPosition((SCREEN_WIDTH - btnMute->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 70);
 	btnMute->SetOnClick([=]() mutable {
-		if (Mix_PausedMusic() == 0) {
-			m_Sound->PlaySound();
-			 texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+		if (m_Sound->isPlaying) {
+			m_Sound->PauseSound();
+			m_Sound->isPlaying = false;
+			texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
 			btnMute->SetTexture(texture);
 		}
 		else {
 			m_Sound->PlaySound();
+			m_Sound->isPlaying = true;
 			texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
 			btnMute->SetTexture(texture);
 		}
@@ -59,12 +71,12 @@ void GSOption::Exit()
 
 void GSOption::Pause()
 {
-	m_Sound->StopSound();
+	//m_Sound->StopSound();
 }
 
 void GSOption::Resume()
 {
-	m_Sound->PlaySound();
+	//m_Sound->PlaySound();
 }
 
 void GSOption::HandleEvents()

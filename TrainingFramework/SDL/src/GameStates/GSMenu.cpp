@@ -1,7 +1,6 @@
 #include "GSMenu.h"
 
-GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU),
-m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textGameName(nullptr)
+GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textGameName(nullptr), m_Sound(nullptr)
 {
 }
 
@@ -73,7 +72,12 @@ void GSMenu::Init()
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
 	m_textGameName->LoadFromRenderText("Your Game");
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
-	m_Sound->PlaySound();
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 }
 
 void GSMenu::Exit()
@@ -84,13 +88,15 @@ void GSMenu::Exit()
 
 void GSMenu::Pause()
 {
-	m_Sound->StopSound();
+	m_Sound->PauseSound();
 
 }
 
 void GSMenu::Resume()
 {
-	m_Sound->PlaySound();
+	if (m_Sound->isPlaying) {
+		m_Sound->ResumeSound();
+	}
 }
 
 

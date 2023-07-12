@@ -52,6 +52,14 @@ void GSCredit::Init()
 	m_textLine3->SetSize(112, 40);
 	m_textLine3->Set2DPosition((SCREEN_WIDTH - m_textLine3->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 50);
 	m_textLine3->LoadFromRenderText("Quân");
+
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 }
 
 void GSCredit::Exit()
