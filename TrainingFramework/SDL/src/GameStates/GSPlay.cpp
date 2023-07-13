@@ -38,14 +38,28 @@ void GSPlay::Init()
 	m_listButton.push_back(button);
 
    // Animation 
-	texture = ResourceManagers::GetInstance()->GetTexture("Player2_Idle.png");
-	obj = std::make_shared<SpriteAnimation>( texture, 1, 2, 1, 0.2f);
+	texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	obj->SetFlip(SDL_FLIP_HORIZONTAL);
 	obj->SetSize(40, 50);
-	obj->Set2DPosition(240, 400);
-	
-	//Camera::GetInstance()->SetTarget(obj);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
 	m_listAnimation.push_back(obj);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player1_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(40, 50);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player2_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(40, 50);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	obj = m_listAnimation[skinID];
 
 	m_KeyPress = 0;
 
@@ -180,8 +194,6 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 		it->Draw(renderer);
 	}
 //	obj->Draw(renderer);
-	for (auto it : m_listAnimation)
-	{
-		it->Draw(renderer);
-	}
+
+	obj->Draw(renderer);
 }

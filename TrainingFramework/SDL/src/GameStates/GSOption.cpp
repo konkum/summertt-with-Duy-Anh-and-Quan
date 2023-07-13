@@ -72,21 +72,32 @@ void GSOption::Init()
 	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
 	m_listAnimation.push_back(obj);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle2.png");
+	texture = ResourceManagers::GetInstance()->GetTexture("Player1_Idle.png");
 	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	obj->SetFlip(SDL_FLIP_HORIZONTAL);
 	obj->SetSize(60, 75);
 	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
 	m_listAnimation.push_back(obj);
 
-	obj = m_listAnimation[0];
+	texture = ResourceManagers::GetInstance()->GetTexture("Player2_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	obj = m_listAnimation[skinID];
 
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_blank.tga");
 	std::shared_ptr<MouseButton> btnSkin = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	btnSkin->SetSize(100, 100);
 	btnSkin->Set2DPosition((SCREEN_WIDTH - btnSkin->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
-	btnSkin-> SetOnClick([=]() mutable {
-		
+	btnSkin-> SetOnClick([=](){
+		skinID++;
+		if (skinID > 2) {
+			skinID = 0;
+		}
+		obj = m_listAnimation[skinID];
 		});
 	m_listButton.push_back(btnSkin);
 }
