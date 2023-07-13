@@ -28,9 +28,9 @@ public:
 
 private:
 	std::shared_ptr<Sprite2D> m_background;
-	std::shared_ptr<Text>					m_textLine1;
-	std::shared_ptr<Text>					m_textLine2;
-	std::shared_ptr<Text>					m_textLine3;
+	std::shared_ptr<Sprite2D> m_creditframe;
+	std::list<std::shared_ptr<Text>>		m_listText;
+	std::shared_ptr<Text>					m_textLine;
 	std::shared_ptr<Sound>					m_Sound;
 	SDL_Color	m_textColor;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;

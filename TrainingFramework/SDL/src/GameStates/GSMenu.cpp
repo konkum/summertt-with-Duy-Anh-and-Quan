@@ -68,9 +68,9 @@ void GSMenu::Init()
 	///Set Font
 	m_textColor = { 255, 255, 0 };
 	m_textGameName = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
-	m_textGameName->SetSize(300, 50);
+	m_textGameName->SetSize(350, 50);
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
-	m_textGameName->LoadFromRenderText("Your Game");
+	m_textGameName->LoadFromRenderText("Space Guardian");
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
