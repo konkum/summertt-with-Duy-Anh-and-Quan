@@ -45,24 +45,41 @@ void GSOption::Init()
 	else {
 		texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
 	}
-	std::shared_ptr<MouseButton> btnMute = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
-	btnMute->SetSize(100, 100);
-	btnMute->Set2DPosition((SCREEN_WIDTH - btnMute->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 70);
-	btnMute->SetOnClick([=]() mutable {
+	std::shared_ptr<MouseButton> btnMusic = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
+	btnMusic->SetSize(100, 100);
+	btnMusic->Set2DPosition((SCREEN_WIDTH - btnMusic->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 170);
+	btnMusic->SetOnClick([=]() mutable {
 		if (m_Sound->isPlaying) {
 			m_Sound->PauseSound();
 			m_Sound->isPlaying = false;
 			texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
-			btnMute->SetTexture(texture);
+			btnMusic->SetTexture(texture);
 		}
 		else {
 			m_Sound->PlaySound();
 			m_Sound->isPlaying = true;
 			texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
-			btnMute->SetTexture(texture);
+			btnMusic->SetTexture(texture);
 		}
 		});
-	m_listButton.push_back(btnMute);
+	m_listButton.push_back(btnMusic);
+
+	//button skin select
+	texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_blank.tga");
+	std::shared_ptr<MouseButton> btnSkin = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
+	btnSkin->SetSize(100, 100);
+	btnSkin->Set2DPosition((SCREEN_WIDTH - btnSkin->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
+	btnSkin-> SetOnClick([=]() mutable {
+		
+		});
+	m_listButton.push_back(btnSkin);
 }
 
 void GSOption::Exit()
@@ -114,12 +131,20 @@ void GSOption::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	for (auto it : m_listAnimation)
+	{
+		it->Update(deltaTime);
+	}
 }
 
 void GSOption::Draw(SDL_Renderer* renderer)
 {
 	m_background->Draw(renderer);
 	for (auto it : m_listButton)
+	{
+		it->Draw(renderer);
+	}
+	for (auto it : m_listAnimation)
 	{
 		it->Draw(renderer);
 	}
