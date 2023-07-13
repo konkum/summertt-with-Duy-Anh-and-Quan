@@ -72,6 +72,15 @@ void GSOption::Init()
 	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
 	m_listAnimation.push_back(obj);
 
+	texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle2.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	obj = m_listAnimation[0];
+
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_blank.tga");
 	std::shared_ptr<MouseButton> btnSkin = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	btnSkin->SetSize(100, 100);
@@ -144,8 +153,5 @@ void GSOption::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
-	for (auto it : m_listAnimation)
-	{
-		it->Draw(renderer);
-	}
+	obj->Draw(renderer);
 }
