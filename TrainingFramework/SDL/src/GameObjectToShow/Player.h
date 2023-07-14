@@ -29,5 +29,6 @@ public:
 	void Shoot();
 	void TakeDamage(float damage) override;
 	void Die() override;
+	float HealthCheck();
 };
 

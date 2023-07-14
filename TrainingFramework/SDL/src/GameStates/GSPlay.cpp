@@ -67,22 +67,9 @@ void GSPlay::Init()
 	m_healthBar->Set2DPosition(10, 10);
 
 	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
-	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_healthIcon->SetSize(40, 40);
-	m_healthIcon->Set2DPosition(25, 15);
-	m_listIcon.push_back(m_healthIcon);
-
-	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
-	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_healthIcon->SetSize(40, 40);
-	m_healthIcon->Set2DPosition(65, 15);
-	m_listIcon.push_back(m_healthIcon);
-
-	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
-	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_healthIcon->SetSize(40, 40);
-	m_healthIcon->Set2DPosition(105, 15);
-	m_listIcon.push_back(m_healthIcon);
+	m_health = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_health->SetSize(player->HealthCheck()*1.2, 27);
+	m_health->Set2DPosition(25, 20);
 }
 
 
@@ -153,7 +140,9 @@ void GSPlay::Update(float deltaTime)
 		scrolling_offset = 0;
 	}
 
-
+	//m_health->Update(deltaTime);
+	m_health->SetSize(player->HealthCheck() * 1.2, 27);
+	
 
 
 	//Update position of camera
@@ -174,9 +163,8 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 		it->Draw(renderer);
 	}
 	m_healthBar->Draw(renderer);
-	for (auto it : m_listIcon) {
-		it->Draw(renderer);
-	}
+	m_health->Draw(renderer);
+	
 
 	player->Draw(renderer);
 	enemyPool->Draw(renderer);

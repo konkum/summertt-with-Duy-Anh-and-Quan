@@ -212,3 +212,7 @@ void Player::TakeDamage(float damage) {
 void Player::Die() {
 	isDead = true;
 }
+
+float Player::HealthCheck() {
+	return currentHealth;
+}
