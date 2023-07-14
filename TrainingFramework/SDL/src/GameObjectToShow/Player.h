@@ -13,7 +13,8 @@ private:
 	Vector2 bulletSpawnPoint;
 	float shootTime = 0.3f;
 	float currentShootTimer = 0.0f;
-
+	int& skinID = GSOption::skinID;
+	std::string text = "";
 public:
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;

@@ -59,6 +59,30 @@ void GSPlay::Init()
 	else {
 		m_Sound->PauseSound();
 	}
+
+	//health bar
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_healthBar = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_healthBar->SetSize(150, 50);
+	m_healthBar->Set2DPosition(10, 10);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
+	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_healthIcon->SetSize(40, 40);
+	m_healthIcon->Set2DPosition(25, 15);
+	m_listIcon.push_back(m_healthIcon);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
+	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_healthIcon->SetSize(40, 40);
+	m_healthIcon->Set2DPosition(65, 15);
+	m_listIcon.push_back(m_healthIcon);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
+	m_healthIcon = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_healthIcon->SetSize(40, 40);
+	m_healthIcon->Set2DPosition(105, 15);
+	m_listIcon.push_back(m_healthIcon);
 }
 
 
@@ -130,6 +154,8 @@ void GSPlay::Update(float deltaTime)
 	}
 
 
+
+
 	//Update position of camera
 	//Camera::GetInstance()->Update(deltaTime);
 	//obj->Update(deltaTime);
@@ -145,6 +171,10 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 	//m_score->Draw();
 	for (auto it : m_listButton)
 	{
+		it->Draw(renderer);
+	}
+	m_healthBar->Draw(renderer);
+	for (auto it : m_listIcon) {
 		it->Draw(renderer);
 	}
 

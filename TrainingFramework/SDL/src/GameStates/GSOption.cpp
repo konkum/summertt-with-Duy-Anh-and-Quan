@@ -65,7 +65,7 @@ void GSOption::Init()
 	m_listButton.push_back(btnMusic);
 
 	//button skin select
-	texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle.png");
+	texture = ResourceManagers::GetInstance()->GetTexture("Player0_Idle.png");
 	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	obj->SetFlip(SDL_FLIP_HORIZONTAL);
 	obj->SetSize(60, 75);

@@ -31,6 +31,9 @@ private:
 	int scrolling_offset = 0;
 	SDL_Event e;
 	std::shared_ptr<Sprite2D>	m_background;
+	std::shared_ptr<Sprite2D>	m_healthBar;
+	std::shared_ptr<Sprite2D>	m_healthIcon;
+	std::list<std::shared_ptr<Sprite2D>>	m_listIcon;
 	//std::shared_ptr<Text>		m_score;
 	std::shared_ptr<Sound>					m_Sound;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
