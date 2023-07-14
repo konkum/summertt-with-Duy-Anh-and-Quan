@@ -94,6 +94,11 @@ float Vector2::Dot(Vector2& vector)
 	return x * vector.x + y * vector.y;
 }
 
+float Vector2::MagnitudeSqr() {
+
+	return x * x + y * y;
+}
+
 //Vector3
 
 float Vector3::Length()

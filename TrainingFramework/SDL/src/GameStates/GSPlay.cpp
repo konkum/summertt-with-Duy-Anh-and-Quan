@@ -106,7 +106,7 @@ void PlayScenario(float deltaTime) {
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
-	PlayScenario(deltaTime);
+	//PlayScenario(deltaTime);
 	enemyPool->Update(deltaTime);
 	
 	for (auto it : m_listButton)

@@ -35,6 +35,7 @@ public:
 	Vector2& operator = (Vector2 vector);
 	Vector2 Modulate(Vector2& vector);
 	float Dot(Vector2& vector);
+	float MagnitudeSqr();
 
 	//access to elements
 	float operator [] (unsigned int idx);
@@ -43,6 +44,14 @@ public:
 	float x;
 	float y;
 };
+
+inline Vector2 operator + (const Vector2& vector1, const Vector2& vector2) {
+	return Vector2(vector1.x + vector2.x, vector1.y + vector2.y);
+}
+
+inline Vector2 operator - (const Vector2& vector1, const Vector2& vector2) {
+	return Vector2(vector1.x - vector2.x, vector1.y - vector2.y);
+}
 
 //Vector3
 
