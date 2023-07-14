@@ -164,6 +164,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObjectToShow\BezierPath.cpp" />
     <ClCompile Include="src\GameObjectToShow\EnemyPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\CollisionDetection.cpp" />
     <ClCompile Include="src\GameObjectToShow\Enemy.cpp" />
@@ -184,12 +185,16 @@
     <ClCompile Include="src\GameObject\Timer.cpp" />
     <ClCompile Include="src\GameStates\GameStateBase.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
+    <ClCompile Include="src\GameStates\GSCredit.cpp" />
     <ClCompile Include="src\GameStates\GSIntro.cpp" />
     <ClCompile Include="src\GameStates\GSMenu.cpp" />
+    <ClCompile Include="src\GameStates\GSOption.cpp" />
     <ClCompile Include="src\GameStates\GSPlay.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameObjectToShow\BezierPath.h" />
+    <ClInclude Include="src\GameObjectToShow\BezierCurve.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyPool.h" />
     <ClInclude Include="src\GameObjectToShow\CollisionDetection.h" />
     <ClInclude Include="src\GameObjectToShow\Enemy.h" />
@@ -216,8 +221,10 @@
     <ClInclude Include="src\GameObject\Timer.h" />
     <ClInclude Include="src\GameStates\GameStateBase.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
+    <ClInclude Include="src\GameStates\GSCredit.h" />
     <ClInclude Include="src\GameStates\GSIntro.h" />
     <ClInclude Include="src\GameStates\GSMenu.h" />
+    <ClInclude Include="src\GameStates\GSOption.h" />
     <ClInclude Include="src\GameStates\GSPlay.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
