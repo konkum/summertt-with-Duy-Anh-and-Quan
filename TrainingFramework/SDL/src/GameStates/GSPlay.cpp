@@ -49,6 +49,27 @@ void GSPlay::Init()
 
 	enemyPool->Init();
 	enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
+
+	//game music
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound->Volume(60);
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
+
+	//health bar
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_healthBar = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_healthBar->SetSize(150, 50);
+	m_healthBar->Set2DPosition(10, 10);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
+	m_health = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_health->SetSize(player->HealthCheck()*1.2, 27);
+	m_health->Set2DPosition(25, 20);
 }
 
 
@@ -119,6 +140,10 @@ void GSPlay::Update(float deltaTime)
 		scrolling_offset = 0;
 	}
 
+	//m_health->Update(deltaTime);
+	m_health->SetSize(player->HealthCheck() * 1.2, 27);
+	
+
 
 	//Update position of camera
 	//Camera::GetInstance()->Update(deltaTime);
@@ -137,6 +162,9 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
+	m_healthBar->Draw(renderer);
+	m_health->Draw(renderer);
+	
 
 	player->Draw(renderer);
 	enemyPool->Draw(renderer);

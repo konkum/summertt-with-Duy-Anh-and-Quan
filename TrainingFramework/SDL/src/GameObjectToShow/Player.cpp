@@ -12,7 +12,8 @@ Vector2 spawnPosition;
 
 Player::Player() {
 	Object::Init();
-	auto texture = ResourceManagers::GetInstance()->GetTexture("Player_Idle.png");
+	text = "Player" + std::to_string(skinID) + "_Idle.png";
+	auto texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(32, 44);
@@ -20,7 +21,8 @@ Player::Player() {
 
 	list_animation.push_back(CurrentAnimation);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("Player_Left.png");
+	text = "Player" + std::to_string(skinID) + "_Left.png";
+	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(32, 44);
@@ -28,7 +30,8 @@ Player::Player() {
 
 	list_animation.push_back(CurrentAnimation);
 
-	texture = ResourceManagers::GetInstance()->GetTexture("Player_Right.png");
+	text = "Player" + std::to_string(skinID) + "_Right.png";
+	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(32, 44);
@@ -208,4 +211,8 @@ void Player::TakeDamage(float damage) {
 
 void Player::Die() {
 	isDead = true;
+}
+
+float Player::HealthCheck() {
+	return currentHealth;
 }

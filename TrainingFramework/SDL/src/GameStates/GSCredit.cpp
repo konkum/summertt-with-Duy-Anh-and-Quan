@@ -3,7 +3,7 @@
 #include "GameObject/SpriteAnimation.h"
 
 GSCredit::GSCredit() : GameStateBase(StateType::STATE_CREDIT),
-m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textLine1(nullptr), m_textLine2(nullptr), m_textLine3(nullptr)
+m_background(nullptr), m_creditframe(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textLine(nullptr)
 {
 }
 
@@ -15,11 +15,10 @@ GSCredit::~GSCredit()
 
 void GSCredit::Init()
 {
-	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_credit.png");
-
 	// background
+	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 
+	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_main.png");
 	m_background = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
 	m_background->SetSize(SCREEN_WIDTH, SCREEN_HEIDHT);
 	m_background->Set2DPosition(0, 0);
@@ -34,24 +33,41 @@ void GSCredit::Init()
 		});
 	m_listButton.push_back(button);
 
-	// game title
+	// game credit
 	///Set Font
-	m_textColor = { 0, 0, 0 };
+	m_textColor = { 225, 225, 225 };
 
-	m_textLine1 = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine1->SetSize(300, 50);
-	m_textLine1->Set2DPosition((SCREEN_WIDTH - m_textLine1->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 50 );
-	m_textLine1->LoadFromRenderText("Thành viên");
+	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
+	m_textLine->SetSize(300, 50);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 50 );
+	m_textLine->LoadFromRenderText("Thành viên");
+	m_listText.push_back(m_textLine);
 
-	m_textLine2 = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine2->SetSize(160, 40);
-	m_textLine2->Set2DPosition((SCREEN_WIDTH - m_textLine2->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
-	m_textLine2->LoadFromRenderText("Duy Anh");
+	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
+	m_textLine->SetSize(160, 40);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
+	m_textLine->LoadFromRenderText("Duy Anh");
+	m_listText.push_back(m_textLine);
 
-	m_textLine3 = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine3->SetSize(112, 40);
-	m_textLine3->Set2DPosition((SCREEN_WIDTH - m_textLine3->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 50);
-	m_textLine3->LoadFromRenderText("Quân");
+	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
+	m_textLine->SetSize(112, 40);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 50);
+	m_textLine->LoadFromRenderText("Quân");
+	m_listText.push_back(m_textLine);
+
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
+
+	//Frame
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_creditframe = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_creditframe->SetSize(350, 200);
+	m_creditframe->Set2DPosition(SCREEN_WIDTH / 2 - 175, SCREEN_HEIDHT / 2 - 80);
 }
 
 void GSCredit::Exit()
@@ -115,7 +131,9 @@ void GSCredit::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
-	m_textLine1->Draw(renderer);
-	m_textLine2->Draw(renderer);
-	m_textLine3->Draw(renderer);
+	m_creditframe->Draw(renderer);
+	for (auto it : m_listText)
+	{
+		it->Draw(renderer);
+	}
 }

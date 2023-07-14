@@ -25,13 +25,14 @@ public:
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
 	int m_KeyPress;
+	static inline int skinID = 0;
 
 private:
 	std::shared_ptr<Sprite2D>				m_background;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::shared_ptr<Text>					m_textGameName;
 	SDL_Color	m_textColor;
-	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
+	std::vector<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
 	std::shared_ptr<Sound>					m_Sound;

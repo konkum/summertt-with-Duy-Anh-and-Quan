@@ -1,7 +1,6 @@
 #include "GSMenu.h"
 
-GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU),
-m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textGameName(nullptr)
+GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textGameName(nullptr), m_Sound(nullptr)
 {
 }
 
@@ -69,11 +68,24 @@ void GSMenu::Init()
 	///Set Font
 	m_textColor = { 255, 255, 0 };
 	m_textGameName = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
-	m_textGameName->SetSize(300, 50);
+	m_textGameName->SetSize(350, 50);
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
-	m_textGameName->LoadFromRenderText("Your Game");
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
-	m_Sound->PlaySound();
+	m_textGameName->LoadFromRenderText("Space Guardian");
+
+	//set frame
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_frameGameName = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_frameGameName->SetSize(400, 100);
+	m_frameGameName->Set2DPosition(SCREEN_WIDTH / 2 - 200, SCREEN_HEIDHT / 2 - 320);
+
+	//Game music
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 }
 
 void GSMenu::Exit()
@@ -84,13 +96,16 @@ void GSMenu::Exit()
 
 void GSMenu::Pause()
 {
-	m_Sound->StopSound();
+	m_Sound->PauseSound();
 
 }
 
 void GSMenu::Resume()
 {
-	m_Sound->PlaySound();
+	m_Sound->Volume(128);
+	if (m_Sound->isPlaying) {
+		m_Sound->ResumeSound();
+	}
 }
 
 
@@ -139,5 +154,6 @@ void GSMenu::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
+	m_frameGameName->Draw(renderer);
 	m_textGameName->Draw(renderer);
 }

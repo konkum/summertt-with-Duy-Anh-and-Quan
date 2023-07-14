@@ -1,6 +1,7 @@
 #pragma once
 #include "GameStateBase.h"
 #include "GameObject/MouseButton.h"
+#include "GameObject/Sound.h"
 #include "GameObject/TextureManager.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Text.h"
@@ -23,13 +24,14 @@ public:
 	void	HandleMouseMoveEvents(int x, int y) override;
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
-	int m_KeyPress;
+	int		m_KeyPress;
 
 private:
 	std::shared_ptr<Sprite2D> m_background;
-	std::shared_ptr<Text>					m_textLine1;
-	std::shared_ptr<Text>					m_textLine2;
-	std::shared_ptr<Text>					m_textLine3;
+	std::shared_ptr<Sprite2D> m_creditframe;
+	std::list<std::shared_ptr<Text>>		m_listText;
+	std::shared_ptr<Text>					m_textLine;
+	std::shared_ptr<Sound>					m_Sound;
 	SDL_Color	m_textColor;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;

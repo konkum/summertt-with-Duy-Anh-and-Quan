@@ -20,8 +20,13 @@ void GSOption::Init()
 	m_background->SetSize(SCREEN_WIDTH, SCREEN_HEIDHT);
 	m_background->Set2DPosition(0, 0);
 
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Alarm01.wav");
-	m_Sound->PlaySound();
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	if (m_Sound->isPlaying) {
+		m_Sound->PlaySound();
+	}
+	else {
+		m_Sound->PauseSound();
+	}
 
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
@@ -34,23 +39,67 @@ void GSOption::Init()
 	m_listButton.push_back(button);
 
 	// button mute
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
-	std::shared_ptr<MouseButton> btnMute = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
-	btnMute->SetSize(100, 100);
-	btnMute->Set2DPosition(SCREEN_WIDTH / 2, SCREEN_HEIDHT / 2);
-	btnMute->SetOnClick([=]() mutable {
-		if (Mix_PausedMusic() == 0) {
-			m_Sound->PlaySound();
-			 texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
-			btnMute->SetTexture(texture);
+	if (m_Sound->isPlaying) {
+		texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
+	}
+	else {
+		texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+	}
+	std::shared_ptr<MouseButton> btnMusic = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
+	btnMusic->SetSize(100, 100);
+	btnMusic->Set2DPosition((SCREEN_WIDTH - btnMusic->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 170);
+	btnMusic->SetOnClick([=]() mutable {
+		if (m_Sound->isPlaying) {
+			m_Sound->PauseSound();
+			m_Sound->isPlaying = false;
+			texture = ResourceManagers::GetInstance()->GetTexture("btn_music_off.tga");
+			btnMusic->SetTexture(texture);
 		}
 		else {
 			m_Sound->PlaySound();
+			m_Sound->isPlaying = true;
 			texture = ResourceManagers::GetInstance()->GetTexture("btn_music.tga");
-			btnMute->SetTexture(texture);
+			btnMusic->SetTexture(texture);
 		}
 		});
-	m_listButton.push_back(btnMute);
+	m_listButton.push_back(btnMusic);
+
+	//button skin select
+	texture = ResourceManagers::GetInstance()->GetTexture("Player0_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player1_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Player2_Idle.png");
+	obj = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
+	obj->SetFlip(SDL_FLIP_HORIZONTAL);
+	obj->SetSize(60, 75);
+	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 20);
+	m_listAnimation.push_back(obj);
+
+	obj = m_listAnimation[skinID];
+
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_blank.tga");
+	std::shared_ptr<MouseButton> btnSkin = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
+	btnSkin->SetSize(100, 100);
+	btnSkin->Set2DPosition((SCREEN_WIDTH - btnSkin->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
+	btnSkin-> SetOnClick([=](){
+		skinID++;
+		if (skinID > 2) {
+			skinID = 0;
+		}
+		obj = m_listAnimation[skinID];
+		});
+	m_listButton.push_back(btnSkin);
 }
 
 void GSOption::Exit()
@@ -59,12 +108,12 @@ void GSOption::Exit()
 
 void GSOption::Pause()
 {
-	m_Sound->StopSound();
+	//m_Sound->StopSound();
 }
 
 void GSOption::Resume()
 {
-	m_Sound->PlaySound();
+	//m_Sound->PlaySound();
 }
 
 void GSOption::HandleEvents()
@@ -102,6 +151,10 @@ void GSOption::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	for (auto it : m_listAnimation)
+	{
+		it->Update(deltaTime);
+	}
 }
 
 void GSOption::Draw(SDL_Renderer* renderer)
@@ -111,4 +164,5 @@ void GSOption::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
+	obj->Draw(renderer);
 }

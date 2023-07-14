@@ -92,3 +92,7 @@ void Sound::Free()
     Mix_FreeMusic(m_Music);
     m_Music = NULL;
 }
+
+void Sound::Volume(int volume) {
+    Mix_VolumeMusic(volume);
+}
