@@ -43,6 +43,16 @@ void GSPlay::Init()
 		});
 	m_listButton.push_back(button);
 
+	//button pause
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_pause.tga");
+	button = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
+	button->SetSize(50, 50);
+	button->Set2DPosition(SCREEN_WIDTH - 105, 10);
+	button->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_PAUSE);
+		});
+	m_listButton.push_back(button);
+
    //Player
 	player = std::make_unique<Player>();
 	player->Init();
@@ -81,11 +91,16 @@ void GSPlay::Exit()
 
 void GSPlay::Pause()
 {
-
+	m_Sound->PauseSound();
 }
+
+
 void GSPlay::Resume()
 {
-	
+	m_Sound->Volume(60);
+	if (m_Sound->isPlaying) {
+		m_Sound->ResumeSound();
+	}
 }
 
 

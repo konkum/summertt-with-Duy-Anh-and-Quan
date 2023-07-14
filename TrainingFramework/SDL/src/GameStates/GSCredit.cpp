@@ -38,19 +38,19 @@ void GSCredit::Init()
 	m_textColor = { 225, 225, 225 };
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine->SetSize(300, 50);
+	m_textLine->SetSize(200, 50);
 	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 50 );
 	m_textLine->LoadFromRenderText("Thành viên");
 	m_listText.push_back(m_textLine);
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine->SetSize(160, 40);
+	m_textLine->SetSize(120, 40);
 	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
 	m_textLine->LoadFromRenderText("Duy Anh");
 	m_listText.push_back(m_textLine);
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
-	m_textLine->SetSize(112, 40);
+	m_textLine->SetSize(80, 40);
 	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 50);
 	m_textLine->LoadFromRenderText("Quân");
 	m_listText.push_back(m_textLine);
