@@ -1,0 +1,23 @@
+Bullet Hell:
+- Gameplay:
++ Người chơi có thể di chuyển 4 hướng lên xuống phải trái
++ Người chơi tự động bắn đạn lên phía trước
++ Người chơi phải né tránh đạn mà enemy bắn ra
++ Người chơi sẽ thua nếu bị bắn 3 lần
++ Người chơi có thể chơi tầm 1-3 màn chơi
++ Mỗi lần giết quái thì có thể rớt upgrade cho người chơi (optional)
++ Mỗi màn chơi gồm nhiều quái vật di chuyển theo một pattern nào đó
++ Mỗi màn chơi thì con quái vật có thể bắn đạn ra (optional)
++ Mỗi màn chơi sẽ xong nếu người chơi tiêu diệt được boss cuối
++ Mỗi màn chơi sẽ có hệ thống tính điểm mỗi lần tiêu diệt được lính thường sẽ được cộng một số điểm và tiêu diệt boss cuối sẽ được cộng nhiều điểm nhất
+- UI:
++ Có hướng dẫn người chơi cách chơi
++ Có nút để bật tắt âm thanh
++ Có nút để bắt đầu chơi
++ Có nút để thoát ra
++ Có thể chọn tàu để chơi
++ Có UI mạng của người chơi
+- Âm thanh:
++ Có âm thanh ở main menu
++ Có âm thanh tàu bắn
++ Có âm thanh thua cuộc

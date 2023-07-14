@@ -1,0 +1,36 @@
+#include "Bullet.h"
+#include "ResourceManagers.h"
+
+Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
+	Object::Init();
+	auto texture = ResourceManagers::GetInstance()->GetTexture(textureName);
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 4, 1, 0.2f);
+	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	CurrentAnimation->SetSize(size.x, size.y);
+}
+
+Bullet::~Bullet() {
+
+}
+
+void Bullet::Update(float deltatime) {
+	Object::Update(deltatime);
+	Move(deltatime);
+}
+
+void Bullet::Move(float deltaTime) {
+	m_position = CurrentAnimation->GetPosition();
+	CurrentAnimation->Set2DPosition(m_position.x, m_position.y - MoveDirection * deltaTime * m_Velocity);
+	CurrentAnimation->Update(deltaTime);
+}
+
+void Bullet::Init() {
+}
+
+void Bullet::Draw(SDL_Renderer* renderer) {
+	CurrentAnimation->Draw(renderer);
+}
+
+void Bullet::SetSpawnPoint(Vector2 spawnPoint) {
+	CurrentAnimation->Set2DPosition(spawnPoint.x, spawnPoint.y);
+}

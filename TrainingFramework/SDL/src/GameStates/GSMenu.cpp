@@ -71,6 +71,14 @@ void GSMenu::Init()
 	m_textGameName->SetSize(350, 50);
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
 	m_textGameName->LoadFromRenderText("Space Guardian");
+
+	//set frame
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_frameGameName = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_frameGameName->SetSize(400, 100);
+	m_frameGameName->Set2DPosition(SCREEN_WIDTH / 2 - 200, SCREEN_HEIDHT / 2 - 320);
+
+	//Game music
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
@@ -78,11 +86,6 @@ void GSMenu::Init()
 	else {
 		m_Sound->PauseSound();
 	}
-	//set frame
-	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
-	m_frameGameName = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_frameGameName->SetSize(400, 100);
-	m_frameGameName->Set2DPosition(SCREEN_WIDTH / 2 - 200, SCREEN_HEIDHT / 2 - 320);
 }
 
 void GSMenu::Exit()

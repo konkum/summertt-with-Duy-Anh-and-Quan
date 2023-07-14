@@ -26,9 +26,10 @@ public:
 	void	HandleMouseMoveEvents(int x, int y) override;
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
-	int m_KeyPress;
 
 private:
+	int scrolling_offset = 0;
+	SDL_Event e;
 	std::shared_ptr<Sprite2D>	m_background;
 	//std::shared_ptr<Text>		m_score;
 	std::shared_ptr<Sound>					m_Sound;
@@ -38,6 +39,5 @@ private:
 	std::shared_ptr<MouseButton> button;
 	float time = 0.0f;
 	float m_Velocity = 10.0f;
-	int& skinID = GSOption::skinID;
 };
 
