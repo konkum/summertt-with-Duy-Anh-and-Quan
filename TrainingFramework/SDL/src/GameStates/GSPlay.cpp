@@ -48,7 +48,7 @@ void GSPlay::Init()
 	player->Init();
 
 	enemyPool->Init();
-	enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
+	//enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
 
 	//game music
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
@@ -127,7 +127,7 @@ void PlayScenario(float deltaTime) {
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
-	//PlayScenario(deltaTime);
+	PlayScenario(deltaTime);
 	enemyPool->Update(deltaTime);
 	
 	for (auto it : m_listButton)
@@ -162,10 +162,11 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
-	m_healthBar->Draw(renderer);
-	m_health->Draw(renderer);
-	
+
 
 	player->Draw(renderer);
 	enemyPool->Draw(renderer);
+
+	m_healthBar->Draw(renderer);
+	m_health->Draw(renderer);
 }

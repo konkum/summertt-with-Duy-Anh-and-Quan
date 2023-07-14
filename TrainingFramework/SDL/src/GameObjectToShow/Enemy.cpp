@@ -2,6 +2,7 @@
 #include "ResourceManagers.h"
 #include "BezierPath.h"
 #include "Define.h"
+#include "CollisionDetection.h"
 
 Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
 	Object::Init();
@@ -12,6 +13,9 @@ Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
 	CurrentAnimation->SetSize(sizeW, sizeH);
 
 	m_position = CurrentAnimation->GetPosition();
+	
+	maxHealth = 3.0f;
+	currentHealth = 3.0f;
 
 	for (int i = 0;i < 20;i++) {
 		Bullet* bullet = new Bullet("Projectile_Enemy.png", Vector2(30, 30), 3);
@@ -42,7 +46,15 @@ void Enemy::Update(float deltatime) {
 		currentTime = 0;
 		ShootBullet();
 	}
-	
+
+	for (auto obj : object) {
+		if (obj->Tag == "PlayerBullet" && obj->IsActive) {
+			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+				obj->IsActive = false;
+				TakeDamage(1);
+			}
+		}
+	}
 }
 
 void Enemy::UpdateBullet(float deltaTime) {
@@ -146,6 +158,17 @@ Enemy::Enemy(int path) {
 	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
 
 	m_position = CurrentAnimation->GetPosition();
+
+	maxHealth = 3.0f;
+	currentHealth = 3.0f;
+
+	for (int i = 0;i < 20;i++) {
+		Bullet* bullet = new Bullet("Projectile_Enemy.png", Vector2(30, 30), 3);
+		bullet->MoveDirection = -1;
+		bullet->Tag = "EnemyBullet";
+		bullets.push_back(bullet);
+	}
+	Tag = "Enemy";
 }
 
 void Enemy::HandleStates(float deltaTime) {
