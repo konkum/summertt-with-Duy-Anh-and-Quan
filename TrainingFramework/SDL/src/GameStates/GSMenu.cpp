@@ -78,6 +78,11 @@ void GSMenu::Init()
 	else {
 		m_Sound->PauseSound();
 	}
+	//set frame
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_frameGameName = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_frameGameName->SetSize(400, 100);
+	m_frameGameName->Set2DPosition(SCREEN_WIDTH / 2 - 200, SCREEN_HEIDHT / 2 - 320);
 }
 
 void GSMenu::Exit()
@@ -146,5 +151,6 @@ void GSMenu::Draw(SDL_Renderer* renderer)
 	{
 		it->Draw(renderer);
 	}
+	m_frameGameName->Draw(renderer);
 	m_textGameName->Draw(renderer);
 }
