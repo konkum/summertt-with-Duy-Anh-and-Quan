@@ -1,7 +1,6 @@
 #include "Enemy.h"
 #include "ResourceManagers.h"
 #include "BezierPath.h"
-#include "Define.h"
 #include "CollisionDetection.h"
 
 Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
@@ -18,7 +17,7 @@ Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
 	currentHealth = 3.0f;
 
 	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Projectile_Enemy.png", Vector2(30, 30), 3);
+		Bullet* bullet = new Bullet("Enemy/Projectile_Enemy.png", Vector2(30, 30), 3);
 		bullet->MoveDirection = -1;
 		bullet->Tag = "EnemyBullet";
 		bullets.push_back(bullet);
@@ -40,7 +39,6 @@ void Enemy::Update(float deltatime) {
 
 
 	HandleStates(deltatime);
-	//Move(deltatime);
 	currentTime += deltatime;
 	if (currentTime > 1.0f) {
 		currentTime = 0;
@@ -107,6 +105,7 @@ void Enemy::TakeDamage(float damage) {
 
 void Enemy::Die() {
 	if (IsActive) {
+		onPlayerPointUpdate();
 		IsActive = false;
 	}
 }
@@ -152,7 +151,7 @@ Enemy::Enemy(int path) {
 	CurrentAnimation->SetSize(30, 30);
 	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
 
-	mCurrentStates = flyIn;
+	mCurrentStates = STATES::flyIn;
 
 	mCurrentWayPoint = 0;
 	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
@@ -174,17 +173,11 @@ Enemy::Enemy(int path) {
 void Enemy::HandleStates(float deltaTime) {
 	switch (mCurrentStates)
 	{
-	case Enemy::flyIn:
+	case Enemy::STATES::flyIn:
 		HandleFlyInState(deltaTime);
 		break;	
-	case Enemy::formation:
-		HandleFormationState();
-		break;
-	case Enemy::dive:
-		HandleDiveState();
-		break;
-	case Enemy::dead:
-		HandleDeadState();
+	case Enemy::STATES::formation:
+		HandleFormationState(deltaTime);
 		break;
 	default:
 		break;
@@ -202,18 +195,22 @@ void Enemy::HandleFlyInState(float deltaTime) {
 		CurrentAnimation->Set2DPosition(CurrentAnimation->Get2DPosition() + dist.Normalize() * deltaTime * m_Velocity);
 	}
 	else {
-		mCurrentStates = formation;
+		mCurrentStates = STATES::formation;
+		Vector2 currentPosition = CurrentAnimation->Get2DPosition();
+
+
+		radius = sqrt((currentPosition.x - CENTER_X) * (currentPosition.x - CENTER_X) + (currentPosition.y - CENTER_Y) * (currentPosition.y - CENTER_Y));
+		angle = atan2(currentPosition.y - CENTER_Y, currentPosition.x - CENTER_X);
 	}
 }
 
-void Enemy::HandleDiveState() {
-
+void Enemy::HandleFormationState(float deltaTime) {
+	angle +=  deltaTime;
+	CurrentAnimation->Set2DPosition(CENTER_X + radius * cos(angle), CENTER_Y + radius * sin(angle));
 }
 
-void Enemy::HandleFormationState() {
-
-}
-
-void Enemy::HandleDeadState() {
-
+void Enemy::Reset() {
+	mCurrentWayPoint = 0;
+	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
+	mCurrentStates = STATES::flyIn;
 }

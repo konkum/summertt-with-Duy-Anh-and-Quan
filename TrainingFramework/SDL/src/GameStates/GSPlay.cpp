@@ -7,6 +7,7 @@
 #include <algorithm>
 #include "GameObjectToShow/Player.h"
 #include "GameObjectToShow/EnemyPool.h"
+#include <string>
 
 std::unique_ptr<Player> player;
 EnemyPool* enemyPool = new EnemyPool();
@@ -70,6 +71,28 @@ void GSPlay::Init()
 	m_health = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
 	m_health->SetSize(player->HealthCheck()*1.2, 27);
 	m_health->Set2DPosition(25, 20);
+
+	SDL_Color m_textColor = { 255,255,255 };
+
+	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
+	m_textLine->SetSize(25, 50);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT/2 - 50);
+	m_textLine->LoadFromRenderText("0");
+
+	player->onPlayerPointUpdate = [=]() mutable {
+		player->Point += 1;
+		if (player->Point < 10) {
+			m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT / 2 - 50);
+			m_textLine->SetSize(25, 50);
+		}
+		else if (player->Point < 100 && player->Point >=10)
+		{
+			m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT / 2 - 50);
+			m_textLine->SetSize(50, 50);
+		}
+
+		m_textLine->LoadFromRenderText(std::to_string(player->Point));
+	};
 }
 
 
@@ -169,4 +192,5 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 
 	m_healthBar->Draw(renderer);
 	m_health->Draw(renderer);
+	m_textLine->Draw(renderer);
 }

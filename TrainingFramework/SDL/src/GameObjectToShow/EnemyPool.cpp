@@ -33,6 +33,7 @@ void EnemyPool::SetSpawn(Vector2 startPosition, Vector2 moveDirection) {
 	for (auto enemy : enemies) {
 		if (!enemy->IsActive) {
 			enemy->IsActive = true;
+			enemy->Reset();
 			//enemy->CurrentAnimation->Set2DPosition(startPosition.x, startPosition.y);
 			//enemy->MoveDirection = moveDirection;
 			break;

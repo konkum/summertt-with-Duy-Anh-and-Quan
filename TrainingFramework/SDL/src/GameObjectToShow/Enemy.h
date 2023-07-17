@@ -2,6 +2,7 @@
 #include "ObjectPool.h"
 #include "HealthComponent.h"
 #include "Bullet.h"
+#include "Define.h"
 #include <vector>
 
 class Enemy : public Object, virtual public Health
@@ -11,7 +12,7 @@ private:
 
 	static std::vector<std::vector<Vector2>> sPaths;
 
-	enum STATES
+	enum class STATES
 	{
 		flyIn,
 		formation,
@@ -26,6 +27,10 @@ private:
 
 
 	//Working
+	static const inline float CENTER_X = SCREEN_WIDTH / 2;
+	static const inline float CENTER_Y = SCREEN_HEIDHT / 2;
+	float angle;
+	float radius;
 	float currentTime = 0.0f;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 1.0f;
@@ -36,11 +41,10 @@ public:
 
 	Enemy(int path);
 	virtual void HandleFlyInState(float deltaTime);
-	virtual void HandleFormationState();
-	virtual void HandleDiveState();
-	virtual void HandleDeadState();
+	virtual void HandleFormationState(float deltaTime);
 
 	void HandleStates(float deltaTime);
+	void Reset();
 
 	//Working
 

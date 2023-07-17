@@ -10,7 +10,6 @@ Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
 }
 
 Bullet::~Bullet() {
-
 }
 
 void Bullet::Update(float deltatime) {

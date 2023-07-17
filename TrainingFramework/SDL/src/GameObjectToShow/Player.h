@@ -16,6 +16,7 @@ private:
 	int& skinID = GSOption::skinID;
 	std::string text = "";
 public:
+	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;
 	Player();
@@ -26,6 +27,7 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 	void Update(float deltatime) override;
 	void Move(float deltaTime) override;
+	void UpdatePlayerPoint();
 	void Shoot();
 	void TakeDamage(float damage) override;
 	void Die() override;

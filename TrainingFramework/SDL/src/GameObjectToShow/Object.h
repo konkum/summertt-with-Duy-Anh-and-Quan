@@ -1,12 +1,14 @@
 #pragma once
 #include "SpriteAnimation.h"
 #include <vector>
+#include <functional>
 
 class Object : virtual public BaseObject {
 protected:
 	float m_Velocity = 100.0f;
 	
 public:
+	static inline std::function<void(void)> onPlayerPointUpdate;
 	static inline std::vector<Object*> object;
 	std::shared_ptr<SpriteAnimation> CurrentAnimation;
 	Vector2 MoveDirection;
@@ -16,6 +18,14 @@ public:
 	void Init() override {
 		object.push_back(this);
 	}
+
+	~Object() {
+		/*for (int i = 0;i < object.size();i++) {
+			delete object[i];
+			object[i] = NULL;
+		}*/
+	}
+
 	virtual void Move(float deltaTime) = 0;
 	void Update(float deltatime) override {
 		Collider.x = static_cast<int>(m_position.x);

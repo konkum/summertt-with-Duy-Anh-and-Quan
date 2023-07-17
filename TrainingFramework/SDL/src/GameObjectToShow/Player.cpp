@@ -56,7 +56,7 @@ Player::Player() {
 }
 
 Player::~Player() {
-
+	Object::~Object();
 }
 
 void Player::HandleEvent(SDL_Event &e) {
