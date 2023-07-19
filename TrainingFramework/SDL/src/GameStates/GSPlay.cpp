@@ -10,7 +10,7 @@
 #include <string>
 
 std::unique_ptr<Player> player;
-EnemyPool* enemyPool = new EnemyPool();
+EnemyPool* enemyPool = NULL;
 
 GSPlay::GSPlay()
 {
@@ -19,11 +19,14 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
+	delete enemyPool;
+	enemyPool = NULL;
 }
 
 
 void GSPlay::Init()
 {
+	enemyPool = new EnemyPool();
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_play.png");
 

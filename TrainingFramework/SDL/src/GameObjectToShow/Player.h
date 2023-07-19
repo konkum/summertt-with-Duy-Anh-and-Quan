@@ -12,10 +12,12 @@ private:
 	bool isDead = false;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 0.3f;
+	float currentShieldTimer = 0.0f;
 	float currentShootTimer = 0.0f;
 	int& skinID = GSOption::skinID;
 	std::string text = "";
 public:
+	bool IsShield = false;
 	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;

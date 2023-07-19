@@ -3,6 +3,14 @@
 EnemyPool::EnemyPool() {
 }
 
+EnemyPool::~EnemyPool()
+{
+	for (int i = 0;i < enemies.size();i++) {
+		delete enemies[i];
+		enemies[i] = NULL;
+	}
+}
+
 void EnemyPool::Init() {
 	Enemy::CreatePath();
 

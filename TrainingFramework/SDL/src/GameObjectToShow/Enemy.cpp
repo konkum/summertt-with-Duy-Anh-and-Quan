@@ -36,9 +36,9 @@ void Enemy::Update(float deltatime) {
 
 	Object::Update(deltatime);
 	m_position = CurrentAnimation->GetPosition();
-
-
 	HandleStates(deltatime);
+	CurrentAnimation->Update(deltatime);
+
 	currentTime += deltatime;
 	if (currentTime > 1.0f) {
 		currentTime = 0;
@@ -125,6 +125,10 @@ void Enemy::ShootBullet() {
 std::vector<std::vector<Vector2>> Enemy::sPaths;
 
 void Enemy::CreatePath() {
+
+	if (!sPaths.empty()) {
+		return;
+	}
 
 	int screenMidPoint = SCREEN_WIDTH * 0.4f;
 

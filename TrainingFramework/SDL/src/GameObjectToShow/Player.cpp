@@ -159,6 +159,15 @@ void Player::Update(float deltatime) {
 		anim->Update(deltatime);
 	}
 
+	if (IsShield) {
+		currentShieldTimer += deltatime;
+		if (currentShieldTimer > 10) {
+			IsShield = false;
+			currentShieldTimer = 0.0f;
+		}
+		return;
+	}
+
 	for (auto obj : object) {
 		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
 			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
