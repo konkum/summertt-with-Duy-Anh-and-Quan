@@ -191,17 +191,16 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 	m_background->Set2DPosition(0, scrolling_offset - m_background->GetHeight());
 	m_background->Draw(renderer);
 
-	//m_score->Draw();
-	for (auto it : m_listButton)
-	{
-		it->Draw(renderer);
-	}
-
-
 	player->Draw(renderer);
 	enemyPool->Draw(renderer);
 
 	m_healthBar->Draw(renderer);
 	m_health->Draw(renderer);
 	m_textLine->Draw(renderer);
+
+	//m_score->Draw();
+	for (auto it : m_listButton)
+	{
+		it->Draw(renderer);
+	}
 }
