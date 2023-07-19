@@ -33,6 +33,7 @@ private:
 	std::shared_ptr<Sprite2D>	m_background;
 	std::shared_ptr<Sprite2D>	m_healthBar;
 	std::shared_ptr<Sprite2D>	m_health;
+	std::shared_ptr<Sprite2D>	m_scoreBar;
 	std::shared_ptr<Text>		m_textLine;
 	//std::shared_ptr<Text>		m_score;
 	std::shared_ptr<Sound>					m_Sound;

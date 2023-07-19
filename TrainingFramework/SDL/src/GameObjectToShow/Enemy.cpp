@@ -36,6 +36,7 @@ void Enemy::Update(float deltatime) {
 
 	Object::Update(deltatime);
 	m_position = CurrentAnimation->GetPosition();
+	CurrentAnimation->Update(deltatime);
 
 
 	HandleStates(deltatime);
