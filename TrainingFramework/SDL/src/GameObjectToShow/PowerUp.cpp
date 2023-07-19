@@ -23,7 +23,7 @@ void PowerUp::Draw(SDL_Renderer* renderer)
 		return;
 	}
 
-	CurrentAnimation->Draw(renderer)
+	CurrentAnimation->Draw(renderer);
 }
 
 void PowerUp::Update(float deltatime)

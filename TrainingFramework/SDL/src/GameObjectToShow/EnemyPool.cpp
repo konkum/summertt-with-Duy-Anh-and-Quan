@@ -8,7 +8,7 @@ void EnemyPool::Init() {
 
 	for (int i = 0;i < 10;i++) {
 		//Enemy* enemy = new Enemy("Enemies_AG.png", 30, 30, 6);
-		Enemy* enemy = new Enemy(0);
+		Enemy* enemy = new Enemy(7);
 		enemy->Init();
 		enemies.push_back(enemy);
 	}
