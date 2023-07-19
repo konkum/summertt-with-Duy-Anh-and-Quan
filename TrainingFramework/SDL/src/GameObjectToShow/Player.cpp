@@ -52,6 +52,7 @@ Player::Player() {
 		bullets.push_back(bullet);
 	}
 
+	IsActive = true;
 	Tag = "Player";
 }
 
@@ -133,7 +134,7 @@ void Player::Init() {
 
 void Player::Update(float deltatime) {
 	Object::Update(deltatime);
-	if (isDead) {
+	if (!IsActive) {
 		return;
 	}
 
@@ -179,14 +180,14 @@ void Player::Update(float deltatime) {
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
+	if (!IsActive) {
+		return;
+	}
+
 	for (auto bullet : bullets) {
 		if (bullet->IsActive) {
 			bullet->Draw(renderer);
 		}
-	}
-
-	if (isDead) {
-		return;
 	}
 
 	CurrentAnimation->Draw(renderer);
@@ -220,7 +221,7 @@ void Player::TakeDamage(float damage) {
 }
 
 void Player::Die() {
-	isDead = true;
+	IsActive = false;
 }
 
 float Player::HealthCheck() {

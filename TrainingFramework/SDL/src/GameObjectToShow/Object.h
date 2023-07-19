@@ -20,13 +20,9 @@ public:
 	}
 
 	~Object() {
-		/*for (int i = 0;i < object.size();i++) {
-			delete object[i];
-			object[i] = NULL;
-		}*/
 	}
 
-	virtual void Move(float deltaTime) = 0;
+	virtual void Move(float deltaTime) {};
 	void Update(float deltatime) override {
 		Collider.x = static_cast<int>(m_position.x);
 		Collider.y = static_cast<int>(m_position.y);

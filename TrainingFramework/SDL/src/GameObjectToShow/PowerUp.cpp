@@ -4,10 +4,11 @@
 PowerUp::PowerUp()
 {
 	Object::Init();
-	auto texture = ResourceManagers::GetInstance()->GetTexture("textureName");
-	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 4, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	auto texture = ResourceManagers::GetInstance()->GetTexture("Item_Booster.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 3, 1, 0.2f);
 	CurrentAnimation->SetSize(50,50);
+
+	Tag = "PowerUp";
 }
 
 PowerUp::~PowerUp()
@@ -33,6 +34,7 @@ void PowerUp::Update(float deltatime)
 		return;
 	}
 
+	Object::Update(deltatime);
 	m_position = CurrentAnimation->GetPosition();
 	CurrentAnimation->Set2DPosition(m_position.x, m_position.y + m_Velocity * deltatime);
 	CurrentAnimation->Update(deltatime);
@@ -42,8 +44,8 @@ void PowerUp::Update(float deltatime)
 	}
 	
 	for (auto obj : object) {
-		if (CollisionDetection::AABB(obj->Collider, this->Collider)) {
-			if (obj->IsActive && obj->Tag=="Player") {
+		if (obj->IsActive && obj->Tag == "Player") {
+			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
 				IsActive = false;
 				ChangePlayerAttribute(&(Player&)obj);
 			}
@@ -58,22 +60,21 @@ void PowerUp::Move(float deltaTime)
 void PowerUp::SetSpawnPoint(Vector2 spawnPoint,int power)
 {
 	CurrentAnimation->Set2DPosition(spawnPoint);
+	m_position = CurrentAnimation->GetPosition();
 	if (power < 2) {
 		Power = static_cast<POWERUP>(power);
 	}
-	else {
-		Power = POWERUP::Shield;
-	}
+
 	std::shared_ptr<TextureManager> texture;
 
 	switch (Power)
 	{
 	case POWERUP::Shield:
-		texture = ResourceManagers::GetInstance()->GetTexture("Shield.png");
+		texture = ResourceManagers::GetInstance()->GetTexture("Item_Bullet.png");
 		CurrentAnimation->SetTexture(texture);
 		break;
 	case POWERUP::Damage:
-		texture = ResourceManagers::GetInstance()->GetTexture("Damage.png");
+		texture = ResourceManagers::GetInstance()->GetTexture("Item_Booster.png");
 		CurrentAnimation->SetTexture(texture);
 		break;
 	default:

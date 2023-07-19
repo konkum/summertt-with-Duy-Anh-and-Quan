@@ -9,7 +9,6 @@
 class Player : public Object, virtual public Health
 {
 private:
-	bool isDead = false;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 0.3f;
 	float currentShieldTimer = 0.0f;
