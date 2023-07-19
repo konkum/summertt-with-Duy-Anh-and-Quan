@@ -7,8 +7,14 @@ void EnemyPool::Init() {
 	Enemy::CreatePath();
 
 	for (int i = 0;i < 10;i++) {
-		//Enemy* enemy = new Enemy("Enemies_AG.png", 30, 30, 6);
-		Enemy* enemy = new Enemy(7);
+		//Enemy* enemy = new Enemy("Enemies_AG.png", 30, 30, 6); 
+		Enemy* enemy = new Enemy(8);
+		/*if (i < 9) {
+			enemy = new Enemy(i);
+		}
+		else {
+			enemy = new Enemy(1);
+		}*/
 		enemy->Init();
 		enemies.push_back(enemy);
 	}

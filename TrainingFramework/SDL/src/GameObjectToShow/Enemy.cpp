@@ -176,10 +176,8 @@ void Enemy::CreatePath() {
 	//enemy path4
 	BezierPath* path4 = new BezierPath();
 
-	path4->AddCurve({ Vector2(100, -10), Vector2(100, -20), Vector2(100, 30), Vector2(100, 20) }, 1);
-	path4->AddCurve({ Vector2(100, 20), Vector2(100, 60), Vector2(150, 60), Vector2(150, 100) }, 25);
-	path4->AddCurve({ Vector2(150, 100), Vector2(160, 160), Vector2(40, 160), Vector2(40, 270) }, 25);
-	path4->AddCurve({ Vector2(40, 270), Vector2(45, 380), Vector2(145, 380), Vector2(150, 270) }, 25);
+	path4->AddCurve({ Vector2(-40, 160), Vector2(-40, 160), Vector2(screenMidPoint, 160), Vector2(screenMidPoint, 160) }, 1);
+	path4->AddCurve({ Vector2(screenMidPoint, 160), Vector2(screenMidPoint + 120, 160), Vector2(screenMidPoint + 120, 320), Vector2(screenMidPoint, 320) }, 25);
 
 	sPaths.push_back(std::vector<Vector2>());
 	path4->Sample(&sPaths[4]);
@@ -221,6 +219,23 @@ void Enemy::CreatePath() {
 	sPaths.push_back(std::vector<Vector2>());
 	path7->Sample(&sPaths[7]);
 	delete path7;
+
+	//enemy path8
+	BezierPath* path8 = new BezierPath();
+
+	path8->AddCurve({ Vector2(SCREEN_WIDTH + 40, 80), Vector2(SCREEN_WIDTH + 40, 80), Vector2(80, 80), Vector2(80, 80) }, 1);
+	path8->AddCurve({ Vector2(80, 80), Vector2(0, 80), Vector2(0, 160), Vector2(80, 160) }, 25);
+	path8->AddCurve({ Vector2(80, 160), Vector2(80, 160), Vector2(SCREEN_WIDTH - 80, 160), Vector2(SCREEN_WIDTH - 80, 160) }, 25);
+	path8->AddCurve({ Vector2(SCREEN_WIDTH - 80, 160), Vector2(SCREEN_WIDTH, 160), Vector2(SCREEN_WIDTH, 240), Vector2(SCREEN_WIDTH - 80, 240) }, 25);
+	path8->AddCurve({ Vector2(SCREEN_WIDTH - 80, 240), Vector2(SCREEN_WIDTH - 80, 240), Vector2(80, 240), Vector2(80, 240) }, 25);
+	path8->AddCurve({ Vector2(80, 240), Vector2(0, 240), Vector2(0, 320), Vector2(80, 320) }, 25);
+	path8->AddCurve({ Vector2(80, 320), Vector2(80, 320), Vector2(screenMidPoint + 50, 320), Vector2(screenMidPoint + 50, 320) }, 25);
+
+	sPaths.push_back(std::vector<Vector2>());
+	path8->Sample(&sPaths[8]);
+	delete path8;
+
+
 }
 
 Enemy::Enemy(int path) {
