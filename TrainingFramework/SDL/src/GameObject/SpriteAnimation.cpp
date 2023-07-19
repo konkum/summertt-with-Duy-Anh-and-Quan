@@ -48,6 +48,11 @@ void SpriteAnimation::Set2DPosition(float x, float y)
 	m_position = Vector3((float)x, (float)y, 0.0f);
 }
 
+void SpriteAnimation::Set2DPosition(Vector2 vec)
+{
+	m_position = Vector3(vec.x, vec.y, 0.0f);
+}
+
 void SpriteAnimation::SetRotation(double angle)
 {
 	m_angle = angle;

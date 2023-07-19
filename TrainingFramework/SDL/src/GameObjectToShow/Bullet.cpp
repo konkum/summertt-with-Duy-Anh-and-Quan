@@ -10,10 +10,12 @@ Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
 }
 
 Bullet::~Bullet() {
-
 }
 
 void Bullet::Update(float deltatime) {
+	if (!IsActive) {
+		return;
+	}
 	Object::Update(deltatime);
 	Move(deltatime);
 }
@@ -28,6 +30,9 @@ void Bullet::Init() {
 }
 
 void Bullet::Draw(SDL_Renderer* renderer) {
+	if (!IsActive) {
+		return;
+	}
 	CurrentAnimation->Draw(renderer);
 }
 

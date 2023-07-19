@@ -164,6 +164,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObjectToShow\PowerUp.cpp" />
+    <ClCompile Include="src\GameObjectToShow\BezierPath.cpp" />
     <ClCompile Include="src\GameObjectToShow\EnemyPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\CollisionDetection.cpp" />
     <ClCompile Include="src\GameObjectToShow\Enemy.cpp" />
@@ -193,6 +195,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameObjectToShow\PowerUp.h" />
+    <ClInclude Include="src\GameObjectToShow\BezierPath.h" />
+    <ClInclude Include="src\GameObjectToShow\BezierCurve.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyPool.h" />
     <ClInclude Include="src\GameObjectToShow\CollisionDetection.h" />
     <ClInclude Include="src\GameObjectToShow\Enemy.h" />

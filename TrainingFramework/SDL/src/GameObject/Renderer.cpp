@@ -134,3 +134,9 @@ void Renderer::SetSpriteClips(SDL_Rect** mSpriteClips)
 		gSpriteClips[i] = mSpriteClips[i];
 	}
 }
+
+void Renderer::DrawLine(float startX, float startY, float endX, float endY) {
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawLine(gRenderer, startX, startY, endX, endY);
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+}

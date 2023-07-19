@@ -28,6 +28,7 @@ public:
 	void		Update(float deltatime) override;
 
 	void		Set2DPosition(float x, float y);
+	void		Set2DPosition(Vector2 vec);
 	void		SetRotation(double angle);
 	void SetFlip (SDL_RendererFlip flip);
 

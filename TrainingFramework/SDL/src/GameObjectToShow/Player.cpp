@@ -56,7 +56,7 @@ Player::Player() {
 }
 
 Player::~Player() {
-
+	Object::~Object();
 }
 
 void Player::HandleEvent(SDL_Event &e) {
@@ -162,6 +162,7 @@ void Player::Update(float deltatime) {
 	for (auto obj : object) {
 		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
 			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+				obj->IsActive = false;
 				TakeDamage(1);
 			}
 		}

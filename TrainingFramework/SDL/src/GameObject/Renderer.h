@@ -16,6 +16,7 @@ public:
 	//TTF_Font* GetFont();
 	SDL_Rect* GetSpriteClips();
 	void SetSpriteClips(SDL_Rect** mSpriteClips);
+	void DrawLine(float startX, float startY, float endX, float endY);
 private:
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;
