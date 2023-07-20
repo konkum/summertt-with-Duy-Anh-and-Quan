@@ -31,7 +31,7 @@ void EnemyPool::Init() {
 
 	for (int i = 0;i < 10;i++) {
 		//Enemy* enemy = new Enemy("Enemies_AG.png", 30, 30, 6); 
-		Enemy* enemy = new Enemy(8);
+		Enemy* enemy = new Enemy(rand()%9);
 		/*if (i < 9) {
 			enemy = new Enemy(i);
 		}
@@ -40,7 +40,8 @@ void EnemyPool::Init() {
 		}*/
 		enemy->Init();
 		enemy->onEnemyDeath = [=]() mutable {
-			if (RandomFloat(0.0f, 100.0f) > 10.0f) {
+			float result = RandomFloat(0.0f, 100.0f);
+			if (result < 10.0f) {
 				powerUp->TakeRandomPowerUp(Vector2(enemy->GetPosition().x, enemy->GetPosition().y));
 			}
 		};

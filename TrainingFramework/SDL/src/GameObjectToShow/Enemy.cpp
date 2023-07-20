@@ -83,9 +83,9 @@ void Enemy::Draw(SDL_Renderer* renderer) {
 
 	CurrentAnimation->Draw(renderer);
 
-	for (int i = 0;i < sPaths[mCurrentPath].size() - 1;i++) {
+	/*for (int i = 0;i < sPaths[mCurrentPath].size() - 1;i++) {
 		Renderer::GetInstance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i + 1].x, sPaths[mCurrentPath][i + 1].y);
-	}
+	}*/
 }
 
 void Enemy::DrawBullet(SDL_Renderer* renderer) {

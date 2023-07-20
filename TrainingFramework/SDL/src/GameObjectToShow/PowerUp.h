@@ -12,7 +12,7 @@ class PowerUp : public virtual Object
 private:
 public:
 	POWERUP Power;
-	void ChangePlayerAttribute(Player* player);
+	void ChangePlayerAttribute();
 	PowerUp();
 	~PowerUp();
 	void Init() override;

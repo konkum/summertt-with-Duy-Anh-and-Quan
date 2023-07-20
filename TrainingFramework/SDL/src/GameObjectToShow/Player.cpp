@@ -15,8 +15,7 @@ Player::Player() {
 	text = "Player" + std::to_string(skinID) + "_Idle.png";
 	auto texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(32, 44);
+	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
 
 	list_animation.push_back(CurrentAnimation);
@@ -24,8 +23,7 @@ Player::Player() {
 	text = "Player" + std::to_string(skinID) + "_Left.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(32, 44);
+	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
 
 	list_animation.push_back(CurrentAnimation);
@@ -33,9 +31,12 @@ Player::Player() {
 	text = "Player" + std::to_string(skinID) + "_Right.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(32, 44);
+	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Shield.png");
+	shield_animation = std::make_shared<SpriteAnimation>(texture, 1, 10, 1, 0.2f);
+	shield_animation->SetSize(45, 45);
 
 	list_animation.push_back(CurrentAnimation);
 
@@ -54,6 +55,7 @@ Player::Player() {
 
 	IsActive = true;
 	Tag = "Player";
+	m_instance = this;
 }
 
 Player::~Player() {
@@ -139,7 +141,7 @@ void Player::Update(float deltatime) {
 	}
 
 	Move(deltatime);
-	spawnPosition = Vector2(m_position.x, m_position.y - 20);
+	spawnPosition = Vector2(m_position.x + 5, m_position.y - 20);
 
 	currentShootTimer += deltatime;
 	if (currentShootTimer >= shootTime) {
@@ -162,7 +164,10 @@ void Player::Update(float deltatime) {
 
 	if (IsShield) {
 		currentShieldTimer += deltatime;
-		if (currentShieldTimer > 10) {
+		shield_animation->Set2DPosition(m_position.x - 5, m_position.y);
+		shield_animation->Update(deltatime);
+
+		if (currentShieldTimer > 10.0f) {
 			IsShield = false;
 			currentShieldTimer = 0.0f;
 		}
@@ -191,6 +196,10 @@ void Player::Draw(SDL_Renderer* renderer) {
 	}
 
 	CurrentAnimation->Draw(renderer);
+
+	if (IsShield) {
+		shield_animation->Draw(renderer);
+	}
 }
 
 void Player::Move(float deltaTime) {
@@ -204,9 +213,22 @@ void Player::Move(float deltaTime) {
 void Player::Shoot() {
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
-			bullet->IsActive = true;
-			bullet->SetSpawnPoint(spawnPosition);
-			break;
+			if (IsDoubleShooting){
+				if (bulletCount < 2) {
+					bullet->IsActive = true;
+					bullet->SetSpawnPoint(spawnPosition + Vector2(bulletCount * 10 - 5.0f, 0));
+					bulletCount++;
+				}
+				else {
+					bulletCount = 0;
+					break;
+				}
+			}
+			else {
+				bullet->IsActive = true;
+				bullet->SetSpawnPoint(spawnPosition);
+				break;
+			}
 		}
 	}
 }

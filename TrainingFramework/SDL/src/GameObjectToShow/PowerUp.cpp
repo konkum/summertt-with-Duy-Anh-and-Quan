@@ -47,7 +47,7 @@ void PowerUp::Update(float deltatime)
 		if (obj->IsActive && obj->Tag == "Player") {
 			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
 				IsActive = false;
-				ChangePlayerAttribute(&(Player&)obj);
+				ChangePlayerAttribute();
 			}
 		}
 	}
@@ -83,14 +83,15 @@ void PowerUp::SetSpawnPoint(Vector2 spawnPoint,int power)
 	
 }
 
-void PowerUp::ChangePlayerAttribute(Player* player)
+void PowerUp::ChangePlayerAttribute()
 {
 	switch (Power)
 	{
 	case POWERUP::Shield:
-		player->IsShield = true;
+		Player::GetPlayer()->IsShield = true;
 		break;
 	case POWERUP::Damage:
+		Player::GetPlayer()->IsDoubleShooting = true;
 		break;
 	default:
 		break;
