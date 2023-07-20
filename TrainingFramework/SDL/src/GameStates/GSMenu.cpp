@@ -13,7 +13,21 @@ GSMenu::~GSMenu()
 {
 }
 
-
+std::string LoadFile() {
+	std::ifstream MyFile("HighScore.txt");
+	std::string text;
+	if (MyFile.fail())
+	{
+		text = "0";
+	}
+	else
+	{
+		while (std::getline(MyFile, text)) {
+		}
+	}
+	MyFile.close();
+	return text;
+}
 
 void GSMenu::Init()
 {
@@ -95,18 +109,7 @@ void GSMenu::Init()
 	m_frameHighScore->SetSize(200, 50);
 	m_frameHighScore->Set2DPosition(SCREEN_WIDTH / 2 - 100, SCREEN_HEIDHT / 2 - 190);
 
-	std::ifstream MyFile("HighScore.txt");
-	std::string text;
-	if (MyFile.fail())
-	{
-		text = "0";
-	}
-	else
-	{
-		while (std::getline(MyFile, text)) {
-		}
-	}
-	MyFile.close();
+	std::string text = LoadFile();
 
 	m_textColor = { 255, 255, 0 };
 	m_textHighScore = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
@@ -133,6 +136,9 @@ void GSMenu::Resume()
 	if (m_Sound->isPlaying) {
 		m_Sound->ResumeSound();
 	}
+
+	std::string text = LoadFile();
+	m_textHighScore->LoadFromRenderText(text);
 }
 
 
