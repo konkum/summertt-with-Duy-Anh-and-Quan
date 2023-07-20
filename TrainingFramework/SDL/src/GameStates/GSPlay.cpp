@@ -101,45 +101,7 @@ void GSPlay::Init()
 
 void GSPlay::Exit()
 {
-	SDL_RWops* file = SDL_RWFromFile("HighScoce.bin", "r+");
-	if (file == NULL)
-	{
-		printf("Warning: Unable to open file! SDL Error: %s\n", SDL_GetError());
-
-		//Create file for writing
-		file = SDL_RWFromFile("HighScoce.bin", "w+");
-		if (file != NULL)
-		{
-			printf("New file created!\n");
-
-			//Initialize data
-			int a  = 0;
-			SDL_RWwrite(file, &a, sizeof(int), 1);
-
-			//Close file handler
-			SDL_RWclose(file);
-		}
-		else
-		{
-			printf("Error: Unable to create file! SDL Error: %s\n", SDL_GetError());
-		}
-	}
-	else
-	{
-		//Load data
-		printf("Reading file...!\n");
-		int a = 1;
-		//SDL_RWwrite(file, &a, sizeof(int), 1);
-		SDL_RWread(file, &a, sizeof(int), 1);
-		if (a  < player->Point) 
-		{
-			a = player->Point;
-			SDL_RWwrite(file, &a, sizeof(int), 1);
-		}
-		
-		//Close file handler
-		SDL_RWclose(file);
-	}
+	
 }
 
 
