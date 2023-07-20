@@ -37,6 +37,7 @@ private:
 	float currentShootTimer = 0.0f;
 public:
 	//Testing
+	std::function<void(void)> onEnemyDeath;
 	static void CreatePath();
 
 	Enemy(int path);

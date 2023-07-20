@@ -9,13 +9,21 @@
 class Player : public Object, virtual public Health
 {
 private:
-	bool isDead = false;
+	std::shared_ptr<SpriteAnimation> shield_animation;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 0.3f;
+	float currentShieldTimer = 0.0f;
 	float currentShootTimer = 0.0f;
 	int& skinID = GSOption::skinID;
 	std::string text = "";
+	static inline Player* m_instance;
+	int bulletCount = 0;
 public:
+	static Player* GetPlayer() {
+		return m_instance;
+	}
+	bool IsShield = false;
+	bool IsDoubleShooting = false;
 	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;
@@ -27,7 +35,7 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 	void Update(float deltatime) override;
 	void Move(float deltaTime) override;
-	void UpdatePlayerPoint();
+	void Heal();
 	void Shoot();
 	void TakeDamage(float damage) override;
 	void Die() override;

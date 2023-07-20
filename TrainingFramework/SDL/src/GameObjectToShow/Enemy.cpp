@@ -38,7 +38,6 @@ void Enemy::Update(float deltatime) {
 	m_position = CurrentAnimation->GetPosition();
 	CurrentAnimation->Update(deltatime);
 
-
 	HandleStates(deltatime);
 	currentTime += deltatime;
 	if (currentTime > 1.0f) {
@@ -84,9 +83,9 @@ void Enemy::Draw(SDL_Renderer* renderer) {
 
 	CurrentAnimation->Draw(renderer);
 
-	for (int i = 0;i < sPaths[mCurrentPath].size() - 1;i++) {
+	/*for (int i = 0;i < sPaths[mCurrentPath].size() - 1;i++) {
 		Renderer::GetInstance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i + 1].x, sPaths[mCurrentPath][i + 1].y);
-	}
+	}*/
 }
 
 void Enemy::DrawBullet(SDL_Renderer* renderer) {
@@ -107,7 +106,9 @@ void Enemy::TakeDamage(float damage) {
 void Enemy::Die() {
 	if (IsActive) {
 		onPlayerPointUpdate();
+		onEnemyDeath();
 		IsActive = false;
+		currentHealth = maxHealth;
 	}
 }
 
@@ -126,6 +127,10 @@ void Enemy::ShootBullet() {
 std::vector<std::vector<Vector2>> Enemy::sPaths;
 
 void Enemy::CreatePath() {
+
+	if (sPaths.size() > 0) {
+		return;
+	}
 
 	int screenMidPoint = SCREEN_WIDTH * 0.5f;
 

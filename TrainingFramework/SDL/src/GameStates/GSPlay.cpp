@@ -12,7 +12,7 @@
 #include <fstream>
 
 std::unique_ptr<Player> player;
-EnemyPool* enemyPool = new EnemyPool();
+EnemyPool* enemyPool = NULL;
 
 GSPlay::GSPlay()
 {
@@ -21,13 +21,20 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
+	delete enemyPool;
+	enemyPool = NULL;
 }
 
 
 void GSPlay::Init()
 {
-	// background
+	enemyPool = new EnemyPool();
+	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_play.png");
+
+
+	// background
+	
 	m_background = std::make_shared<Sprite2D>( texture, SDL_FLIP_NONE);
 	m_background->SetSize(SCREEN_WIDTH, SCREEN_HEIDHT);
 	m_background->Set2DPosition(0, 0);
