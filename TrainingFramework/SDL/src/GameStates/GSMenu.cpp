@@ -1,6 +1,10 @@
 #include "GSMenu.h"
+#include <string>
+#include <iostream>
+#include <fstream>
 
-GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textGameName(nullptr), m_Sound(nullptr)
+GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}),
+m_textGameName(nullptr), m_textHighScore(nullptr), m_Sound(nullptr)
 {
 }
 
@@ -65,14 +69,12 @@ void GSMenu::Init()
 	m_listButton.push_back(btnCredit);
 
 	// game title
-	///Set Font
 	m_textColor = { 255, 255, 0 };
 	m_textGameName = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
 	m_textGameName->SetSize(350, 50);
 	m_textGameName->Set2DPosition((SCREEN_WIDTH - m_textGameName->GetWidth())/2, SCREEN_HEIDHT / 2 - 300);
 	m_textGameName->LoadFromRenderText("Space Guardian");
 
-	//set frame
 	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
 	m_frameGameName = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
 	m_frameGameName->SetSize(400, 100);
@@ -86,6 +88,31 @@ void GSMenu::Init()
 	else {
 		m_Sound->PauseSound();
 	}
+
+	//High Score
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_frameHighScore = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_frameHighScore->SetSize(200, 50);
+	m_frameHighScore->Set2DPosition(SCREEN_WIDTH / 2 - 100, SCREEN_HEIDHT / 2 - 190);
+
+	std::ifstream MyFile("HighScore.txt");
+	std::string text;
+	if (MyFile.fail())
+	{
+		text = "0";
+	}
+	else
+	{
+		while (std::getline(MyFile, text)) {
+		}
+	}
+	MyFile.close();
+
+	m_textColor = { 255, 255, 0 };
+	m_textHighScore = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
+	m_textHighScore->SetSize(25 * text.length(), 50);
+	m_textHighScore->Set2DPosition((SCREEN_WIDTH - m_textHighScore->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 190);
+	m_textHighScore->LoadFromRenderText(text);
 }
 
 void GSMenu::Exit()
@@ -131,7 +158,7 @@ void GSMenu::HandleTouchEvents(SDL_Event& e, bool bIsPressed)
 void GSMenu::HandleMouseMoveEvents(int x, int y)
 {
 }
-float time = 0.0f;
+
 void GSMenu::Update(float deltaTime)
 {
 	time += deltaTime;
@@ -156,4 +183,6 @@ void GSMenu::Draw(SDL_Renderer* renderer)
 	}
 	m_frameGameName->Draw(renderer);
 	m_textGameName->Draw(renderer);
+	m_frameHighScore->Draw(renderer);
+	m_textHighScore->Draw(renderer);
 }

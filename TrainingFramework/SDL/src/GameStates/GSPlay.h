@@ -41,6 +41,7 @@ private:
 	std::vector<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
+	int Highscore;
 	float time = 0.0f;
 	float m_Velocity = 10.0f;
 };

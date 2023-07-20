@@ -26,10 +26,13 @@ public:
 	void	Draw(SDL_Renderer* renderer) override;
 
 private:
+	float time = 0.0f;
 	std::shared_ptr<Sprite2D>				m_background;
 	std::shared_ptr<Sprite2D>				m_frameGameName;
+	std::shared_ptr<Sprite2D>				m_frameHighScore;
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::shared_ptr<Text>					m_textGameName;
+	std::shared_ptr<Text>					m_textHighScore;
 	SDL_Color	m_textColor;
 	TTF_Font*	m_Font;
 	std::shared_ptr<Sound>					m_Sound;

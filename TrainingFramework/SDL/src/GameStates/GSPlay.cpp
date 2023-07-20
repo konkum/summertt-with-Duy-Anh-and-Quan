@@ -96,50 +96,26 @@ void GSPlay::Init()
 		m_textLine->Set2DPosition((350 - m_textLine->GetWidth()), 10);
 		m_textLine->LoadFromRenderText(std::to_string(player->Point));
 	};
+
+	//HighScoreFile
+	std::ifstream MyFile("HighScore.txt");
+	std::string text;
+	while (std::getline(MyFile, text)) {
+		Highscore = stoi(text);
+	}
+	MyFile.close();
 }
 
 
 void GSPlay::Exit()
 {
-	SDL_RWops* file = SDL_RWFromFile("HighScoce.bin", "r+");
-	if (file == NULL)
+	if (Highscore < player->Point)
 	{
-		printf("Warning: Unable to open file! SDL Error: %s\n", SDL_GetError());
-
-		//Create file for writing
-		file = SDL_RWFromFile("HighScoce.bin", "w+");
-		if (file != NULL)
-		{
-			printf("New file created!\n");
-
-			//Initialize data
-			int a  = 0;
-			SDL_RWwrite(file, &a, sizeof(int), 1);
-
-			//Close file handler
-			SDL_RWclose(file);
-		}
-		else
-		{
-			printf("Error: Unable to create file! SDL Error: %s\n", SDL_GetError());
-		}
+		Highscore = player->Point;
 	}
-	else
-	{
-		//Load data
-		printf("Reading file...!\n");
-		int a = 1;
-		//SDL_RWwrite(file, &a, sizeof(int), 1);
-		SDL_RWread(file, &a, sizeof(int), 1);
-		if (a  < player->Point) 
-		{
-			a = player->Point;
-			SDL_RWwrite(file, &a, sizeof(int), 1);
-		}
-		
-		//Close file handler
-		SDL_RWclose(file);
-	}
+	std::ofstream MyFile("HighScore.txt");
+	MyFile << std::to_string(Highscore);
+	MyFile.close();
 }
 
 
