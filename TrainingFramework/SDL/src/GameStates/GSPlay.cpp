@@ -4,10 +4,12 @@
 #include "GameObject/MouseButton.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Camera.h"
-#include <algorithm>
 #include "GameObjectToShow/Player.h"
 #include "GameObjectToShow/EnemyPool.h"
+#include <algorithm>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 std::unique_ptr<Player> player;
 EnemyPool* enemyPool = NULL;
@@ -60,9 +62,7 @@ void GSPlay::Init()
    //Player
 	player = std::make_unique<Player>();
 	player->Init();
-
 	enemyPool->Init();
-	//enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
 
 	//game music
 	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
@@ -85,33 +85,44 @@ void GSPlay::Init()
 	m_health->SetSize(player->HealthCheck()*1.2, 27);
 	m_health->Set2DPosition(25, 20);
 
-	SDL_Color m_textColor = { 255,255,255 };
+	//Player Point
+	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
+	m_scoreBar = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_scoreBar->SetSize(200, 50);
+	m_scoreBar->Set2DPosition(165, 10);
 
+	SDL_Color m_textColor = { 255,255,255 };
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
 	m_textLine->SetSize(25, 50);
-	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT/2 - 50);
+	m_textLine->Set2DPosition((350 - m_textLine->GetWidth()), 10);
 	m_textLine->LoadFromRenderText("0");
 
 	player->onPlayerPointUpdate = [=]() mutable {
 		player->Point += 1;
-		if (player->Point < 10) {
-			m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT / 2 - 50);
-			m_textLine->SetSize(25, 50);
-		}
-		else if (player->Point < 100 && player->Point >=10)
-		{
-			m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()), SCREEN_HEIDHT / 2 - 50);
-			m_textLine->SetSize(50, 50);
-		}
-
+		m_textLine->SetSize(25 * (std::to_string(player->Point).length()), 50);
+		m_textLine->Set2DPosition((350 - m_textLine->GetWidth()), 10);
 		m_textLine->LoadFromRenderText(std::to_string(player->Point));
 	};
+
+	//HighScoreFile
+	std::ifstream MyFile("HighScore.txt");
+	std::string text;
+	while (std::getline(MyFile, text)) {
+		Highscore = stoi(text);
+	}
+	MyFile.close();
 }
 
 
 void GSPlay::Exit()
 {
-	
+	if (Highscore < player->Point)
+	{
+		Highscore = player->Point;
+	}
+	std::ofstream MyFile("HighScore.txt");
+	MyFile << std::to_string(Highscore);
+	MyFile.close();
 }
 
 
@@ -203,6 +214,7 @@ void GSPlay::Draw(SDL_Renderer* renderer)
 
 	m_healthBar->Draw(renderer);
 	m_health->Draw(renderer);
+	m_scoreBar->Draw(renderer);
 	m_textLine->Draw(renderer);
 
 	//m_score->Draw();

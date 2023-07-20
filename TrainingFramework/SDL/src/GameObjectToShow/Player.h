@@ -35,7 +35,7 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 	void Update(float deltatime) override;
 	void Move(float deltaTime) override;
-	void UpdatePlayerPoint();
+	void Heal();
 	void Shoot();
 	void TakeDamage(float damage) override;
 	void Die() override;

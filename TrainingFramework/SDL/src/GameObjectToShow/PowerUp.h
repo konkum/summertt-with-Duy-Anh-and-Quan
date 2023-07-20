@@ -5,6 +5,7 @@ enum class POWERUP : int
 {
 	Shield,
 	Damage,
+	Heal
 };
 
 class PowerUp : public virtual Object

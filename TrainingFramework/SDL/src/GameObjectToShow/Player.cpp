@@ -246,6 +246,10 @@ void Player::Die() {
 	IsActive = false;
 }
 
+void Player::Heal() {
+	currentHealth = maxHealth;
+}
+
 float Player::HealthCheck() {
 	return currentHealth;
 }

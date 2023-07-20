@@ -32,7 +32,7 @@ void PowerUpPool::Update(float deltaTime)
 void PowerUpPool::TakeRandomPowerUp(Vector2 position) {
 	for (auto power : powerups) {
 		if (!power->IsActive) {
-			power->SetSpawnPoint(position, rand() % 2);
+			power->SetSpawnPoint(position, rand() % 3);
 			power->IsActive = true;
 			break;
 		}

@@ -5,7 +5,7 @@ PowerUp::PowerUp()
 {
 	Object::Init();
 	auto texture = ResourceManagers::GetInstance()->GetTexture("Item_Booster.png");
-	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 3, 1, 0.2f);
+	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 5, 1, 0.2f);
 	CurrentAnimation->SetSize(50,50);
 
 	Tag = "PowerUp";
@@ -61,20 +61,23 @@ void PowerUp::SetSpawnPoint(Vector2 spawnPoint,int power)
 {
 	CurrentAnimation->Set2DPosition(spawnPoint);
 	m_position = CurrentAnimation->GetPosition();
-	if (power < 2) {
-		Power = static_cast<POWERUP>(power);
-	}
+	Power = static_cast<POWERUP>(power);
+	
 
 	std::shared_ptr<TextureManager> texture;
 
 	switch (Power)
 	{
 	case POWERUP::Shield:
-		texture = ResourceManagers::GetInstance()->GetTexture("Item_Bullet.png");
+		texture = ResourceManagers::GetInstance()->GetTexture("Item_S.png");
 		CurrentAnimation->SetTexture(texture);
 		break;
 	case POWERUP::Damage:
-		texture = ResourceManagers::GetInstance()->GetTexture("Item_Booster.png");
+		texture = ResourceManagers::GetInstance()->GetTexture("Item_C.png");
+		CurrentAnimation->SetTexture(texture);
+		break;
+	case POWERUP::Heal:
+		texture = ResourceManagers::GetInstance()->GetTexture("Item_H.png");
 		CurrentAnimation->SetTexture(texture);
 		break;
 	default:
@@ -92,6 +95,9 @@ void PowerUp::ChangePlayerAttribute()
 		break;
 	case POWERUP::Damage:
 		Player::GetPlayer()->IsDoubleShooting = true;
+		break;
+	case POWERUP::Heal:
+		Player::GetPlayer()->Heal();
 		break;
 	default:
 		break;
