@@ -30,30 +30,30 @@ void GSPlay::Init()
 {
 	enemyPool = new EnemyPool();
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_play.png");
+	
 
 
 	// background
-	
+	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_play.png");
 	m_background = std::make_shared<Sprite2D>( texture, SDL_FLIP_NONE);
 	m_background->SetSize(SCREEN_WIDTH, SCREEN_HEIDHT);
 	m_background->Set2DPosition(0, 0);
 
 	// button close
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	/*texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	button = std::make_shared<MouseButton>( texture, SDL_FLIP_NONE);
 	button->SetSize(50, 50);
 	button->Set2DPosition(SCREEN_WIDTH - 50, 10);
 	button->SetOnClick([this]() {
 		GameStateMachine::GetInstance()->PopState();
 		});
-	m_listButton.push_back(button);
+	m_listButton.push_back(button);*/
 
 	//button pause
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_pause.tga");
 	button = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	button->SetSize(50, 50);
-	button->Set2DPosition(SCREEN_WIDTH - 105, 10);
+	button->Set2DPosition(SCREEN_WIDTH - 50, 10);
 	button->SetOnClick([this]() {
 		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_PAUSE);
 		});
@@ -179,6 +179,10 @@ void PlayScenario(float deltaTime) {
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
+	if (!player->IsActive)
+	{
+		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_ENDING);
+	}
 	PlayScenario(deltaTime);
 	enemyPool->Update(deltaTime);
 	

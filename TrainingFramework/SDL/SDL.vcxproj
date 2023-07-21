@@ -164,6 +164,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameStates\GSEnding.cpp" />
     <ClCompile Include="src\GameObject\Sfx.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUpPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUp.cpp" />
@@ -197,6 +198,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameStates\GSEnding.h" />
     <ClInclude Include="src\GameObject\Sfx.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUpPool.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUp.h" />
