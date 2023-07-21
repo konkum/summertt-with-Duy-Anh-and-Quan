@@ -9,10 +9,14 @@ PowerUp::PowerUp()
 	CurrentAnimation->SetSize(50,50);
 
 	Tag = "PowerUp";
+	m_buffedSound = std::make_shared<Sfx>("Data/Sounds/Eff_buff.wav");
 }
 
 PowerUp::~PowerUp()
 {
+	if (m_buffedSound->isPlaying) {
+		m_buffedSound->PlaySfx();
+	}
 }
 
 void PowerUp::Init()
@@ -46,6 +50,9 @@ void PowerUp::Update(float deltatime)
 	for (auto obj : object) {
 		if (obj->IsActive && obj->Tag == "Player") {
 			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+				if (m_buffedSound->isPlaying) {
+					m_buffedSound->PlaySfx();
+				}
 				IsActive = false;
 				ChangePlayerAttribute();
 			}

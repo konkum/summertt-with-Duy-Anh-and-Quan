@@ -3,6 +3,7 @@
 #include "GameObject/MouseButton.h"
 #include"GameObject/Text.h"
 #include "GameObject/Sound.h"
+#include "GameObject/Sfx.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/TextureManager.h"
 class GSOption :
@@ -36,5 +37,6 @@ private:
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
 	std::shared_ptr<Sound>					m_Sound;
+	std::shared_ptr<Sfx>					m_Sfx;
 	float time = 0.0f;
 };

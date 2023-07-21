@@ -2,8 +2,8 @@
 
 class Health {
 protected:
-	float maxHealth = 100.0f;
-	float currentHealth = 100.0f;
+	float maxHealth = 30.0f;
+	float currentHealth = 30.0f;
 public:
 	Health() {
 		currentHealth = maxHealth;

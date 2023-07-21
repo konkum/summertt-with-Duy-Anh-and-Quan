@@ -4,7 +4,7 @@
 #include <fstream>
 
 GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}),
-m_textGameName(nullptr), m_textHighScore(nullptr), m_Sound(nullptr)
+m_textGameName(nullptr), m_textHighScore(nullptr), m_textText(nullptr), m_Sound(nullptr)
 {
 }
 
@@ -13,7 +13,21 @@ GSMenu::~GSMenu()
 {
 }
 
-
+std::string LoadFile() {
+	std::ifstream MyFile("HighScore.txt");
+	std::string text;
+	if (MyFile.fail())
+	{
+		text = "0";
+	}
+	else
+	{
+		while (std::getline(MyFile, text)) {
+		}
+	}
+	MyFile.close();
+	return text;
+}
 
 void GSMenu::Init()
 {
@@ -31,7 +45,7 @@ void GSMenu::Init()
 	std::shared_ptr<MouseButton> btnPlay = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	
 	btnPlay->SetSize(150, 150);
-	btnPlay->Set2DPosition((SCREEN_WIDTH - btnPlay->GetWidth())/2, (SCREEN_HEIDHT - btnPlay->GetHeight()) / 2);
+	btnPlay->Set2DPosition((SCREEN_WIDTH - btnPlay->GetWidth())/2, (SCREEN_HEIDHT - btnPlay->GetHeight()) / 2 + 50);
 	btnPlay->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_PLAY);
 		});
@@ -92,26 +106,21 @@ void GSMenu::Init()
 	//High Score
 	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
 	m_frameHighScore = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_frameHighScore->SetSize(200, 50);
-	m_frameHighScore->Set2DPosition(SCREEN_WIDTH / 2 - 100, SCREEN_HEIDHT / 2 - 190);
-
-	std::ifstream MyFile("HighScore.txt");
-	std::string text;
-	if (MyFile.fail())
-	{
-		text = "0";
-	}
-	else
-	{
-		while (std::getline(MyFile, text)) {
-		}
-	}
-	MyFile.close();
+	m_frameHighScore->SetSize(200, 100);
+	m_frameHighScore->Set2DPosition(SCREEN_WIDTH / 2 - 100, SCREEN_HEIDHT / 2 - 180);
 
 	m_textColor = { 255, 255, 0 };
-	m_textHighScore = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
-	m_textHighScore->SetSize(25 * text.length(), 50);
-	m_textHighScore->Set2DPosition((SCREEN_WIDTH - m_textHighScore->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 190);
+	m_textText = std::make_shared<Text>("Data/TitleFont.ttf", m_textColor);
+	m_textText->SetSize(160, 40);
+	m_textText->Set2DPosition((SCREEN_WIDTH - m_textText->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 175);
+	m_textText->LoadFromRenderText("Highscore");
+
+	std::string text = LoadFile();
+
+	m_textColor = { 255, 255, 0 };
+	m_textHighScore = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
+	m_textHighScore->SetSize(20 * text.length(), 40);
+	m_textHighScore->Set2DPosition((SCREEN_WIDTH - m_textHighScore->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 133);
 	m_textHighScore->LoadFromRenderText(text);
 }
 
@@ -133,6 +142,11 @@ void GSMenu::Resume()
 	if (m_Sound->isPlaying) {
 		m_Sound->ResumeSound();
 	}
+
+	std::string text = LoadFile();
+	m_textHighScore->SetSize(20 * text.length(), 40);
+	m_textHighScore->Set2DPosition((SCREEN_WIDTH - m_textHighScore->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 133);
+	m_textHighScore->LoadFromRenderText(text);
 }
 
 
@@ -185,4 +199,5 @@ void GSMenu::Draw(SDL_Renderer* renderer)
 	m_textGameName->Draw(renderer);
 	m_frameHighScore->Draw(renderer);
 	m_textHighScore->Draw(renderer);
+	m_textText->Draw(renderer);
 }

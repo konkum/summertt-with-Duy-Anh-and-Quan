@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "GameObject/Sfx.h"
 
 enum class POWERUP : int
 {
@@ -21,5 +22,6 @@ public:
 	void Update(float deltatime) override;
 	void Move(float deltaTime) override;
 	void SetSpawnPoint(Vector2 spawnPoint,int power);
+	std::shared_ptr<Sfx>		m_buffedSound;
 };
 

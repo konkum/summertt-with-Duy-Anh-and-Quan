@@ -1,11 +1,13 @@
 #include "EnemyScenario.h"
 
-class EnemyScenario1: public virtual EnemyScenario
+class EnemyScenario1: public EnemyScenario
 {
 private:
 	int randomNumber = rand() % 9;
 public:
-	using EnemyScenario::EnemyScenario;
+	EnemyScenario1(EnemyPool* enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) : EnemyScenario(enemy, timeBetweenSpawn, TotalOfSpawn) {
+
+	}
 
 	 void Update(float deltaTime) {
 		mCurrentTime += deltaTime;

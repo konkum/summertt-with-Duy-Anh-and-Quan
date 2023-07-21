@@ -33,6 +33,7 @@ private:
 	std::list<std::shared_ptr<MouseButton>>	m_listButton;
 	std::shared_ptr<Text>					m_textGameName;
 	std::shared_ptr<Text>					m_textHighScore;
+	std::shared_ptr<Text>					m_textText;
 	SDL_Color	m_textColor;
 	TTF_Font*	m_Font;
 	std::shared_ptr<Sound>					m_Sound;

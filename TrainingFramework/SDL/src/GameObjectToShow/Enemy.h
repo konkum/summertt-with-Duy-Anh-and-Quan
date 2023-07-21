@@ -1,3 +1,4 @@
+#include "GameObject/Sfx.h"
 #include "Object.h"
 #include "ObjectPool.h"
 #include "HealthComponent.h"
@@ -35,6 +36,8 @@ private:
 	Vector2 bulletSpawnPoint;
 	float shootTime = 1.0f;
 	float currentShootTimer = 0.0f;
+	std::shared_ptr<Sfx>		m_bulletSound;
+	std::shared_ptr<Sfx>		m_deadSound;
 public:
 	//Testing
 	std::function<void(void)> onEnemyDeath;
