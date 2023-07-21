@@ -201,6 +201,7 @@
     <ClInclude Include="src\GameObjectToShow\EnemyScenario1.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyScenario.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyScenario2.h" />
+    <ClInclude Include="src\GameObjectToShow\Option.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUpPool.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUp.h" />
     <ClInclude Include="src\GameObjectToShow\BezierPath.h" />

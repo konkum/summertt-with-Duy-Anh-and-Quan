@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include "Enemy.h"
+#include "PowerUpPool.h";
 
 class EnemyPool
 {
 private:
-	std::vector<Enemy*> enemies;
+	std::shared_ptr<PowerUpPool> powerUp;
+	std::vector<std::shared_ptr<Enemy>> enemies;
 
 	float RandomFloat(float a, float b) {
 		float random = ((float)rand()) / (float)RAND_MAX;

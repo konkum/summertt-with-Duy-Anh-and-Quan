@@ -3,6 +3,10 @@
 #include "GameObject/MouseButton.h"
 #include "GameObject/Sound.h"
 #include "GSOption.h"
+#include "GameObjectToShow/Player.h"
+#include "GameObjectToShow/EnemyPool.h"
+#include "GameObjectToShow/EnemyScenario2.h"
+
 
 class Sprite2D;
 class SpriteAnimation;
@@ -26,6 +30,7 @@ public:
 	void	HandleMouseMoveEvents(int x, int y) override;
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
+	void PlayScenario(float deltaTime);
 
 private:
 	int scrolling_offset = 0;
@@ -41,6 +46,10 @@ private:
 	std::vector<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
+
+	std::unique_ptr<Player> player;
+	std::shared_ptr<EnemyPool> enemyPool;
+	std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
 	int Highscore;
 	float time = 0.0f;
 	float m_Velocity = 10.0f;

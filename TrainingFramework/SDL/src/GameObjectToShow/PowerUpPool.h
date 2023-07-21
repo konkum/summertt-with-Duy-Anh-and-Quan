@@ -4,7 +4,7 @@
 class PowerUpPool
 {
 private:
-	std::vector<PowerUp*> powerups;
+	std::vector<std::shared_ptr<PowerUp>> powerups;
 public:
 	PowerUpPool();
 	~PowerUpPool();

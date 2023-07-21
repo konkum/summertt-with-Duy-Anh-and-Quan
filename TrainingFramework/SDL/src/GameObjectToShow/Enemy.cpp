@@ -45,9 +45,9 @@ void Enemy::Update(float deltatime) {
 		ShootBullet();
 	}
 
-	for (auto obj : object) {
+	for (auto obj : CollisionDetection::GetInstance()->Objects) {
 		if (obj->Tag == "PlayerBullet" && obj->IsActive) {
-			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+			if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
 				obj->IsActive = false;
 				TakeDamage(1);
 			}
@@ -282,6 +282,8 @@ Enemy::Enemy(int path) {
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
 	m_bulletSound->Volume(10);
+
+	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 void Enemy::HandleStates(float deltaTime) {

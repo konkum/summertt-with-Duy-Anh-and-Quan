@@ -4,18 +4,13 @@
 #include "GameObject/MouseButton.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Camera.h"
-#include "GameObjectToShow/Player.h"
-#include "GameObjectToShow/EnemyPool.h"
 #include <algorithm>
 #include <string>
 #include <iostream>
 #include <fstream>
-//#include "GameObjectToShow/EnemyScenario1.h"
-#include "GameObjectToShow/EnemyScenario2.h"
+#include "GameObjectToShow/CollisionDetection.h"
 
-std::unique_ptr<Player> player;
-EnemyPool* enemyPool = NULL;
-std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
+
 
 GSPlay::GSPlay()
 {
@@ -24,14 +19,12 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
-	delete enemyPool;
-	enemyPool = NULL;
 }
 
 
 void GSPlay::Init()
 {
-	enemyPool = new EnemyPool();
+	enemyPool = std::shared_ptr<EnemyPool>();
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	
 
@@ -126,6 +119,8 @@ void GSPlay::Exit()
 	std::ofstream MyFile("HighScore.txt");
 	MyFile << std::to_string(Highscore);
 	MyFile.close();
+
+	CollisionDetection::GetInstance()->FreeInstance();
 }
 
 
@@ -178,7 +173,7 @@ float RandomFloat(float a, float b) {
 
 float currentTime = 0.0f;
 
-void PlayScenario(float deltaTime) {
+void GSPlay::PlayScenario(float deltaTime) {
 	currentTime += deltaTime;
 	if (currentTime >= 2.0f) {
 		if (RandomFloat(0.0f, 100.0f) > 0.0f) {
@@ -206,7 +201,9 @@ void GSPlay::Update(float deltaTime)
 	{
 		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_ENDING);
 	}
+
 	PlayScenario(deltaTime);
+
 	for (int i = 0;i < m_listScenario.size(); i++) {
 		m_listScenario[i]->Update(deltaTime);
 	}

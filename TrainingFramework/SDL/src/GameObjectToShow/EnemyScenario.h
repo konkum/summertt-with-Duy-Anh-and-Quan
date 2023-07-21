@@ -15,6 +15,10 @@ public:
 		mTotalOfSpawn = TotalOfSpawn;
 		mTimeBetweenSpawn = timeBetweenSpawn;
 	}
+	
+	~EnemyScenario() {
+
+	}
 
 	virtual void Update(float deltaTime) = 0;
 };

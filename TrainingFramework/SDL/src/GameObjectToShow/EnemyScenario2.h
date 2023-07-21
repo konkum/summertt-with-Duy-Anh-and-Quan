@@ -6,6 +6,10 @@ public:
 	EnemyScenario2(EnemyPool* enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) : EnemyScenario(enemy, timeBetweenSpawn, TotalOfSpawn) {
 
 	}
+	
+	~EnemyScenario2() {
+
+	}
 
 	void Update(float deltaTime) {
 		mCurrentTime += deltaTime;

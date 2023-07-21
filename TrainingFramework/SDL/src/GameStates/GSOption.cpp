@@ -112,18 +112,18 @@ void GSOption::Init()
 	obj->Set2DPosition(SCREEN_WIDTH / 2 - 30, SCREEN_HEIDHT / 2 + 160);
 	m_listAnimation.push_back(obj);
 
-	obj = m_listAnimation[skinID];
+	obj = m_listAnimation[Option::skinID];
 
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_blank.tga");
 	std::shared_ptr<MouseButton> btnSkin = std::make_shared<MouseButton>(texture, SDL_FLIP_NONE);
 	btnSkin->SetSize(100, 100);
 	btnSkin->Set2DPosition((SCREEN_WIDTH - btnSkin->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 150);
 	btnSkin-> SetOnClick([=](){
-		skinID++;
-		if (skinID > 2) {
-			skinID = 0;
+		Option::skinID++;
+		if (Option::skinID > 2) {
+			Option::skinID = 0;
 		}
-		obj = m_listAnimation[skinID];
+		obj = m_listAnimation[Option::skinID];
 		});
 	m_listButton.push_back(btnSkin);
 }

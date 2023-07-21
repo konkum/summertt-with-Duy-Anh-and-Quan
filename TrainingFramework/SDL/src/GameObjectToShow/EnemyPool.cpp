@@ -1,29 +1,19 @@
 #include "EnemyPool.h"
-#include "PowerUpPool.h";
-
-PowerUpPool* powerUp;
 
 EnemyPool::EnemyPool() {
 }
 
 EnemyPool::~EnemyPool()
 {
-	delete powerUp;
-	powerUp = NULL;
-
-	for (int i = 0;i < enemies.size();i++) {
-		delete enemies[i];
-		enemies[i] = NULL;
-	}
 }
 
 void EnemyPool::Init() {
 	Enemy::CreatePath();
-	powerUp = new PowerUpPool();
+	powerUp = std::make_shared<PowerUpPool>();
 	powerUp->Init();
 
 	for (int i = 0;i < 10;i++) {
-		Enemy* enemy = new Enemy(rand()%9);
+		std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(rand()%9);
 		enemy->Init();
 		enemy->onEnemyDeath = [=]() mutable {
 			float result = RandomFloat(0.0f, 100.0f);
@@ -61,7 +51,7 @@ void EnemyPool::SetSpawn(int path) {
 		}
 	}
 
-	Enemy* enemy = new Enemy(path);
+	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(path);
 	enemy->Init();
 	enemy->onEnemyDeath = [=]() mutable {
 		float result = RandomFloat(0.0f, 100.0f);

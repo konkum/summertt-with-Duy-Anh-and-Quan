@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "GameManager/ResourceManagers.h"
 #include "Define.h"
+#include "GameManager/ResourceManagers.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -56,6 +56,8 @@ Player::Player() {
 
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
+
+	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 Player::~Player() {
@@ -174,9 +176,9 @@ void Player::Update(float deltatime) {
 		return;
 	}
 
-	for (auto obj : object) {
+	for (auto obj : CollisionDetection::GetInstance()->Objects) {
 		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
-			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+			if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
 				obj->IsActive = false;
 				TakeDamage(1);
 			}

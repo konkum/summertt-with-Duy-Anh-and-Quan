@@ -1,9 +1,7 @@
-#include "GameObject/Sfx.h"
-#include "Object.h"
-#include "ObjectPool.h"
 #include "HealthComponent.h"
 #include "Bullet.h"
-#include "GSOption.h"
+#include "Option.h"
+#include "GameObject/Sfx.h"
 #include <vector>
 
 class Player : public Object, virtual public Health
@@ -14,7 +12,7 @@ private:
 	float shootTime = 0.3f;
 	float currentShieldTimer = 0.0f;
 	float currentShootTimer = 0.0f;
-	int& skinID = GSOption::skinID;
+	int& skinID = Option::skinID;
 	std::string text = "";
 	static inline Player* m_instance;
 	int bulletCount = 0;

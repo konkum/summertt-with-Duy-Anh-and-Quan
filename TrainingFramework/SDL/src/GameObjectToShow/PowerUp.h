@@ -1,5 +1,5 @@
 #pragma once
-#include "Player.h"
+#include "Object.h"
 #include "GameObject/Sfx.h"
 
 enum class POWERUP : int

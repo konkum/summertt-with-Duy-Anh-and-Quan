@@ -9,7 +9,11 @@ public:
 
 	}
 
-	 void Update(float deltaTime) {
+	~EnemyScenario1() {
+
+	}
+
+	 void Update(float deltaTime) override {
 		mCurrentTime += deltaTime;
 		if (mSpawnNumber < mTotalOfSpawn) {
 			if (mCurrentTime > mTimeBetweenSpawn) {
