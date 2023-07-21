@@ -6,14 +6,19 @@ class EnemyPool
 {
 private:
 	std::vector<Enemy*> enemies;
-	Bullet* SpawnBullet();
+
+	float RandomFloat(float a, float b) {
+		float random = ((float)rand()) / (float)RAND_MAX;
+		float diff = b - a;
+		float r = random * diff;
+		return a + r;
+	}
 public:
 	EnemyPool();
 	~EnemyPool();
 	void Update(float deltaTime);
 	void Init();
 	void Draw(SDL_Renderer* renderer);
-	void Shoot(Enemy* enemy, float deltaTime);
-	void SetSpawn(Vector2 location, Vector2 moveDirection);
+	void SetSpawn(int path);
 };
 

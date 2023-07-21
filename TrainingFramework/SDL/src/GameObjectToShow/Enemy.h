@@ -60,6 +60,7 @@ public:
 	void ShootBullet();
 	void UpdateBullet(float deltaTime);
 	void DrawBullet(SDL_Renderer* renderer);
+	void ChangePath(int path);
 };
 
 

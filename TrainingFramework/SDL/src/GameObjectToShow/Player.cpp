@@ -108,11 +108,11 @@ void Player::HandleKeyEvent(SDL_Event& e) {
 	}
 
 	if (m_KeyPress & 1) {
-		CurrentAnimation = list_animation[2];
+		CurrentAnimation = list_animation[1];
 		MoveDirection.x = -1;
 	}
 	else if (m_KeyPress & 4) {
-		CurrentAnimation = list_animation[1];
+		CurrentAnimation = list_animation[2];
 		MoveDirection.x = 1;
 	}
 	else {

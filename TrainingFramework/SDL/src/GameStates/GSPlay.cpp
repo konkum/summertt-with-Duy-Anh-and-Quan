@@ -10,9 +10,11 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "GameObjectToShow/EnemyScenario1.h"
 
 std::unique_ptr<Player> player;
 EnemyPool* enemyPool = NULL;
+std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
 
 GSPlay::GSPlay()
 {
@@ -166,13 +168,24 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
 
+float RandomFloat(float a, float b) {
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}
+
 float currentTime = 0.0f;
 
 void PlayScenario(float deltaTime) {
 	currentTime += deltaTime;
-	if (currentTime > 1.0f) {
-		enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
-		currentTime = 0.0f;
+	if (currentTime >= 10.0f) {
+		std::shared_ptr<EnemyScenario1> enemy = std::make_shared<EnemyScenario1>(enemyPool);
+		enemy->OnSpawnComplete = [=]() mutable {
+			m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
+		};
+		m_listScenario.push_back(enemy);
+		currentTime = 0;
 	}
 }
 
@@ -180,8 +193,12 @@ void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
 	PlayScenario(deltaTime);
+	for (auto scenario : m_listScenario) {
+		scenario->Update(deltaTime);
+	}
+
 	enemyPool->Update(deltaTime);
-	
+
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);

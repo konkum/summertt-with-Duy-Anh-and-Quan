@@ -318,3 +318,7 @@ void Enemy::Reset() {
 	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
 	mCurrentStates = STATES::flyIn;
 }
+
+void Enemy::ChangePath(int path) {
+	mCurrentPath = path;
+}
