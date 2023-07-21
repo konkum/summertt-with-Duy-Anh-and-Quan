@@ -144,6 +144,8 @@ void GSMenu::Resume()
 	}
 
 	std::string text = LoadFile();
+	m_textHighScore->SetSize(20 * text.length(), 40);
+	m_textHighScore->Set2DPosition((SCREEN_WIDTH - m_textHighScore->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 133);
 	m_textHighScore->LoadFromRenderText(text);
 }
 
