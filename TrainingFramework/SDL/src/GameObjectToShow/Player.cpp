@@ -17,7 +17,6 @@ Player::Player() {
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
-
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Left.png";
@@ -25,7 +24,6 @@ Player::Player() {
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
-
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Right.png";
@@ -33,15 +31,14 @@ Player::Player() {
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
 	CurrentAnimation->Set2DPosition(240, 400);
-
-	texture = ResourceManagers::GetInstance()->GetTexture("Shield.png");
-	shield_animation = std::make_shared<SpriteAnimation>(texture, 1, 10, 1, 0.2f);
-	shield_animation->SetSize(45, 45);
-
 	list_animation.push_back(CurrentAnimation);
 
 	CurrentAnimation = list_animation[0];
 	m_position = CurrentAnimation->GetPosition();
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Shield.png");
+	shield_animation = std::make_shared<SpriteAnimation>(texture, 1, 10, 1, 0.2f);
+	shield_animation->SetSize(45, 45);
 
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
@@ -56,6 +53,9 @@ Player::Player() {
 	IsActive = true;
 	Tag = "Player";
 	m_instance = this;
+
+	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
 }
 
 Player::~Player() {
@@ -108,11 +108,11 @@ void Player::HandleKeyEvent(SDL_Event& e) {
 	}
 
 	if (m_KeyPress & 1) {
-		CurrentAnimation = list_animation[2];
+		CurrentAnimation = list_animation[1];
 		MoveDirection.x = -1;
 	}
 	else if (m_KeyPress & 4) {
-		CurrentAnimation = list_animation[1];
+		CurrentAnimation = list_animation[2];
 		MoveDirection.x = 1;
 	}
 	else {
@@ -213,6 +213,10 @@ void Player::Move(float deltaTime) {
 void Player::Shoot() {
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
+			if (m_bulletSound->isPlaying) {
+				m_bulletSound->PlaySfx();
+				m_bulletSound->Volume(10);
+			}
 			if (IsDoubleShooting){
 				if (bulletCount < 2) {
 					bullet->IsActive = true;
@@ -235,6 +239,10 @@ void Player::Shoot() {
 
 void Player::TakeDamage(float damage) {
 	currentHealth -= damage;
+	if (m_deadSound->isPlaying) {
+		m_deadSound->PlaySfx();
+		m_deadSound->Volume(50);
+	}
 
 	if (currentHealth <= 0) {
 		currentHealth = 0;

@@ -1,4 +1,4 @@
-
+#include "GameObject/Sfx.h"
 #include "Object.h"
 #include "ObjectPool.h"
 #include "HealthComponent.h"
@@ -18,6 +18,8 @@ private:
 	std::string text = "";
 	static inline Player* m_instance;
 	int bulletCount = 0;
+	std::shared_ptr<Sfx>		m_bulletSound;
+	std::shared_ptr<Sfx>		m_deadSound;
 public:
 	static Player* GetPlayer() {
 		return m_instance;

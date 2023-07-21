@@ -105,6 +105,10 @@ void Enemy::TakeDamage(float damage) {
 
 void Enemy::Die() {
 	if (IsActive) {
+		if (m_deadSound->isPlaying) {
+			m_deadSound->PlaySfx();
+		}
+		
 		onPlayerPointUpdate();
 		onEnemyDeath();
 		IsActive = false;
@@ -117,6 +121,10 @@ void Enemy::ShootBullet() {
 		if (!bullet->IsActive) {
 			bullet->IsActive = true;
 			bullet->SetSpawnPoint(CurrentAnimation->Get2DPosition());
+			if (m_bulletSound->isPlaying) {
+				m_bulletSound->PlaySfx();
+				m_bulletSound->Volume(10);
+			}
 			break;
 		}
 	}
@@ -241,7 +249,6 @@ void Enemy::CreatePath() {
 	path8->Sample(&sPaths[8]);
 	delete path8;
 
-
 }
 
 Enemy::Enemy(int path) {
@@ -272,6 +279,9 @@ Enemy::Enemy(int path) {
 		bullets.push_back(bullet);
 	}
 	Tag = "Enemy";
+
+	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
 }
 
 void Enemy::HandleStates(float deltaTime) {
