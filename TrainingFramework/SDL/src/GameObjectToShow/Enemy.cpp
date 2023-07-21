@@ -123,7 +123,6 @@ void Enemy::ShootBullet() {
 			bullet->SetSpawnPoint(CurrentAnimation->Get2DPosition());
 			if (m_bulletSound->isPlaying) {
 				m_bulletSound->PlaySfx();
-				m_bulletSound->Volume(10);
 			}
 			break;
 		}
@@ -281,6 +280,7 @@ Enemy::Enemy(int path) {
 	Tag = "Enemy";
 
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
 }
 

@@ -55,7 +55,9 @@ Player::Player() {
 	m_instance = this;
 
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
+	m_deadSound->Volume(50);
 }
 
 Player::~Player() {
@@ -215,7 +217,6 @@ void Player::Shoot() {
 		if (!bullet->IsActive) {
 			if (m_bulletSound->isPlaying) {
 				m_bulletSound->PlaySfx();
-				m_bulletSound->Volume(10);
 			}
 			if (IsDoubleShooting){
 				if (bulletCount < 2) {
@@ -241,7 +242,6 @@ void Player::TakeDamage(float damage) {
 	currentHealth -= damage;
 	if (m_deadSound->isPlaying) {
 		m_deadSound->PlaySfx();
-		m_deadSound->Volume(50);
 	}
 
 	if (currentHealth <= 0) {

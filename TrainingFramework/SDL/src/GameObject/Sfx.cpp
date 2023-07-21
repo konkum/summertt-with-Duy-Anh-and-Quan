@@ -34,10 +34,6 @@ bool Sfx::Init()
 void Sfx::PlaySfx()
 {
     Mix_PlayChannel(-1, m_Chunk, 0);
-    if (Mix_Playing(-1) == 0)
-    {
-        StopSfx();
-    }
 }
 
 void Sfx::LoadSfx(std::string pathMusic)
