@@ -6,11 +6,11 @@ protected:
 	int mTotalOfSpawn = 5;
 	float mCurrentTime = 0.0f;
 	float mTimeBetweenSpawn = 1.0f;
-	EnemyPool* mEnemyPool;
+	std::shared_ptr<EnemyPool> mEnemyPool;
 public:
 	std::function<void(void)> OnSpawnComplete;
 
-	EnemyScenario(EnemyPool* enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) {
+	EnemyScenario(std::shared_ptr<EnemyPool> enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) {
 		mEnemyPool = enemy;
 		mTotalOfSpawn = TotalOfSpawn;
 		mTimeBetweenSpawn = timeBetweenSpawn;

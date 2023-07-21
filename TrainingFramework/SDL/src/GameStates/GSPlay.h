@@ -2,7 +2,7 @@
 #include "GameStateBase.h"
 #include "GameObject/MouseButton.h"
 #include "GameObject/Sound.h"
-#include "GSOption.h"
+//#include "GSOption.h"
 #include "GameObjectToShow/Player.h"
 #include "GameObjectToShow/EnemyPool.h"
 #include "GameObjectToShow/EnemyScenario2.h"
@@ -10,6 +10,7 @@
 
 class Sprite2D;
 class SpriteAnimation;
+class Text;
 
 class GSPlay :
 	public GameStateBase

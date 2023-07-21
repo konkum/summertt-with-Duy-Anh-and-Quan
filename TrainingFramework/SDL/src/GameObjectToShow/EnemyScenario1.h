@@ -5,7 +5,7 @@ class EnemyScenario1: public EnemyScenario
 private:
 	int randomNumber = rand() % 9;
 public:
-	EnemyScenario1(EnemyPool* enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) : EnemyScenario(enemy, timeBetweenSpawn, TotalOfSpawn) {
+	EnemyScenario1(std::shared_ptr<EnemyPool> enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) : EnemyScenario(enemy, timeBetweenSpawn, TotalOfSpawn) {
 
 	}
 

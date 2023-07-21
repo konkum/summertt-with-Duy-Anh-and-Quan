@@ -1,5 +1,5 @@
 #include "GSEnding.h"
-
+#include "GameObjectToShow/Player.h"
 GSEnding::GSEnding() : GameStateBase(StateType::STATE_PAUSE), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textEnding(nullptr), m_Sound(nullptr)
 {
 }
