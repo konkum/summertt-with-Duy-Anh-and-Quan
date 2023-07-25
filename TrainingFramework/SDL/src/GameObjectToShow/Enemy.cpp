@@ -49,7 +49,6 @@ void Enemy::UpdateBullet(float deltaTime) {
 }
 
 void Enemy::Move(float deltaTime) {
-	
 	CurrentAnimation->Set2DPosition(m_position.x + MoveDirection.x, m_position.y + MoveDirection.y);
 }
 
@@ -237,6 +236,16 @@ Enemy::Enemy(int path) {
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(30, 30);
 	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
+	m_listAnimation.push_back(CurrentAnimation);
+
+	tex = ResourceManagers::GetInstance()->GetTexture("Enemies_BY.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, 4, 1, 0.2f);
+	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	CurrentAnimation->SetSize(30, 30);
+	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
+	m_listAnimation.push_back(CurrentAnimation);
+
+	CurrentAnimation = m_listAnimation[0];
 
 	mCurrentStates = STATES::flyIn;
 
@@ -316,4 +325,9 @@ void Enemy::ChangePath(int path) {
 void Enemy::ChangeHealth(int health)
 {
 	maxHealth = health;
+}
+
+void Enemy::ChangeEnemy(int enemyType)
+{
+	CurrentAnimation = m_listAnimation[enemyType];
 }

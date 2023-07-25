@@ -36,6 +36,7 @@ private:
 	Vector2 bulletSpawnPoint;
 	float shootTime = 1.0f;
 	float currentShootTimer = 0.0f;
+	std::vector<std::shared_ptr<SpriteAnimation>> m_listAnimation;
 	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
 public:
@@ -64,6 +65,7 @@ public:
 	void DrawBullet(SDL_Renderer* renderer);
 	void ChangePath(int path);
 	void ChangeHealth(int health);
+	void ChangeEnemy(int enemyType);
 };
 
 

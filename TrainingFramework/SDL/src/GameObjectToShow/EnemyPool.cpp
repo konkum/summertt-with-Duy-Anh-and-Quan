@@ -48,6 +48,7 @@ void EnemyPool::SetSpawn(int path) {
 			enemy->IsActive = true;
 			enemy->ChangePath(path);
 			enemy->ChangeHealth(Health);
+			enemy->ChangeEnemy(rand() % 2);
 			enemy->Reset();
 			return;
 		}
@@ -64,6 +65,7 @@ void EnemyPool::SetSpawn(int path) {
 	enemies.push_back(enemy);
 	enemy->IsActive = true;
 	enemy->ChangeHealth(Health);
+	enemy->ChangeEnemy(rand() % 2);
 	enemy->Reset();
 }
 

@@ -100,7 +100,7 @@ void PowerUp::ChangePlayerAttribute()
 	switch (Power)
 	{
 	case POWERUP::Shield:
-		Player::GetPlayer()->IsShield = true;
+		Player::GetPlayer()->CurrentShieldTimer += 5;
 		break;
 	case POWERUP::Damage:
 		Player::GetPlayer()->NumberOfProjectile += 1;

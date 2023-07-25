@@ -10,7 +10,6 @@ private:
 	std::shared_ptr<SpriteAnimation> shield_animation;
 	Vector2 bulletSpawnPoint;
 	float shootTime = 0.3f;
-	float currentShieldTimer = 0.0f;
 	float currentShootTimer = 0.0f;
 	int& skinID = Option::skinID;
 	std::string text = "";
@@ -22,7 +21,7 @@ public:
 	static Player* GetPlayer() {
 		return m_instance;
 	}
-	bool IsShield = false;
+	float CurrentShieldTimer = 0.0f;
 	int NumberOfProjectile = 1;
 	int Point = 0;
 	int m_KeyPress = 0;

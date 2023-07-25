@@ -168,15 +168,11 @@ void Player::Update(float deltatime) {
 		anim->Update(deltatime);
 	}
 
-	if (IsShield) {
-		currentShieldTimer += deltatime;
+	if (CurrentShieldTimer > 0) {
+		CurrentShieldTimer -= deltatime;
 		shield_animation->Set2DPosition(m_position.x - 5, m_position.y);
 		shield_animation->Update(deltatime);
 
-		if (currentShieldTimer > 10.0f) {
-			IsShield = false;
-			currentShieldTimer = 0.0f;
-		}
 		return;
 	}
 
@@ -211,11 +207,9 @@ void Player::Draw(SDL_Renderer* renderer) {
 
 	CurrentAnimation->Draw(renderer);
 
-	if (IsShield) {
+	if (CurrentShieldTimer > 0) {
 		shield_animation->Draw(renderer);
 	}
-
-	Renderer::GetInstance()->DrawRect(Collider);
 }
 
 void Player::Move(float deltaTime) {
