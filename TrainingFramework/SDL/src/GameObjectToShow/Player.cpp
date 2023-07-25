@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "CollisionDetection.h"
+#include <math.h>
 
 //std::vector<std::shared_ptr<SpriteAnimation>> Player::list_animation;
 
@@ -40,7 +41,7 @@ Player::Player() {
 
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
-	for (int i = 0;i < 20;i++) {
+	for (int i = 0;i < 100;i++) {
 		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Player.png", Vector2(16, 30), 4);
 		bullet->SetSpawnPoint(spawnPosition);
 		bullet->Tag = "PlayerBullet";
@@ -216,26 +217,84 @@ void Player::Move(float deltaTime) {
 }
 
 void Player::Shoot() {
+	float angleStep;
+	if (NumberOfProjectile < 4) {
+		angleStep = (15.0f + 15.0f * (NumberOfProjectile - 1)) / NumberOfProjectile;
+	}
+	else {
+		angleStep = 60.0f / NumberOfProjectile;
+	}
+	float angle = 0.0f;
+	int bulletCount = 0;
+
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
 			if (m_bulletSound->isPlaying) {
 				m_bulletSound->PlaySfx();
 				m_bulletSound->Volume(10);
 			}
-			if (IsDoubleShooting){
-				if (bulletCount < 2) {
+
+			if (bulletCount < NumberOfProjectile) {
+				if (NumberOfProjectile % 2 == 0) {
 					bullet->IsActive = true;
-					bullet->SetSpawnPoint(spawnPosition + Vector2(bulletCount * 10 - 5.0f, 0));
+
+					float projectileDirXPosition;
+					float projectileDirYPosition;
+
+					if (bulletCount % 2 == 0) {
+						angle += angleStep;
+					}
+
+					if (bulletCount % 2 == 0) {
+						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(-angle);
+					}
+					else {
+						projectileDirXPosition = spawnPosition.x + sin(((0 - angle) * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos(((0 - angle) * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(angle);
+					}
+
+					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
+
+					bullet->SetSpawnPoint(spawnPosition);
+					bullet->MoveDirection = projectileMoveDirection;
+
 					bulletCount++;
 				}
 				else {
-					bulletCount = 0;
-					break;
+					bullet->IsActive = true;
+
+					float projectileDirXPosition;
+					float projectileDirYPosition;
+
+					if (bulletCount % 2 == 0) {
+						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(-angle);
+					}
+					else {
+						projectileDirXPosition = spawnPosition.x + sin(((360 - angle) * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos(((360 - angle) * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(angle);
+					}
+
+					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
+
+					bullet->SetSpawnPoint(spawnPosition);
+					bullet->MoveDirection = projectileMoveDirection;
+
+					if (bulletCount % 2 == 0) {
+						angle += angleStep;
+					}
+
+					bulletCount++;
 				}
 			}
 			else {
-				bullet->IsActive = true;
-				bullet->SetSpawnPoint(spawnPosition);
 				break;
 			}
 		}

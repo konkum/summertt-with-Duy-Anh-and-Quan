@@ -25,7 +25,7 @@ void Bullet::Update(float deltatime) {
 
 void Bullet::Move(float deltaTime) {
 	m_position = CurrentAnimation->GetPosition();
-	CurrentAnimation->Set2DPosition(m_position.x, m_position.y - MoveDirection * deltaTime * m_Velocity);
+	CurrentAnimation->Set2DPosition(m_position.x - MoveDirection.x * deltaTime * m_Velocity, m_position.y - MoveDirection.y * deltaTime * m_Velocity);
 	CurrentAnimation->Update(deltaTime);
 }
 

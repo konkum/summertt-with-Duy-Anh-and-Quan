@@ -103,7 +103,7 @@ void PowerUp::ChangePlayerAttribute()
 		Player::GetPlayer()->IsShield = true;
 		break;
 	case POWERUP::Damage:
-		Player::GetPlayer()->IsDoubleShooting = true;
+		Player::GetPlayer()->NumberOfProjectile += 1;
 		break;
 	case POWERUP::Heal:
 		Player::GetPlayer()->Heal();

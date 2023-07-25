@@ -15,7 +15,6 @@ private:
 	int& skinID = Option::skinID;
 	std::string text = "";
 	static inline Player* m_instance;
-	int bulletCount = 0;
 	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
 	Vector2 spawnPosition;
@@ -24,7 +23,7 @@ public:
 		return m_instance;
 	}
 	bool IsShield = false;
-	bool IsDoubleShooting = false;
+	int NumberOfProjectile = 1;
 	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;

@@ -5,7 +5,7 @@
 class Bullet: public Object
 {
 public:
-	int MoveDirection = 1;
+	Vector2 MoveDirection = Vector2(0, 1);
 	Bullet(const char* textureName, Vector2 size, int frameCount);
 	~Bullet();
 	void Init() override;

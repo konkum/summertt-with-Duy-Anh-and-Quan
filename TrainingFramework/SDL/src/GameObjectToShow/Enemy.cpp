@@ -250,7 +250,7 @@ Enemy::Enemy(int path) {
 
 	for (int i = 0;i < 20;i++) {
 		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Enemy.png", Vector2(30, 30), 3);
-		bullet->MoveDirection = -1;
+		bullet->MoveDirection = Vector2(0, -1);
 		bullet->Tag = "EnemyBullet";
 		bullets.push_back(bullet);
 	}
