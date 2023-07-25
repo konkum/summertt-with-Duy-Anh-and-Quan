@@ -95,7 +95,7 @@ void GSMenu::Init()
 	m_frameGameName->Set2DPosition(SCREEN_WIDTH / 2 - 200, SCREEN_HEIDHT / 2 - 320);
 
 	//Game music
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 	}

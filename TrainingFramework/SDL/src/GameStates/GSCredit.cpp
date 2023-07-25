@@ -55,7 +55,7 @@ void GSCredit::Init()
 	m_textLine->LoadFromRenderText("Quân");
 	m_listText.push_back(m_textLine);
 
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 	}

@@ -45,7 +45,7 @@ void GSEnding::Init()
 
 
 	//game music
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 		m_Sound->Volume(MIX_MAX_VOLUME);

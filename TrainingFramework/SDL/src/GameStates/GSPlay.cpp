@@ -61,8 +61,8 @@ void GSPlay::Init()
 	enemyPool->Init();
 
 	//game music
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
-	m_Sound->Volume(60);
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
+	m_Sound->Volume(20);
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 	}
