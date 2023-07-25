@@ -266,6 +266,7 @@ Enemy::Enemy(int path) {
 	Tag = "Enemy";
 
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
 	m_bulletSound->Volume(10);
 
