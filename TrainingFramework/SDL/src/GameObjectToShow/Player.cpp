@@ -7,8 +7,6 @@
 #include "CollisionDetection.h"
 
 //std::vector<std::shared_ptr<SpriteAnimation>> Player::list_animation;
-std::vector<Bullet*> bullets;
-Vector2 spawnPosition;
 
 Player::Player() {
 	Object::Init();
@@ -43,7 +41,7 @@ Player::Player() {
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
 	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Projectile_Player.png", Vector2(16, 30), 4);
+		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Player.png", Vector2(16, 30), 4);
 		bullet->SetSpawnPoint(spawnPosition);
 		bullet->Tag = "PlayerBullet";
 		bullet->SetVelocity(500.0f);
@@ -137,7 +135,12 @@ void Player::Init() {
 }
 
 void Player::Update(float deltatime) {
-	Object::Update(deltatime);
+
+	Collider.x = static_cast<int>(m_position.x);
+	Collider.y = static_cast<int>(m_position.y);
+	Collider.w = CurrentAnimation->GetWidth() - 10;
+	Collider.h = CurrentAnimation->GetHeight() - 10;
+
 	if (!IsActive) {
 		return;
 	}

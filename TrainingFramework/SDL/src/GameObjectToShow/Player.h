@@ -18,6 +18,7 @@ private:
 	int bulletCount = 0;
 	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
+	Vector2 spawnPosition;
 public:
 	static Player* GetPlayer() {
 		return m_instance;
@@ -27,6 +28,7 @@ public:
 	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;
+	std::vector<std::shared_ptr<Bullet>> bullets;
 	Player();
 	~Player();
 	void HandleEvent(SDL_Event& e);

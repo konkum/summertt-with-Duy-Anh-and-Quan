@@ -3,28 +3,6 @@
 #include "BezierPath.h"
 #include "CollisionDetection.h"
 
-Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
-	Object::Init();
-	auto tex = ResourceManagers::GetInstance()->GetTexture(texture);
-
-	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, animFrame, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(sizeW, sizeH);
-
-	m_position = CurrentAnimation->GetPosition();
-	
-	maxHealth = 3.0f;
-	currentHealth = 3.0f;
-
-	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Enemy/Projectile_Enemy.png", Vector2(30, 30), 3);
-		bullet->MoveDirection = -1;
-		bullet->Tag = "EnemyBullet";
-		bullets.push_back(bullet);
-	}
-	Tag = "Enemy";
-}
-
 void Enemy::Init() {
 }
 
@@ -112,7 +90,6 @@ void Enemy::Die() {
 		onPlayerPointUpdate();
 		onEnemyDeath();
 		IsActive = false;
-		currentHealth = maxHealth;
 	}
 }
 
@@ -272,7 +249,7 @@ Enemy::Enemy(int path) {
 	currentHealth = 3.0f;
 
 	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Projectile_Enemy.png", Vector2(30, 30), 3);
+		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Enemy.png", Vector2(30, 30), 3);
 		bullet->MoveDirection = -1;
 		bullet->Tag = "EnemyBullet";
 		bullets.push_back(bullet);
@@ -326,6 +303,7 @@ void Enemy::HandleFormationState(float deltaTime) {
 }
 
 void Enemy::Reset() {
+	currentHealth = maxHealth;
 	mCurrentWayPoint = 0;
 	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
 	mCurrentStates = STATES::flyIn;
@@ -333,4 +311,9 @@ void Enemy::Reset() {
 
 void Enemy::ChangePath(int path) {
 	mCurrentPath = path;
+}
+
+void Enemy::ChangeHealth(int health)
+{
+	maxHealth = health;
 }

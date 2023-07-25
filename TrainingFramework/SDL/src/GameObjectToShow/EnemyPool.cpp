@@ -5,6 +5,7 @@ EnemyPool::EnemyPool() {
 
 EnemyPool::~EnemyPool()
 {
+	enemies.clear();
 }
 
 void EnemyPool::Init() {
@@ -46,6 +47,7 @@ void EnemyPool::SetSpawn(int path) {
 		if (!enemy->IsActive) {
 			enemy->IsActive = true;
 			enemy->ChangePath(path);
+			enemy->ChangeHealth(Health);
 			enemy->Reset();
 			return;
 		}
@@ -61,6 +63,9 @@ void EnemyPool::SetSpawn(int path) {
 	};
 	enemies.push_back(enemy);
 	enemy->IsActive = true;
+	enemy->ChangeHealth(Health);
 	enemy->Reset();
 }
+
+
 		

@@ -16,6 +16,7 @@ private:
 		return a + r;
 	}
 public:
+	int Health = 3;
 	EnemyPool();
 	~EnemyPool();
 	void Update(float deltaTime);

@@ -34,6 +34,9 @@ public:
 	void PlayScenario(float deltaTime);
 
 private:
+	float currentTime = 0.0f;
+	int currentDifficulty = 0;
+	int spawnAmount = 0;
 	int scrolling_offset = 0;
 	SDL_Event e;
 	std::shared_ptr<Sprite2D>	m_background;

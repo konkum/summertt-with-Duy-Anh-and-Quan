@@ -78,7 +78,7 @@ void GSPlay::Init()
 
 	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
 	m_health = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_health->SetSize(player->HealthCheck()*1.2, 27);
+	m_health->SetSize(player->HealthCheck() * 4, 27);
 	m_health->Set2DPosition(25, 20);
 
 	//Player Point
@@ -171,24 +171,29 @@ float RandomFloat(float a, float b) {
 	return a + r;
 }
 
-float currentTime = 0.0f;
-
 void GSPlay::PlayScenario(float deltaTime) {
 	currentTime += deltaTime;
-	if (currentTime >= 2.0f) {
+	float currentTimeDelay = 7.0f - currentDifficulty;
+	if (currentTime >= currentTimeDelay) {
 		if (RandomFloat(0.0f, 100.0f) > 30.0f) {
-			std::shared_ptr<EnemyScenario> enemy = std::make_shared<EnemyScenario1>(enemyPool);
+			std::shared_ptr<EnemyScenario> enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
 			enemy->OnSpawnComplete = [=]() mutable {
 				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
 			};
 			m_listScenario.push_back(enemy);
 		}
 		else {
-			std::shared_ptr<EnemyScenario> enemy1 = std::make_shared<EnemyScenario2>(enemyPool);
+			std::shared_ptr<EnemyScenario> enemy1 = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
 			enemy1->OnSpawnComplete = [=]() mutable {
 				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy1), m_listScenario.end());
 			};
 			m_listScenario.push_back(enemy1);
+		}
+		spawnAmount++;
+		if (spawnAmount >= 5) {
+			spawnAmount = 0;
+			enemyPool->Health += 1;
+			currentDifficulty++;
 		}
 		currentTime = 0;
 	}
@@ -221,7 +226,7 @@ void GSPlay::Update(float deltaTime)
 	}
 
 	//m_health->Update(deltaTime);
-	m_health->SetSize(player->HealthCheck() * 1.2, 27);
+	m_health->SetSize(player->HealthCheck() * 4, 27);
 	
 
 

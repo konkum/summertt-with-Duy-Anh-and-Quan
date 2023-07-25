@@ -52,10 +52,9 @@ public:
 
 	//Working
 
-	std::vector<Bullet*> bullets;
+	std::vector<std::shared_ptr<Bullet>> bullets;
 	void TakeDamage(float damage) override;
 	void Die() override;
-	Enemy(const char* texture, int sizeW,int sizeH,int animFrame);
 	void Init() override;
 	void Draw(SDL_Renderer* renderer) override;
 	virtual void Update(float deltatime) override;
@@ -64,6 +63,7 @@ public:
 	void UpdateBullet(float deltaTime);
 	void DrawBullet(SDL_Renderer* renderer);
 	void ChangePath(int path);
+	void ChangeHealth(int health);
 };
 
 
