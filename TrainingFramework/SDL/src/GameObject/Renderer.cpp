@@ -140,3 +140,10 @@ void Renderer::DrawLine(float startX, float startY, float endX, float endY) {
 	SDL_RenderDrawLine(gRenderer, startX, startY, endX, endY);
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 }
+
+void Renderer::DrawRect(SDL_Rect rect)
+{
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawRect(gRenderer, &rect);
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+}

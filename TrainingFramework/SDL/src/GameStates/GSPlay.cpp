@@ -1,18 +1,16 @@
 #include "GSPlay.h"
 #include "GameObject/TextureManager.h"
 #include "GameObject/Sprite2D.h"
-#include "GameObject/MouseButton.h"
+//#include "GameObject/MouseButton.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/Camera.h"
-#include "GameObjectToShow/Player.h"
-#include "GameObjectToShow/EnemyPool.h"
 #include <algorithm>
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "GameObjectToShow/CollisionDetection.h"
+#include "Text.h"
 
-std::unique_ptr<Player> player;
-EnemyPool* enemyPool = NULL;
 
 GSPlay::GSPlay()
 {
@@ -21,14 +19,12 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
-	delete enemyPool;
-	enemyPool = NULL;
 }
 
 
 void GSPlay::Init()
 {
-	enemyPool = new EnemyPool();
+	enemyPool = std::make_shared<EnemyPool>();
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	
 
@@ -65,8 +61,8 @@ void GSPlay::Init()
 	enemyPool->Init();
 
 	//game music
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
-	m_Sound->Volume(60);
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
+	m_Sound->Volume(20);
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 	}
@@ -82,7 +78,7 @@ void GSPlay::Init()
 
 	texture = ResourceManagers::GetInstance()->GetTexture("Health.png");
 	m_health = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
-	m_health->SetSize(player->HealthCheck()*1.2, 27);
+	m_health->SetSize(player->HealthCheck() * 4, 27);
 	m_health->Set2DPosition(25, 20);
 
 	//Player Point
@@ -123,6 +119,8 @@ void GSPlay::Exit()
 	std::ofstream MyFile("HighScore.txt");
 	MyFile << std::to_string(Highscore);
 	MyFile.close();
+
+	CollisionDetection::GetInstance()->FreeInstance();
 }
 
 
@@ -166,13 +164,41 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
 
-float currentTime = 0.0f;
+float RandomFloat(float a, float b) {
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}
 
-void PlayScenario(float deltaTime) {
+void GSPlay::PlayScenario(float deltaTime) {
 	currentTime += deltaTime;
-	if (currentTime > 1.0f) {
-		enemyPool->SetSpawn(Vector2(200, 300), Vector2(1, 0.5f));
-		currentTime = 0.0f;
+	float currentTimeDelay = 7.0f - currentDifficulty ;
+	if (currentTime >= currentTimeDelay) {
+		if (RandomFloat(0.0f, 100.0f) > 30.0f) {
+			std::shared_ptr<EnemyScenario> enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
+			enemy->OnSpawnComplete = [=]() mutable {
+				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
+			};
+			m_listScenario.push_back(enemy);
+		}
+		else {
+			std::shared_ptr<EnemyScenario> enemy1 = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
+			enemy1->OnSpawnComplete = [=]() mutable {
+				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy1), m_listScenario.end());
+			};
+			m_listScenario.push_back(enemy1);
+		}
+		spawnAmount++;
+		if (spawnAmount >= 5) {
+			spawnAmount = 0;
+			enemyPool->Health += 1;
+			currentDifficulty++;
+			if (currentDifficulty >= 4) {
+				currentDifficulty = 4;
+			}
+		}
+		currentTime = 0;
 	}
 }
 
@@ -183,9 +209,15 @@ void GSPlay::Update(float deltaTime)
 	{
 		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_ENDING);
 	}
+
 	PlayScenario(deltaTime);
+
+	for (int i = 0;i < m_listScenario.size(); i++) {
+		m_listScenario[i]->Update(deltaTime);
+	}
+
 	enemyPool->Update(deltaTime);
-	
+
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
@@ -197,7 +229,7 @@ void GSPlay::Update(float deltaTime)
 	}
 
 	//m_health->Update(deltaTime);
-	m_health->SetSize(player->HealthCheck() * 1.2, 27);
+	m_health->SetSize(player->HealthCheck() * 4, 27);
 	
 
 

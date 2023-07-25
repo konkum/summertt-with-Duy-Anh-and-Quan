@@ -1,9 +1,14 @@
 #pragma once
 #include "Object.h"
-class CollisionDetection
+#include "Singleton.h"
+class CollisionDetection: public CSingleton<CollisionDetection>
 {
 public:
-	static bool AABB(const SDL_Rect& recA, const SDL_Rect& recB);
-	static bool AABB(const Object& colA, const Object& colB);
+	std::vector<Object*> Objects;
+	~CollisionDetection() {
+		Objects.clear();
+	}
+	bool AABB(const SDL_Rect& recA, const SDL_Rect& recB);
+	bool AABB(const Object& colA, const Object& colB);
 };
 

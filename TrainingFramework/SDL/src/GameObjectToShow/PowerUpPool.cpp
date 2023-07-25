@@ -7,16 +7,12 @@ PowerUpPool::PowerUpPool()
 
 PowerUpPool::~PowerUpPool()
 {
-	for (int i = 0;i < powerups.size();i++) {
-		delete powerups[i];
-		powerups[i] = NULL;
-	}
 }
 
 void PowerUpPool::Init()
 {
 	for (int i = 0;i < 10;i++) {
-		PowerUp* pu = new PowerUp();
+		std::shared_ptr<PowerUp> pu = std::make_shared<PowerUp>();
 		pu->Init();
 		powerups.push_back(pu);
 	}

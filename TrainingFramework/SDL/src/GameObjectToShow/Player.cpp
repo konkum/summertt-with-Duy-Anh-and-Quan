@@ -1,14 +1,13 @@
 #include "Player.h"
-#include "GameManager/ResourceManagers.h"
 #include "Define.h"
+#include "GameManager/ResourceManagers.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
 #include "CollisionDetection.h"
+#include <math.h>
 
 //std::vector<std::shared_ptr<SpriteAnimation>> Player::list_animation;
-std::vector<Bullet*> bullets;
-Vector2 spawnPosition;
 
 Player::Player() {
 	Object::Init();
@@ -16,21 +15,21 @@ Player::Player() {
 	auto texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Left.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Right.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	CurrentAnimation = list_animation[0];
@@ -42,8 +41,8 @@ Player::Player() {
 
 	spawnPosition = Vector2(m_position.x, m_position.y - 20);
 
-	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Projectile_Player.png", Vector2(16, 30), 4);
+	for (int i = 0;i < 100;i++) {
+		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Player.png", Vector2(16, 30), 4);
 		bullet->SetSpawnPoint(spawnPosition);
 		bullet->Tag = "PlayerBullet";
 		bullet->SetVelocity(500.0f);
@@ -55,9 +54,9 @@ Player::Player() {
 	m_instance = this;
 
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
-	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
-	m_deadSound->Volume(50);
+
+	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 Player::~Player() {
@@ -137,7 +136,12 @@ void Player::Init() {
 }
 
 void Player::Update(float deltatime) {
-	Object::Update(deltatime);
+
+	Collider.x = static_cast<int>(m_position.x) + 10;
+	Collider.y = static_cast<int>(m_position.y) + 5;
+	Collider.w = CurrentAnimation->GetWidth() - 20;
+	Collider.h = CurrentAnimation->GetHeight() - 20;
+
 	if (!IsActive) {
 		return;
 	}
@@ -176,11 +180,19 @@ void Player::Update(float deltatime) {
 		return;
 	}
 
-	for (auto obj : object) {
-		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
-			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
-				obj->IsActive = false;
-				TakeDamage(1);
+	for (auto obj : CollisionDetection::GetInstance()->Objects) {
+		if (obj->IsActive) {
+			if (obj->Tag == "EnemyBullet") {
+				if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
+					obj->IsActive = false;
+					TakeDamage(1);
+				}
+			}
+			else if (obj->Tag == "Enemy") {
+				if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
+					obj->IsActive = false;
+					TakeDamage(5);
+				}
 			}
 		}
 	}
@@ -202,6 +214,8 @@ void Player::Draw(SDL_Renderer* renderer) {
 	if (IsShield) {
 		shield_animation->Draw(renderer);
 	}
+
+	Renderer::GetInstance()->DrawRect(Collider);
 }
 
 void Player::Move(float deltaTime) {
@@ -213,25 +227,84 @@ void Player::Move(float deltaTime) {
 }
 
 void Player::Shoot() {
+	float angleStep;
+	if (NumberOfProjectile < 4) {
+		angleStep = (15.0f + 15.0f * (NumberOfProjectile - 1)) / NumberOfProjectile;
+	}
+	else {
+		angleStep = 60.0f / NumberOfProjectile;
+	}
+	float angle = 0.0f;
+	int bulletCount = 0;
+
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
 			if (m_bulletSound->isPlaying) {
 				m_bulletSound->PlaySfx();
+				m_bulletSound->Volume(10);
 			}
-			if (IsDoubleShooting){
-				if (bulletCount < 2) {
+
+			if (bulletCount < NumberOfProjectile) {
+				if (NumberOfProjectile % 2 == 0) {
 					bullet->IsActive = true;
-					bullet->SetSpawnPoint(spawnPosition + Vector2(bulletCount * 10 - 5.0f, 0));
+
+					float projectileDirXPosition;
+					float projectileDirYPosition;
+
+					if (bulletCount % 2 == 0) {
+						angle += angleStep;
+					}
+
+					if (bulletCount % 2 == 0) {
+						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(-angle);
+					}
+					else {
+						projectileDirXPosition = spawnPosition.x + sin(((0 - angle) * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos(((0 - angle) * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(angle);
+					}
+
+					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
+
+					bullet->SetSpawnPoint(spawnPosition);
+					bullet->MoveDirection = projectileMoveDirection;
+
 					bulletCount++;
 				}
 				else {
-					bulletCount = 0;
-					break;
+					bullet->IsActive = true;
+
+					float projectileDirXPosition;
+					float projectileDirYPosition;
+
+					if (bulletCount % 2 == 0) {
+						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(-angle);
+					}
+					else {
+						projectileDirXPosition = spawnPosition.x + sin(((360 - angle) * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos(((360 - angle) * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(angle);
+					}
+
+					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
+
+					bullet->SetSpawnPoint(spawnPosition);
+					bullet->MoveDirection = projectileMoveDirection;
+
+					if (bulletCount % 2 == 0) {
+						angle += angleStep;
+					}
+
+					bulletCount++;
 				}
 			}
 			else {
-				bullet->IsActive = true;
-				bullet->SetSpawnPoint(spawnPosition);
 				break;
 			}
 		}
@@ -242,6 +315,7 @@ void Player::TakeDamage(float damage) {
 	currentHealth -= damage;
 	if (m_deadSound->isPlaying) {
 		m_deadSound->PlaySfx();
+		m_deadSound->Volume(50);
 	}
 
 	if (currentHealth <= 0) {

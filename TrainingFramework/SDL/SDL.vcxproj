@@ -164,8 +164,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\GameStates\GSEnding.cpp" />
-    <ClCompile Include="src\GameObject\Sfx.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUpPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUp.cpp" />
     <ClCompile Include="src\GameObjectToShow\BezierPath.cpp" />
@@ -181,6 +179,7 @@
     <ClCompile Include="src\GameObject\Dot.cpp" />
     <ClCompile Include="src\GameObject\MouseButton.cpp" />
     <ClCompile Include="src\GameObject\Renderer.cpp" />
+    <ClCompile Include="src\GameObject\Sfx.cpp" />
     <ClCompile Include="src\GameObject\Sound.cpp" />
     <ClCompile Include="src\GameObject\Sprite2D.cpp" />
     <ClCompile Include="src\GameObject\SpriteAnimation.cpp" />
@@ -190,6 +189,7 @@
     <ClCompile Include="src\GameStates\GameStateBase.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
     <ClCompile Include="src\GameStates\GSCredit.cpp" />
+    <ClCompile Include="src\GameStates\GSEnding.cpp" />
     <ClCompile Include="src\GameStates\GSIntro.cpp" />
     <ClCompile Include="src\GameStates\GSMenu.cpp" />
     <ClCompile Include="src\GameStates\GSOption.cpp" />
@@ -198,8 +198,10 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameStates\GSEnding.h" />
-    <ClInclude Include="src\GameObject\Sfx.h" />
+    <ClInclude Include="src\GameObjectToShow\EnemyScenario1.h" />
+    <ClInclude Include="src\GameObjectToShow\EnemyScenario.h" />
+    <ClInclude Include="src\GameObjectToShow\EnemyScenario2.h" />
+    <ClInclude Include="src\GameObjectToShow\Option.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUpPool.h" />
     <ClInclude Include="src\GameObjectToShow\PowerUp.h" />
     <ClInclude Include="src\GameObjectToShow\BezierPath.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="src\GameObject\Dot.h" />
     <ClInclude Include="src\GameObject\MouseButton.h" />
     <ClInclude Include="src\GameObject\Renderer.h" />
+    <ClInclude Include="src\GameObject\Sfx.h" />
     <ClInclude Include="src\GameObject\Sound.h" />
     <ClInclude Include="src\GameObject\Sprite2D.h" />
     <ClInclude Include="src\GameObject\SpriteAnimation.h" />
@@ -231,6 +234,7 @@
     <ClInclude Include="src\GameStates\GameStateBase.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
     <ClInclude Include="src\GameStates\GSCredit.h" />
+    <ClInclude Include="src\GameStates\GSEnding.h" />
     <ClInclude Include="src\GameStates\GSIntro.h" />
     <ClInclude Include="src\GameStates\GSMenu.h" />
     <ClInclude Include="src\GameStates\GSOption.h" />

@@ -6,6 +6,7 @@
 #include "GameObject/Sfx.h"
 #include "GameObject/SpriteAnimation.h"
 #include "GameObject/TextureManager.h"
+#include "GameObjectToShow/Option.h"
 class GSOption :
 	public GameStateBase
 {
@@ -26,7 +27,6 @@ public:
 	void	Update(float deltaTime) override;
 	void	Draw(SDL_Renderer* renderer) override;
 	int m_KeyPress;
-	static inline int skinID = 0;
 
 private:
 	std::shared_ptr<Sprite2D>				m_background;

@@ -9,14 +9,16 @@ protected:
 	
 public:
 	static inline std::function<void(void)> onPlayerPointUpdate;
-	static inline std::vector<Object*> object;
 	std::shared_ptr<SpriteAnimation> CurrentAnimation;
 	Vector2 MoveDirection;
 	SDL_Rect Collider;
 	bool IsActive = false;
 	const char* Tag;
+
+	Object() {
+
+	}
 	void Init() override {
-		object.push_back(this);
 	}
 
 	~Object() {

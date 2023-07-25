@@ -1,9 +1,7 @@
-#include "GameObject/Sfx.h"
-#include "Object.h"
-#include "ObjectPool.h"
 #include "HealthComponent.h"
 #include "Bullet.h"
-#include "GSOption.h"
+#include "Option.h"
+#include "GameObject/Sfx.h"
 #include <vector>
 
 class Player : public Object, virtual public Health
@@ -14,21 +12,22 @@ private:
 	float shootTime = 0.3f;
 	float currentShieldTimer = 0.0f;
 	float currentShootTimer = 0.0f;
-	int& skinID = GSOption::skinID;
+	int& skinID = Option::skinID;
 	std::string text = "";
 	static inline Player* m_instance;
-	int bulletCount = 0;
 	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
+	Vector2 spawnPosition;
 public:
 	static Player* GetPlayer() {
 		return m_instance;
 	}
 	bool IsShield = false;
-	bool IsDoubleShooting = false;
+	int NumberOfProjectile = 1;
 	int Point = 0;
 	int m_KeyPress = 0;
 	std::vector<std::shared_ptr<SpriteAnimation>> list_animation;
+	std::vector<std::shared_ptr<Bullet>> bullets;
 	Player();
 	~Player();
 	void HandleEvent(SDL_Event& e);

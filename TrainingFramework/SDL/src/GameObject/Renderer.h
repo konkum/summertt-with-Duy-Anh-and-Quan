@@ -17,6 +17,7 @@ public:
 	SDL_Rect* GetSpriteClips();
 	void SetSpriteClips(SDL_Rect** mSpriteClips);
 	void DrawLine(float startX, float startY, float endX, float endY);
+	void DrawRect(SDL_Rect rect);
 private:
 	SDL_Window* gWindow;
 	SDL_Renderer* gRenderer;

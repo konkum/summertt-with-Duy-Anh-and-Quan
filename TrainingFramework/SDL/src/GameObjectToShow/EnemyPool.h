@@ -1,19 +1,27 @@
 #pragma once
 #include <vector>
 #include "Enemy.h"
+#include "PowerUpPool.h";
 
 class EnemyPool
 {
 private:
-	std::vector<Enemy*> enemies;
-	Bullet* SpawnBullet();
+	std::shared_ptr<PowerUpPool> powerUp;
+	std::vector<std::shared_ptr<Enemy>> enemies;
+
+	float RandomFloat(float a, float b) {
+		float random = ((float)rand()) / (float)RAND_MAX;
+		float diff = b - a;
+		float r = random * diff;
+		return a + r;
+	}
 public:
+	int Health = 3;
 	EnemyPool();
 	~EnemyPool();
 	void Update(float deltaTime);
 	void Init();
 	void Draw(SDL_Renderer* renderer);
-	void Shoot(Enemy* enemy, float deltaTime);
-	void SetSpawn(Vector2 location, Vector2 moveDirection);
+	void SetSpawn(int path);
 };
 

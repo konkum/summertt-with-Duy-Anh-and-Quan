@@ -1,5 +1,5 @@
 #include "GSEnding.h"
-
+#include "GameObjectToShow/Player.h"
 GSEnding::GSEnding() : GameStateBase(StateType::STATE_PAUSE), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textEnding(nullptr), m_Sound(nullptr)
 {
 }
@@ -45,7 +45,7 @@ void GSEnding::Init()
 
 
 	//game music
-	m_Sound = std::make_shared<Sound>("Data/Sounds/Operation_Blade.mp3");
+	m_Sound = std::make_shared<Sound>("Data/Sounds/Music_Play.mp3");
 	if (m_Sound->isPlaying) {
 		m_Sound->PlaySound();
 		m_Sound->Volume(MIX_MAX_VOLUME);

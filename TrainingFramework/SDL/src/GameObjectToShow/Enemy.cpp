@@ -3,28 +3,6 @@
 #include "BezierPath.h"
 #include "CollisionDetection.h"
 
-Enemy::Enemy(const char* texture, int sizeW, int sizeH,int animFrame) {
-	Object::Init();
-	auto tex = ResourceManagers::GetInstance()->GetTexture(texture);
-
-	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, animFrame, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
-	CurrentAnimation->SetSize(sizeW, sizeH);
-
-	m_position = CurrentAnimation->GetPosition();
-	
-	maxHealth = 3.0f;
-	currentHealth = 3.0f;
-
-	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Enemy/Projectile_Enemy.png", Vector2(30, 30), 3);
-		bullet->MoveDirection = -1;
-		bullet->Tag = "EnemyBullet";
-		bullets.push_back(bullet);
-	}
-	Tag = "Enemy";
-}
-
 void Enemy::Init() {
 }
 
@@ -40,14 +18,14 @@ void Enemy::Update(float deltatime) {
 
 	HandleStates(deltatime);
 	currentTime += deltatime;
-	if (currentTime > 1.0f) {
+	if (currentTime > 2.0f) {
 		currentTime = 0;
 		ShootBullet();
 	}
 
-	for (auto obj : object) {
+	for (auto obj : CollisionDetection::GetInstance()->Objects) {
 		if (obj->Tag == "PlayerBullet" && obj->IsActive) {
-			if (CollisionDetection::AABB(this->Collider, obj->Collider)) {
+			if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
 				obj->IsActive = false;
 				TakeDamage(1);
 			}
@@ -112,7 +90,6 @@ void Enemy::Die() {
 		onPlayerPointUpdate();
 		onEnemyDeath();
 		IsActive = false;
-		currentHealth = maxHealth;
 	}
 }
 
@@ -272,8 +249,8 @@ Enemy::Enemy(int path) {
 	currentHealth = 3.0f;
 
 	for (int i = 0;i < 20;i++) {
-		Bullet* bullet = new Bullet("Projectile_Enemy.png", Vector2(30, 30), 3);
-		bullet->MoveDirection = -1;
+		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Enemy.png", Vector2(30, 30), 3);
+		bullet->MoveDirection = Vector2(0, -1);
 		bullet->Tag = "EnemyBullet";
 		bullets.push_back(bullet);
 	}
@@ -282,6 +259,9 @@ Enemy::Enemy(int path) {
 	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
 	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
+	m_bulletSound->Volume(10);
+
+	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 void Enemy::HandleStates(float deltaTime) {
@@ -324,7 +304,17 @@ void Enemy::HandleFormationState(float deltaTime) {
 }
 
 void Enemy::Reset() {
+	currentHealth = maxHealth;
 	mCurrentWayPoint = 0;
 	CurrentAnimation->Set2DPosition(sPaths[mCurrentPath][mCurrentWayPoint]);
 	mCurrentStates = STATES::flyIn;
+}
+
+void Enemy::ChangePath(int path) {
+	mCurrentPath = path;
+}
+
+void Enemy::ChangeHealth(int health)
+{
+	maxHealth = health;
 }
