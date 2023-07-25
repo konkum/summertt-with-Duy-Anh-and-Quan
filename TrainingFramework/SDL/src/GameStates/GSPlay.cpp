@@ -101,7 +101,7 @@ void GSPlay::Init()
 	};
 
 	//HighScoreFile
-	std::ifstream MyFile("HighScore.txt");
+	std::ifstream MyFile("Data/HighScore.txt");
 	std::string text;
 	while (std::getline(MyFile, text)) {
 		Highscore = stoi(text);
@@ -116,7 +116,7 @@ void GSPlay::Exit()
 	{
 		Highscore = player->Point;
 	}
-	std::ofstream MyFile("HighScore.txt");
+	std::ofstream MyFile("Data/HighScore.txt");
 	MyFile << std::to_string(Highscore);
 	MyFile.close();
 

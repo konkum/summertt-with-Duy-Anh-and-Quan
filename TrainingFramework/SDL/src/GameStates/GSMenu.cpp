@@ -14,7 +14,7 @@ GSMenu::~GSMenu()
 }
 
 std::string LoadFile() {
-	std::ifstream MyFile("HighScore.txt");
+	std::ifstream MyFile("Data/HighScore.txt");
 	std::string text;
 	if (MyFile.fail())
 	{
