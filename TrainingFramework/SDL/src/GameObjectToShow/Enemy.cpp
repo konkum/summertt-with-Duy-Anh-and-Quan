@@ -18,7 +18,7 @@ void Enemy::Update(float deltatime) {
 
 	HandleStates(deltatime);
 	currentTime += deltatime;
-	if (currentTime > 1.0f) {
+	if (currentTime > 2.0f) {
 		currentTime = 0;
 		ShootBullet();
 	}

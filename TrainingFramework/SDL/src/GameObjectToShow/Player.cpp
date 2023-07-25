@@ -15,21 +15,21 @@ Player::Player() {
 	auto texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Left.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	text = "Player" + std::to_string(skinID) + "_Right.png";
 	texture = ResourceManagers::GetInstance()->GetTexture(text);
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 2, 1, 0.2f);
 	CurrentAnimation->SetSize(32, 45);
-	CurrentAnimation->Set2DPosition(240, 400);
+	CurrentAnimation->Set2DPosition(240, 550);
 	list_animation.push_back(CurrentAnimation);
 
 	CurrentAnimation = list_animation[0];
@@ -137,10 +137,10 @@ void Player::Init() {
 
 void Player::Update(float deltatime) {
 
-	Collider.x = static_cast<int>(m_position.x);
-	Collider.y = static_cast<int>(m_position.y);
-	Collider.w = CurrentAnimation->GetWidth() - 10;
-	Collider.h = CurrentAnimation->GetHeight() - 10;
+	Collider.x = static_cast<int>(m_position.x) + 10;
+	Collider.y = static_cast<int>(m_position.y) + 5;
+	Collider.w = CurrentAnimation->GetWidth() - 20;
+	Collider.h = CurrentAnimation->GetHeight() - 20;
 
 	if (!IsActive) {
 		return;
@@ -181,10 +181,18 @@ void Player::Update(float deltatime) {
 	}
 
 	for (auto obj : CollisionDetection::GetInstance()->Objects) {
-		if (obj->Tag == "EnemyBullet" && obj->IsActive) {
-			if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
-				obj->IsActive = false;
-				TakeDamage(1);
+		if (obj->IsActive) {
+			if (obj->Tag == "EnemyBullet") {
+				if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
+					obj->IsActive = false;
+					TakeDamage(1);
+				}
+			}
+			else if (obj->Tag == "Enemy") {
+				if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
+					obj->IsActive = false;
+					TakeDamage(5);
+				}
 			}
 		}
 	}
@@ -206,6 +214,8 @@ void Player::Draw(SDL_Renderer* renderer) {
 	if (IsShield) {
 		shield_animation->Draw(renderer);
 	}
+
+	Renderer::GetInstance()->DrawRect(Collider);
 }
 
 void Player::Move(float deltaTime) {

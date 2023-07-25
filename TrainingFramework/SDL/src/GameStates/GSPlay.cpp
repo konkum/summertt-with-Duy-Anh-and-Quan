@@ -173,10 +173,7 @@ float RandomFloat(float a, float b) {
 
 void GSPlay::PlayScenario(float deltaTime) {
 	currentTime += deltaTime;
-	float currentTimeDelay = 6.0f - currentDifficulty;
-	if (currentTimeDelay <= 1.0f) {
-		currentTimeDelay = 1.0f;
-	}
+	float currentTimeDelay = 7.0f - currentDifficulty ;
 	if (currentTime >= currentTimeDelay) {
 		if (RandomFloat(0.0f, 100.0f) > 30.0f) {
 			std::shared_ptr<EnemyScenario> enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
@@ -197,6 +194,9 @@ void GSPlay::PlayScenario(float deltaTime) {
 			spawnAmount = 0;
 			enemyPool->Health += 1;
 			currentDifficulty++;
+			if (currentDifficulty >= 4) {
+				currentDifficulty = 4;
+			}
 		}
 		currentTime = 0;
 	}
