@@ -51,7 +51,7 @@ private:
 	std::shared_ptr<SpriteAnimation> obj;
 	std::shared_ptr<MouseButton> button;
 
-	std::unique_ptr<Player> player;
+	std::shared_ptr<Player> player;
 	std::shared_ptr<EnemyPool> enemyPool;
 	std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
 	int Highscore;

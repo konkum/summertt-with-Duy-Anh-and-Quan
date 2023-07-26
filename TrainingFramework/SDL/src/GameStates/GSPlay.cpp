@@ -56,7 +56,7 @@ void GSPlay::Init()
 	m_listButton.push_back(button);
 
    //Player
-	player = std::make_unique<Player>();
+	player = std::make_shared<Player>();
 	player->Init();
 	enemyPool->Init();
 

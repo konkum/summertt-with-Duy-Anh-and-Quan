@@ -63,6 +63,10 @@ void EnemyPool::SetSpawn(int path) {
 		}
 	}
 
+	if (enemies.size() >= 100) {
+		return;
+	}
+
 	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(path);
 	enemy->Init();
 	enemy->onEnemyDeath = [=]() mutable {
