@@ -43,12 +43,21 @@ void EnemyPool::Draw(SDL_Renderer* renderer) {
 }
 
 void EnemyPool::SetSpawn(int path) {
+	float rand = RandomFloat(0.0f, 100.0f);
 	for (auto enemy : enemies) {
 		if (!enemy->IsActive) {
 			enemy->IsActive = true;
 			enemy->ChangePath(path);
 			enemy->ChangeHealth(Health);
-			enemy->ChangeEnemy(rand() % 2);
+			if (rand < 60) {
+				enemy->ChangeEnemy(0);
+			}
+			else if (rand >= 60 && rand < 90) {
+				enemy->ChangeEnemy(1);
+			}
+			else {
+				enemy->ChangeEnemy(2);
+			}
 			enemy->Reset();
 			return;
 		}
@@ -65,7 +74,15 @@ void EnemyPool::SetSpawn(int path) {
 	enemies.push_back(enemy);
 	enemy->IsActive = true;
 	enemy->ChangeHealth(Health);
-	enemy->ChangeEnemy(rand() % 2);
+	if (rand < 60) {
+		enemy->ChangeEnemy(0);
+	}
+	else if (rand >= 60 && rand < 90) {
+		enemy->ChangeEnemy(1);
+	}
+	else {
+		enemy->ChangeEnemy(2);
+	}
 	enemy->Reset();
 }
 

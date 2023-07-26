@@ -239,64 +239,37 @@ void Player::Shoot() {
 			}
 
 			if (bulletCount < NumberOfProjectile) {
-				if (NumberOfProjectile % 2 == 0) {
-					bullet->IsActive = true;
+				bullet->IsActive = true;
 
-					float projectileDirXPosition;
-					float projectileDirYPosition;
+				float projectileDirXPosition;
+				float projectileDirYPosition;
 
-					if (bulletCount % 2 == 0) {
-						angle += angleStep;
-					}
+				if (bulletCount % 2 == 0 && NumberOfProjectile % 2 == 0) {
+					angle += angleStep;
+				}
 
-					if (bulletCount % 2 == 0) {
-						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(-angle);
-					}
-					else {
-						projectileDirXPosition = spawnPosition.x + sin(((0 - angle) * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos(((0 - angle) * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(angle);
-					}
-
-					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
-					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
-
-					bullet->SetSpawnPoint(spawnPosition);
-					bullet->MoveDirection = projectileMoveDirection;
-
-					bulletCount++;
+				if (bulletCount % 2 == 0) {
+					projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+					projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+					bullet->CurrentAnimation->SetRotation(-angle);
 				}
 				else {
-					bullet->IsActive = true;
-
-					float projectileDirXPosition;
-					float projectileDirYPosition;
-
-					if (bulletCount % 2 == 0) {
-						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(-angle);
-					}
-					else {
-						projectileDirXPosition = spawnPosition.x + sin(((360 - angle) * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos(((360 - angle) * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(angle);
-					}
-
-					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
-					Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
-
-					bullet->SetSpawnPoint(spawnPosition);
-					bullet->MoveDirection = projectileMoveDirection;
-
-					if (bulletCount % 2 == 0) {
-						angle += angleStep;
-					}
-
-					bulletCount++;
+					projectileDirXPosition = spawnPosition.x + sin(((-angle) * M_PI) / 180);
+					projectileDirYPosition = spawnPosition.y + cos(((-angle) * M_PI) / 180);
+					bullet->CurrentAnimation->SetRotation(angle);
 				}
+
+				Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+				Vector2 projectileMoveDirection = (projectileVector - spawnPosition).Normalize();
+
+				bullet->SetSpawnPoint(spawnPosition);
+				bullet->MoveDirection = projectileMoveDirection;
+
+				if (bulletCount % 2 == 0 && NumberOfProjectile % 2 != 0) {
+					angle += angleStep;
+				}
+
+				bulletCount++;
 			}
 			else {
 				break;

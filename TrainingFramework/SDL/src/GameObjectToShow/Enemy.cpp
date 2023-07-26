@@ -93,14 +93,58 @@ void Enemy::Die() {
 }
 
 void Enemy::ShootBullet() {
+	int bulletCount = 0;
+	float angle = 0.0f;
+
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
-			bullet->IsActive = true;
-			bullet->SetSpawnPoint(CurrentAnimation->Get2DPosition());
-			if (m_bulletSound->isPlaying) {
-				m_bulletSound->PlaySfx();
+			if (mEnemyType == 0) {
+				bullet->IsActive = true;
+				bullet->SetSpawnPoint(CurrentAnimation->Get2DPosition());
+				if (m_bulletSound->isPlaying) {
+					m_bulletSound->PlaySfx();
+				}
+				return;
 			}
-			break;
+			else {
+				if (bulletCount > 1 + (mEnemyType - 1)) {
+					return;
+				}
+				else {
+					bullet->IsActive = true;
+
+					float projectileDirXPosition;
+					float projectileDirYPosition;
+					Vector2 spawnPosition = CurrentAnimation->Get2DPosition();
+
+					if (mEnemyType % 2 != 0 && bulletCount % 2 == 0) {
+						angle += 15;
+					}
+
+					if (bulletCount % 2 == 0) {
+						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(-angle);
+					}
+					else {
+						projectileDirXPosition = spawnPosition.x + sin(((-angle) * M_PI) / 180);
+						projectileDirYPosition = spawnPosition.y + cos(((-angle) * M_PI) / 180);
+						bullet->CurrentAnimation->SetRotation(angle);
+					}
+
+					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
+					Vector2 projectileMoveDirection = (spawnPosition - projectileVector).Normalize();
+
+					bullet->SetSpawnPoint(spawnPosition);
+					bullet->MoveDirection = projectileMoveDirection;
+
+					if (mEnemyType % 2 == 0 && bulletCount % 2 == 0) {
+						angle += 15;
+					}
+
+					bulletCount++;
+				}
+			}
 		}
 	}
 }
@@ -233,14 +277,18 @@ Enemy::Enemy(int path) {
 	auto tex = ResourceManagers::GetInstance()->GetTexture("Enemies_AG.png");
 
 	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, 6, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(30, 30);
 	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
 	m_listAnimation.push_back(CurrentAnimation);
 
 	tex = ResourceManagers::GetInstance()->GetTexture("Enemies_BY.png");
 	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, 4, 1, 0.2f);
-	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
+	CurrentAnimation->SetSize(30, 30);
+	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
+	m_listAnimation.push_back(CurrentAnimation);
+
+	tex = ResourceManagers::GetInstance()->GetTexture("Enemies_CP.png");
+	CurrentAnimation = std::make_shared<SpriteAnimation>(tex, 1, 5, 1, 0.2f);
 	CurrentAnimation->SetSize(30, 30);
 	CurrentAnimation->Set2DPosition(Vector2(480 * 0.4f, 800 * 0.5f));
 	m_listAnimation.push_back(CurrentAnimation);
@@ -331,4 +379,5 @@ void Enemy::ChangeHealth(int health)
 void Enemy::ChangeEnemy(int enemyType)
 {
 	CurrentAnimation = m_listAnimation[enemyType];
+	mEnemyType = enemyType;
 }

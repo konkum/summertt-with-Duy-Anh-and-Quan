@@ -25,7 +25,7 @@ private:
 	int mCurrentPath;
 	int mCurrentWayPoint;
 	const float EPSILON = 5.0f;
-
+	int mEnemyType = 0;
 
 	//Working
 	static const inline float CENTER_X = SCREEN_WIDTH / 2;
