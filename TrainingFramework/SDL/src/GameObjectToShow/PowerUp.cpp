@@ -19,6 +19,7 @@ PowerUp::PowerUp()
 
 PowerUp::~PowerUp()
 {
+	printf("Delete PowerUp\n");
 }
 
 void PowerUp::Init()

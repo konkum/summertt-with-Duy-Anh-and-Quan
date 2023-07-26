@@ -5,7 +5,8 @@ EnemyPool::EnemyPool() {
 
 EnemyPool::~EnemyPool()
 {
-	enemies.clear();
+	printf("Delete EnemyPool\n");
+	//enemies.clear();
 }
 
 void EnemyPool::Init() {
@@ -13,9 +14,13 @@ void EnemyPool::Init() {
 	powerUp = std::make_shared<PowerUpPool>();
 	powerUp->Init();
 
+	enemiesBulletPools = std::make_shared<EnemyBulletPool>();
+	enemiesBulletPools->Init();
+
 	for (int i = 0;i < 10;i++) {
-		std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(rand()%9);
+		enemy = std::make_shared<Enemy>(rand()%9);
 		enemy->Init();
+		enemy->enemyBulletPool = enemiesBulletPools;
 		enemy->onEnemyDeath = [=]() mutable {
 			float result = RandomFloat(0.0f, 100.0f);
 			if (result < 10.0f) {
@@ -30,16 +35,16 @@ void EnemyPool::Update(float deltaTime) {
 	powerUp->Update(deltaTime);
 	for (auto enemy : enemies) {
 		enemy->Update(deltaTime);
-		enemy->UpdateBullet(deltaTime);
 	}
+	enemiesBulletPools->Update(deltaTime);
 }
 
 void EnemyPool::Draw(SDL_Renderer* renderer) {
 	powerUp->Draw(renderer);
 	for (auto enemy : enemies) {
 		enemy->Draw(renderer);
-		enemy->DrawBullet(renderer);
 	}
+	enemiesBulletPools->Draw(renderer);
 }
 
 void EnemyPool::SetSpawn(int path) {
@@ -63,12 +68,13 @@ void EnemyPool::SetSpawn(int path) {
 		}
 	}
 
-	if (enemies.size() >= 100) {
+	if (enemies.size() >= 60) {
 		return;
 	}
 
-	std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(path);
+	enemy = std::make_shared<Enemy>(path);
 	enemy->Init();
+	enemy->enemyBulletPool = enemiesBulletPools;
 	enemy->onEnemyDeath = [=]() mutable {
 		float result = RandomFloat(0.0f, 100.0f);
 		if (result < 10.0f) {

@@ -8,7 +8,7 @@ public:
 	}
 	
 	~EnemyScenario2() {
-
+		printf("Delete EnenmyScenario2\n");
 	}
 
 	void Update(float deltaTime) {

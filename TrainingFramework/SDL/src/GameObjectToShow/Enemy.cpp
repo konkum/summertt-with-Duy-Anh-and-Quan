@@ -33,21 +33,6 @@ void Enemy::Update(float deltatime) {
 	}
 }
 
-void Enemy::UpdateBullet(float deltaTime) {
-	for (auto bullet : bullets) {
-		bullet->Update(deltaTime);
-
-		if (bullet->IsActive) {
-			if (bullet->GetPosition().x < 0 || bullet->GetPosition().x>480) {
-				bullet->IsActive = false;
-			}
-			else if (bullet->GetPosition().y < 0 || bullet->GetPosition().y>800) {
-				bullet->IsActive = false;
-			}
-		}
-	}
-}
-
 void Enemy::Move(float deltaTime) {
 	CurrentAnimation->Set2DPosition(m_position.x + MoveDirection.x, m_position.y + MoveDirection.y);
 }
@@ -63,12 +48,6 @@ void Enemy::Draw(SDL_Renderer* renderer) {
 	/*for (int i = 0;i < sPaths[mCurrentPath].size() - 1;i++) {
 		Renderer::GetInstance()->DrawLine(sPaths[mCurrentPath][i].x, sPaths[mCurrentPath][i].y, sPaths[mCurrentPath][i + 1].x, sPaths[mCurrentPath][i + 1].y);
 	}*/
-}
-
-void Enemy::DrawBullet(SDL_Renderer* renderer) {
-	for (auto bullet : bullets) {
-		bullet->Draw(renderer);
-	}
 }
 
 void Enemy::TakeDamage(float damage) {
@@ -93,60 +72,7 @@ void Enemy::Die() {
 }
 
 void Enemy::ShootBullet() {
-	int bulletCount = 0;
-	float angle = 0.0f;
-
-	for (auto bullet : bullets) {
-		if (!bullet->IsActive) {
-			if (mEnemyType == 0) {
-				bullet->IsActive = true;
-				bullet->SetSpawnPoint(CurrentAnimation->Get2DPosition());
-				if (m_bulletSound->isPlaying) {
-					m_bulletSound->PlaySfx();
-				}
-				return;
-			}
-			else {
-				if (bulletCount > 1 + (mEnemyType - 1)) {
-					return;
-				}
-				else {
-					bullet->IsActive = true;
-
-					float projectileDirXPosition;
-					float projectileDirYPosition;
-					Vector2 spawnPosition = CurrentAnimation->Get2DPosition();
-
-					if (mEnemyType % 2 != 0 && bulletCount % 2 == 0) {
-						angle += 15;
-					}
-
-					if (bulletCount % 2 == 0) {
-						projectileDirXPosition = spawnPosition.x + sin((angle * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos((angle * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(-angle);
-					}
-					else {
-						projectileDirXPosition = spawnPosition.x + sin(((-angle) * M_PI) / 180);
-						projectileDirYPosition = spawnPosition.y + cos(((-angle) * M_PI) / 180);
-						bullet->CurrentAnimation->SetRotation(angle);
-					}
-
-					Vector2 projectileVector = Vector2(projectileDirXPosition, projectileDirYPosition);
-					Vector2 projectileMoveDirection = (spawnPosition - projectileVector).Normalize();
-
-					bullet->SetSpawnPoint(spawnPosition);
-					bullet->MoveDirection = projectileMoveDirection;
-
-					if (mEnemyType % 2 == 0 && bulletCount % 2 == 0) {
-						angle += 15;
-					}
-
-					bulletCount++;
-				}
-			}
-		}
-	}
+	enemyBulletPool->ShootBullet(CurrentAnimation->Get2DPosition(), mEnemyType);
 }
 
 //Testing
@@ -305,20 +231,16 @@ Enemy::Enemy(int path) {
 	maxHealth = 3.0f;
 	currentHealth = 3.0f;
 
-	for (int i = 0;i < 20;i++) {
-		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Enemy.png", Vector2(30, 30), 3);
-		bullet->MoveDirection = Vector2(0, -1);
-		bullet->Tag = "EnemyBullet";
-		bullets.push_back(bullet);
-	}
 	Tag = "Enemy";
 
-	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
-	m_bulletSound->Volume(10);
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
-	m_bulletSound->Volume(10);
 
 	CollisionDetection::GetInstance()->Objects.push_back(this);
+}
+
+Enemy::~Enemy()
+{
+	printf("Delete Enemy\n");
 }
 
 void Enemy::HandleStates(float deltaTime) {

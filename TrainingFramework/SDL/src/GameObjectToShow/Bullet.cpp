@@ -9,10 +9,19 @@ Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(size.x, size.y);
 
+	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
+	m_bulletSound->Volume(10);
+
 	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 Bullet::~Bullet() {
+	if (IsEnemy) {
+		printf("Delete Enemy Bullet\n");
+	}
+	else {
+		printf("Delete Player Bullet\n");
+	}
 }
 
 void Bullet::Update(float deltatime) {
@@ -41,4 +50,11 @@ void Bullet::Draw(SDL_Renderer* renderer) {
 
 void Bullet::SetSpawnPoint(Vector2 spawnPoint) {
 	CurrentAnimation->Set2DPosition(spawnPoint.x, spawnPoint.y);
+}
+
+void Bullet::PlaySound()
+{
+	if (m_bulletSound->isPlaying) {
+		m_bulletSound->PlaySfx();
+	}
 }

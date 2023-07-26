@@ -53,7 +53,6 @@ Player::Player() {
 	Tag = "Player";
 	m_instance = this;
 
-	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
 	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
 
 	CollisionDetection::GetInstance()->Objects.push_back(this);
@@ -61,6 +60,7 @@ Player::Player() {
 
 Player::~Player() {
 	Object::~Object();
+	printf("Delete Player\n");
 }
 
 void Player::HandleEvent(SDL_Event &e) {
@@ -233,10 +233,7 @@ void Player::Shoot() {
 
 	for (auto bullet : bullets) {
 		if (!bullet->IsActive) {
-			if (m_bulletSound->isPlaying) {
-				m_bulletSound->PlaySfx();
-				m_bulletSound->Volume(10);
-			}
+			bullet->PlaySound();
 
 			if (bulletCount < NumberOfProjectile) {
 				bullet->IsActive = true;

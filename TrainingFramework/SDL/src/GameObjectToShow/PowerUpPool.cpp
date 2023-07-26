@@ -7,6 +7,7 @@ PowerUpPool::PowerUpPool()
 
 PowerUpPool::~PowerUpPool()
 {
+	printf("Delete PowerUp Pool \n");
 }
 
 void PowerUpPool::Init()

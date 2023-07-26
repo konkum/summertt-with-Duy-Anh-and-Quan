@@ -10,7 +10,7 @@ public:
 	}
 
 	~EnemyScenario1() {
-
+		printf("Delete EnenmyScenario1\n");
 	}
 
 	 void Update(float deltaTime) override {

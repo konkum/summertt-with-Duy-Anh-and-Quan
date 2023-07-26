@@ -150,6 +150,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SDLLib\include;$(ProjectDir)src;$(ProjectDir)src\GameManager;$(ProjectDir)src\GameObject;$(ProjectDir)src\GameStates;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +165,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameObjectToShow\EnemyBulletPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUpPool.cpp" />
     <ClCompile Include="src\GameObjectToShow\PowerUp.cpp" />
     <ClCompile Include="src\GameObjectToShow\BezierPath.cpp" />
@@ -198,6 +200,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameObjectToShow\EnemyBulletPool.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyScenario1.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyScenario.h" />
     <ClInclude Include="src\GameObjectToShow\EnemyScenario2.h" />

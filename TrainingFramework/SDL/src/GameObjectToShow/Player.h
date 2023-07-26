@@ -1,7 +1,6 @@
 #include "HealthComponent.h"
 #include "Bullet.h"
 #include "Option.h"
-#include "GameObject/Sfx.h"
 #include <vector>
 
 class Player : public Object, virtual public Health
@@ -14,7 +13,6 @@ private:
 	int& skinID = Option::skinID;
 	std::string text = "";
 	static inline Player* m_instance;
-	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
 	Vector2 spawnPosition;
 public:

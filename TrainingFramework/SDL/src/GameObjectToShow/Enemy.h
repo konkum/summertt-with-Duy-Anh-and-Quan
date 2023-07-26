@@ -1,9 +1,8 @@
-#include "GameObject/Sfx.h"
 #include "Object.h"
 #include "ObjectPool.h"
 #include "HealthComponent.h"
-#include "Bullet.h"
 #include "Define.h"
+#include "EnemyBulletPool.h"
 #include <vector>
 
 class Enemy : public Object, virtual public Health
@@ -37,14 +36,15 @@ private:
 	float shootTime = 1.0f;
 	float currentShootTimer = 0.0f;
 	std::vector<std::shared_ptr<SpriteAnimation>> m_listAnimation;
-	std::shared_ptr<Sfx>		m_bulletSound;
 	std::shared_ptr<Sfx>		m_deadSound;
 public:
+	std::shared_ptr<EnemyBulletPool> enemyBulletPool;
 	//Testing
 	std::function<void(void)> onEnemyDeath;
 	static void CreatePath();
 
 	Enemy(int path);
+	~Enemy();
 	virtual void HandleFlyInState(float deltaTime);
 	virtual void HandleFormationState(float deltaTime);
 
@@ -53,7 +53,6 @@ public:
 
 	//Working
 
-	std::vector<std::shared_ptr<Bullet>> bullets;
 	void TakeDamage(float damage) override;
 	void Die() override;
 	void Init() override;
@@ -61,8 +60,6 @@ public:
 	virtual void Update(float deltatime) override;
 	void Move(float deltaTime) override;
 	void ShootBullet();
-	void UpdateBullet(float deltaTime);
-	void DrawBullet(SDL_Renderer* renderer);
 	void ChangePath(int path);
 	void ChangeHealth(int health);
 	void ChangeEnemy(int enemyType);

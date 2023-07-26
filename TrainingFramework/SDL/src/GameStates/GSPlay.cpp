@@ -1,3 +1,4 @@
+
 #include "GSPlay.h"
 #include "GameObject/TextureManager.h"
 #include "GameObject/Sprite2D.h"
@@ -12,6 +13,8 @@
 #include "Text.h"
 
 
+
+
 GSPlay::GSPlay()
 {
 }
@@ -19,6 +22,7 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
+	printf("Delete GSPlay\n");
 }
 
 
@@ -176,18 +180,18 @@ void GSPlay::PlayScenario(float deltaTime) {
 	float currentTimeDelay = 7.0f - currentDifficulty ;
 	if (currentTime >= currentTimeDelay) {
 		if (RandomFloat(0.0f, 100.0f) > 30.0f) {
-			std::shared_ptr<EnemyScenario> enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
+			enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
 			enemy->OnSpawnComplete = [=]() mutable {
 				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
 			};
 			m_listScenario.push_back(enemy);
 		}
 		else {
-			std::shared_ptr<EnemyScenario> enemy1 = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
-			enemy1->OnSpawnComplete = [=]() mutable {
-				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy1), m_listScenario.end());
+			enemy = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
+			enemy->OnSpawnComplete = [=]() mutable {
+				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
 			};
-			m_listScenario.push_back(enemy1);
+			m_listScenario.push_back(enemy);
 		}
 		spawnAmount++;
 		if (spawnAmount >= 5) {

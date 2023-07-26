@@ -1,10 +1,14 @@
 #pragma once
 
 #include "Object.h"
+#include "Sfx.h"
 
 class Bullet: public Object
 {
+private:
+	std::shared_ptr<Sfx> m_bulletSound;
 public:
+	bool IsEnemy = false;
 	Vector2 MoveDirection = Vector2(0, 1);
 	Bullet(const char* textureName, Vector2 size, int frameCount);
 	~Bullet();
@@ -13,5 +17,6 @@ public:
 	void Update(float deltatime) override;
 	void Move(float deltaTime) override;
 	void SetSpawnPoint(Vector2 spawnPoint);
+	void PlaySound();
 };
 
