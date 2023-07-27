@@ -8,7 +8,7 @@ protected:
 	float mTimeBetweenSpawn = 1.0f;
 	std::shared_ptr<EnemyPool> mEnemyPool;
 public:
-	std::function<void(void)> OnSpawnComplete;
+	bool IsDead = false;
 
 	EnemyScenario(std::shared_ptr<EnemyPool> enemy, float timeBetweenSpawn = 1.0f, int TotalOfSpawn = 5) {
 		mEnemyPool = enemy;

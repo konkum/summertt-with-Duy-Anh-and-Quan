@@ -33,6 +33,8 @@ public:
 	void	Draw(SDL_Renderer* renderer) override;
 	void PlayScenario(float deltaTime);
 
+	void DeleteFromVector();
+
 private:
 	float currentTime = 0.0f;
 	int currentDifficulty = 0;
@@ -54,6 +56,7 @@ private:
 	std::shared_ptr<Player> player;
 	std::shared_ptr<EnemyPool> enemyPool;
 	std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
+	std::shared_ptr<EnemyScenario> enemyScenario;
 	int Highscore;
 	float time = 0.0f;
 	float m_Velocity = 10.0f;

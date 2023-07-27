@@ -23,6 +23,6 @@ public:
 			return;
 		}
 
-		OnSpawnComplete();
+		IsDead = true;
 	}
 };

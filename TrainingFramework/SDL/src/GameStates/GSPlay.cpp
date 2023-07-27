@@ -168,6 +168,7 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
 
+
 float RandomFloat(float a, float b) {
 	float random = ((float)rand()) / (float)RAND_MAX;
 	float diff = b - a;
@@ -180,18 +181,12 @@ void GSPlay::PlayScenario(float deltaTime) {
 	float currentTimeDelay = 7.0f - currentDifficulty ;
 	if (currentTime >= currentTimeDelay) {
 		if (RandomFloat(0.0f, 100.0f) > 30.0f) {
-			std::shared_ptr<EnemyScenario1> enemy = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
-			enemy->OnSpawnComplete = [=]() mutable {
-				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy), m_listScenario.end());
-			};
-			m_listScenario.push_back(enemy);
+			enemyScenario = std::make_shared<EnemyScenario1>(enemyPool, 1.0f, 5 + currentDifficulty);
+			m_listScenario.push_back(enemyScenario);
 		}
 		else {
-			std::shared_ptr<EnemyScenario2> enemy1 = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
-			enemy1->OnSpawnComplete = [=]() mutable {
-				m_listScenario.erase(std::remove(m_listScenario.begin(), m_listScenario.end(), enemy1), m_listScenario.end());
-			};
-			m_listScenario.push_back(enemy1);
+			enemyScenario = std::make_shared<EnemyScenario2>(enemyPool, 1.0f, 5 + currentDifficulty);
+			m_listScenario.push_back(enemyScenario);
 		}
 		spawnAmount++;
 		if (spawnAmount >= 5) {
@@ -206,6 +201,7 @@ void GSPlay::PlayScenario(float deltaTime) {
 	}
 }
 
+
 void GSPlay::Update(float deltaTime)
 {
 	player->Update(deltaTime);
@@ -218,6 +214,15 @@ void GSPlay::Update(float deltaTime)
 
 	for (int i = 0;i < m_listScenario.size(); i++) {
 		m_listScenario[i]->Update(deltaTime);
+	}
+
+	for (std::vector<std::shared_ptr<EnemyScenario>>::iterator it = m_listScenario.begin(); it != m_listScenario.end(); ) {
+		if (it->get()->IsDead) {
+			it = m_listScenario.erase(it);
+		}
+		else {
+			it++;
+		}
 	}
 
 	enemyPool->Update(deltaTime);
