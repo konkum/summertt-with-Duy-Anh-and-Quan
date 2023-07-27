@@ -1,9 +1,2 @@
-﻿  EnemyPool.cpp
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameObjectToShow\EnemyPool.h(5,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  Generating code
-  6 of 2661 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    11 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  SDL.vcxproj -> C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\x64\Release\SDL.exe
+﻿  SDL.vcxproj -> C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\x64\Release\SDL.exe
   0 File(s) copied

@@ -54,7 +54,6 @@ private:
 	std::shared_ptr<Player> player;
 	std::shared_ptr<EnemyPool> enemyPool;
 	std::vector<std::shared_ptr<EnemyScenario>> m_listScenario;
-	std::shared_ptr<EnemyScenario> enemy;
 	int Highscore;
 	float time = 0.0f;
 	float m_Velocity = 10.0f;

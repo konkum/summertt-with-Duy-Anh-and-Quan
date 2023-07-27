@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
 #include "Enemy.h"
-#include "EnemyBulletPool.h"
-#include "PowerUpPool.h";
 
 class EnemyPool
 {

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "CollisionDetection.h"
+#include "SoundManager.h"
 #include <math.h>
 
 //std::vector<std::shared_ptr<SpriteAnimation>> Player::list_animation;
@@ -45,15 +46,14 @@ Player::Player() {
 		std::shared_ptr<Bullet> bullet = std::make_shared<Bullet>("Projectile_Player.png", Vector2(16, 30), 4);
 		bullet->SetSpawnPoint(spawnPosition);
 		bullet->Tag = "PlayerBullet";
-		bullet->SetVelocity(500.0f);
+		bullet->SetVelocity(600.0f);
 		bullets.push_back(bullet);
 	}
 
 	IsActive = true;
 	Tag = "Player";
 	m_instance = this;
-
-	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_explosion.wav");
+	m_Velocity = 125.0f;
 
 	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
@@ -277,10 +277,7 @@ void Player::Shoot() {
 
 void Player::TakeDamage(float damage) {
 	currentHealth -= damage;
-	if (m_deadSound->isPlaying) {
-		m_deadSound->PlaySfx();
-		m_deadSound->Volume(50);
-	}
+	SoundManager::GetInstance()->PlaySound("TakeDamage");
 
 	if (currentHealth <= 0) {
 		currentHealth = 0;

@@ -2,6 +2,7 @@
 #include "ResourceManagers.h"
 #include "BezierPath.h"
 #include "CollisionDetection.h"
+#include "SoundManager.h"
 
 void Enemy::Init() {
 }
@@ -61,12 +62,12 @@ void Enemy::TakeDamage(float damage) {
 
 void Enemy::Die() {
 	if (IsActive) {
-		if (m_deadSound->isPlaying) {
-			m_deadSound->PlaySfx();
-		}
+		SoundManager::GetInstance()->PlaySound("Dead");
 		
 		onPlayerPointUpdate();
-		onEnemyDeath();
+		if (RandomFloat(0.0f, 100.0f) < 10.0f) {
+			PowerUpPools->TakeRandomPowerUp(CurrentAnimation->Get2DPosition());
+		}
 		IsActive = false;
 	}
 }
@@ -233,13 +234,13 @@ Enemy::Enemy(int path) {
 
 	Tag = "Enemy";
 
-	m_deadSound = std::make_shared<Sfx>("Data/Sounds/Eff_enemydead.wav");
-
 	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
 
 Enemy::~Enemy()
 {
+	PowerUpPools = NULL;
+	enemyBulletPool = NULL;
 	printf("Delete Enemy\n");
 }
 

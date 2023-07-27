@@ -21,12 +21,7 @@ void EnemyPool::Init() {
 		enemy = std::make_shared<Enemy>(rand()%9);
 		enemy->Init();
 		enemy->enemyBulletPool = enemiesBulletPools;
-		enemy->onEnemyDeath = [=]() mutable {
-			float result = RandomFloat(0.0f, 100.0f);
-			if (result < 10.0f) {
-				powerUp->TakeRandomPowerUp(Vector2(enemy->GetPosition().x, enemy->GetPosition().y));
-			}
-		};
+		enemy->PowerUpPools = powerUp;
 		enemies.push_back(enemy);
 	}
 }
@@ -75,12 +70,7 @@ void EnemyPool::SetSpawn(int path) {
 	enemy = std::make_shared<Enemy>(path);
 	enemy->Init();
 	enemy->enemyBulletPool = enemiesBulletPools;
-	enemy->onEnemyDeath = [=]() mutable {
-		float result = RandomFloat(0.0f, 100.0f);
-		if (result < 10.0f) {
-			powerUp->TakeRandomPowerUp(Vector2(enemy->GetPosition().x, enemy->GetPosition().y));
-		}
-	};
+	enemy->PowerUpPools = powerUp;
 	enemies.push_back(enemy);
 	enemy->IsActive = true;
 	enemy->ChangeHealth(Health);

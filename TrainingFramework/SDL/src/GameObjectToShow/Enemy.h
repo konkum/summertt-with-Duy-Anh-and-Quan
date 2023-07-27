@@ -1,8 +1,8 @@
 #include "Object.h"
-#include "ObjectPool.h"
 #include "HealthComponent.h"
 #include "Define.h"
 #include "EnemyBulletPool.h"
+#include "PowerUpPool.h"
 #include <vector>
 
 class Enemy : public Object, virtual public Health
@@ -36,11 +36,17 @@ private:
 	float shootTime = 1.0f;
 	float currentShootTimer = 0.0f;
 	std::vector<std::shared_ptr<SpriteAnimation>> m_listAnimation;
-	std::shared_ptr<Sfx>		m_deadSound;
+
+	float RandomFloat(float a, float b) {
+		float random = ((float)rand()) / (float)RAND_MAX;
+		float diff = b - a;
+		float r = random * diff;
+		return a + r;
+	}
 public:
 	std::shared_ptr<EnemyBulletPool> enemyBulletPool;
 	//Testing
-	std::function<void(void)> onEnemyDeath;
+	std::shared_ptr<PowerUpPool> PowerUpPools;
 	static void CreatePath();
 
 	Enemy(int path);

@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "ResourceManagers.h"
 #include "CollisionDetection.h"
+#include "SoundManager.h"
 
 Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
 	Object::Init();
@@ -8,9 +9,6 @@ Bullet::Bullet(const char* textureName,Vector2 size, int frameCount) {
 	CurrentAnimation = std::make_shared<SpriteAnimation>(texture, 1, 4, 1, 0.2f);
 	CurrentAnimation->SetFlip(SDL_FLIP_HORIZONTAL);
 	CurrentAnimation->SetSize(size.x, size.y);
-
-	m_bulletSound = std::make_shared<Sfx>("Data/Sounds/Eff_shot.wav");
-	m_bulletSound->Volume(10);
 
 	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
@@ -54,7 +52,5 @@ void Bullet::SetSpawnPoint(Vector2 spawnPoint) {
 
 void Bullet::PlaySound()
 {
-	if (m_bulletSound->isPlaying) {
-		m_bulletSound->PlaySfx();
-	}
+	SoundManager::GetInstance()->PlaySound("Shoot");
 }

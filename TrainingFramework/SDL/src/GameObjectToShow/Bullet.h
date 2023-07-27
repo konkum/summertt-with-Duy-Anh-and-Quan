@@ -1,12 +1,9 @@
 #pragma once
 
 #include "Object.h"
-#include "Sfx.h"
 
 class Bullet: public Object
 {
-private:
-	std::shared_ptr<Sfx> m_bulletSound;
 public:
 	bool IsEnemy = false;
 	Vector2 MoveDirection = Vector2(0, 1);

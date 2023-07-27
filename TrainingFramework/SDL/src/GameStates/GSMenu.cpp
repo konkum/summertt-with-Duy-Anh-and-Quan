@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "SoundManager.h"
 
 GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), m_background(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}),
 m_textGameName(nullptr), m_textHighScore(nullptr), m_textText(nullptr), m_Sound(nullptr)
@@ -32,6 +33,7 @@ std::string LoadFile() {
 void GSMenu::Init()
 {
 	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	SoundManager::GetInstance()->Init();
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG_main.png");
 
 	// background
@@ -127,6 +129,7 @@ void GSMenu::Init()
 void GSMenu::Exit()
 {
 	ResourceManagers::FreeInstance();
+	SoundManager::FreeInstance();
 }
 
 

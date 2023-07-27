@@ -3,6 +3,7 @@
 #include "CollisionDetection.h"
 #include "ResourceManagers.h"
 #include "Player.h"
+#include "SoundManager.h"
 
 PowerUp::PowerUp()
 {
@@ -12,7 +13,6 @@ PowerUp::PowerUp()
 	CurrentAnimation->SetSize(50,50);
 
 	Tag = "PowerUp";
-	m_buffedSound = std::make_shared<Sfx>("Data/Sounds/Eff_buff.wav");
 
 	CollisionDetection::GetInstance()->Objects.push_back(this);
 }
@@ -53,9 +53,6 @@ void PowerUp::Update(float deltatime)
 	for (auto obj : CollisionDetection::GetInstance()->Objects) {
 		if (obj->IsActive && obj->Tag == "Player") {
 			if (CollisionDetection::GetInstance()->AABB(this->Collider, obj->Collider)) {
-				if (m_buffedSound->isPlaying) {
-					m_buffedSound->PlaySfx();
-				}
 				IsActive = false;
 				ChangePlayerAttribute();
 			}
@@ -113,7 +110,5 @@ void PowerUp::ChangePlayerAttribute()
 		break;
 	}
 
-	if (m_buffedSound->isPlaying) {
-		m_buffedSound->PlaySfx();
-	}
+	SoundManager::GetInstance()->PlaySound("PowerUp");
 }
