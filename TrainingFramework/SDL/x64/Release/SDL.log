@@ -1,16 +1,13 @@
-﻿  GSPlay.cpp
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(85,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(97,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(102,26): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(103,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(241,42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(252,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSPlay.cpp(254,50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  GSCredit.cpp
+C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSCredit.cpp(42,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSCredit.cpp(48,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSCredit.cpp(54,68): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\SDL\src\GameStates\GSCredit.cpp(125,2): warning C4065: switch statement contains 'default' but no 'case' labels
   GameStateBase.cpp
   Generating code
-  91 of 2723 functions ( 3.3%) were compiled, the rest were copied from previous compilation.
-    25 functions were new in current compilation
-    231 functions had inline decision re-evaluated but remain unchanged
+  15 of 2723 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    45 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   SDL.vcxproj -> C:\Users\han.glschool\summertt-with-Duy-Anh-and-Quan\TrainingFramework\x64\Release\SDL.exe
   0 File(s) copied
