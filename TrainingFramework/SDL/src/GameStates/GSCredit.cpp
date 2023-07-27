@@ -3,7 +3,7 @@
 #include "GameObject/SpriteAnimation.h"
 
 GSCredit::GSCredit() : GameStateBase(StateType::STATE_CREDIT),
-m_background(nullptr), m_creditframe(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textLine(nullptr)
+m_background(nullptr), m_creditframe(nullptr), m_howtoplay(nullptr), m_listButton(std::list<std::shared_ptr<MouseButton>>{}), m_textLine(nullptr)
 {
 }
 
@@ -39,19 +39,19 @@ void GSCredit::Init()
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
 	m_textLine->SetSize(200, 50);
-	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 50 );
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 250 );
 	m_textLine->LoadFromRenderText("Thành viên");
 	m_listText.push_back(m_textLine);
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
 	m_textLine->SetSize(120, 40);
-	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 10);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 190);
 	m_textLine->LoadFromRenderText("Duy Anh");
 	m_listText.push_back(m_textLine);
 
 	m_textLine = std::make_shared<Text>("Data/CreditFont.ttf", m_textColor);
 	m_textLine->SetSize(80, 40);
-	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 + 50);
+	m_textLine->Set2DPosition((SCREEN_WIDTH - m_textLine->GetWidth()) / 2, SCREEN_HEIDHT / 2 - 150);
 	m_textLine->LoadFromRenderText("Quân");
 	m_listText.push_back(m_textLine);
 
@@ -67,7 +67,13 @@ void GSCredit::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("Credit.tga");
 	m_creditframe = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
 	m_creditframe->SetSize(350, 200);
-	m_creditframe->Set2DPosition(SCREEN_WIDTH / 2 - 175, SCREEN_HEIDHT / 2 - 80);
+	m_creditframe->Set2DPosition(SCREEN_WIDTH / 2 - 175, SCREEN_HEIDHT / 2 - 280);
+
+	//how to play
+	texture = ResourceManagers::GetInstance()->GetTexture("howtoplay.tga");
+	m_howtoplay = std::make_shared<Sprite2D>(texture, SDL_FLIP_NONE);
+	m_howtoplay->SetSize(350, 350);
+	m_howtoplay->Set2DPosition(SCREEN_WIDTH / 2 - 175, SCREEN_HEIDHT / 2 - 30);
 }
 
 void GSCredit::Exit()
@@ -132,6 +138,7 @@ void GSCredit::Draw(SDL_Renderer* renderer)
 		it->Draw(renderer);
 	}
 	m_creditframe->Draw(renderer);
+	m_howtoplay->Draw(renderer);
 	for (auto it : m_listText)
 	{
 		it->Draw(renderer);

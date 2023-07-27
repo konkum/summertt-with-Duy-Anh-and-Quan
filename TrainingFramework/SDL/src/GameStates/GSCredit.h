@@ -29,6 +29,7 @@ public:
 private:
 	std::shared_ptr<Sprite2D> m_background;
 	std::shared_ptr<Sprite2D> m_creditframe;
+	std::shared_ptr<Sprite2D> m_howtoplay;
 	std::list<std::shared_ptr<Text>>		m_listText;
 	std::shared_ptr<Text>					m_textLine;
 	std::shared_ptr<Sound>					m_Sound;
